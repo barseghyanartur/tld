@@ -1,5 +1,6 @@
+===================================
 tld Package
-===========
+===================================
 Extracts the top level domain (TLD) from the URL given. List of TLD names is taken from
 Mozilla http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1
 
@@ -8,14 +9,19 @@ Knows about active and inactive TLDs. If only active TLDs shall be matched again
 set to True (default - False).
 
 Installation
--------------------
+===================================
 Latest stable version on PyPI:
 
     $ pip install tld
 
+Latest development version:
+
+    $ pip install -e hg+http://bitbucket.org/barseghyanartur/tld#egg=tld
+
 Usage example
--------------------
+===================================
 To get the top level domain name from the URL given:
+
     >>> from tld import get_tld
     >>> print get_tld("http://www.google.co.uk")
     'google.co.uk'
@@ -23,7 +29,8 @@ To get the top level domain name from the URL given:
     None
 
 To update/sync the tld names with the most recent version run the following from your terminal:
-    $ ./tld/update.py
+
+    $ python tld/update.py
 
     or simply do:
 
