@@ -1,0 +1,16 @@
+*.py[cod]
+.hgignore~
+.gitignore~
+.hg/
+.git/
+
+example/db/
+example/tmp/
+example/media/static/
+example/static/
+builddocs/
+builddocs.zip
+build/
+dist/
+src/tld.egg-info
+MANIFEST.in~

@@ -1,0 +1,12 @@
+syntax: regexp
+\.pyc$
+\.hgignore~
+\.gitignore~
+\.git/
+
+^setup\.py~
+^src/tld\.egg-info
+build/
+dist/
+builddocs/
+builddocs\.zip
