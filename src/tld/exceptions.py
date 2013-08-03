@@ -1,10 +1,10 @@
 __title__ = 'tld.exceptions'
-__version__ = '0.3'
-__build__ = 0x000003
+__version__ = '0.4'
+__build__ = 0x000004
 __author__ = 'Artur Barseghyan'
 __all__ = ('TldIOError', 'TldDomainNotFound', 'TldBadUrl')
 
-from tld.settings import NAMES_LOCAL_PATH as TLD_NAMES_LOCAL_PATH
+from tld.conf import get_setting
 
 _ = lambda x: x
 
@@ -13,6 +13,7 @@ class TldIOError(IOError):
     Supposed to be thrown when problems with reading/writing occur.
     """
     def __init__(self, msg=None):
+        TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
         if msg is None:
             msg = _("Can't read from or write to the %s file!") % TLD_NAMES_LOCAL_PATH
         super(TldIOError, self).__init__(msg)

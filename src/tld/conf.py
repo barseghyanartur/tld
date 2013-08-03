@@ -1,31 +1,44 @@
 __title__ = 'tld.conf'
-__version__ = '0.3'
-__build__ = 0x000003
+__version__ = '0.4'
+__build__ = 0x000004
 __author__ = 'Artur Barseghyan'
-__all__ = ('get_setting', 'settings',)
+__all__ = ('get_setting', 'set_setting', 'settings',)
+
+from tld import defaults
 
 class Settings(object):
+    """
+    Settings registry.
+    """
     def __init__(self):
-        self._settings = {
-            # Source path of Mozilla's effective TLD names file.
-            'NAMES_SOURCE_URL': 'http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1',
+        self._settings = {}
 
-            # Relative path to store the local copy of Mozilla's effective TLD names file.
-            'NAMES_LOCAL_PATH': 'res/effective_tld_names.dat.txt',
+    def set(self, name, value):
+        """
+        Override default settings.
 
-            # Debug flag.
-            'DEBUG': False
-        }
-
-    def set(name, value):
+        :param str name:
+        :param mixed value:
+        """
         self._settings[name] = value
 
     def get(self, name, default=None):
+        """
+        Gets a variable from local settings.
+
+        :param str name:
+        :param mixed default: Default value.
+        :return mixed:
+        """
         if self._settings.has_key(name):
-            return self._settings[name]
+            return self._settings.get(name, default)
+        elif hasattr(defaults, name):
+            return getattr(defaults, name, default)
         else:
             return default
 
 settings = Settings()
 
 get_setting = settings.get
+
+set_setting = settings.set

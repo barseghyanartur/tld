@@ -1,8 +1,12 @@
 __title__ = 'tld.settings'
-__version__ = '0.3'
-__build__ = 0x000003
+__version__ = '0.4'
+__build__ = 0x000004
 __author__ = 'Artur Barseghyan'
 __all__ = ('NAMES_SOURCE_URL', 'NAMES_LOCAL_PATH', 'DEBUG')
+
+import warnings
+warnings.warn("""tld.settings is deprecated; use tld.conf.get_setting function instead.""",
+              DeprecationWarning)
 
 from tld.conf import get_setting
 

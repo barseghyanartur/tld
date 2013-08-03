@@ -14,7 +14,7 @@ try:
 except:
     readme = ''
 
-version = '0.3'
+version = '0.4'
 
 data_dir = "src/tld/res"
 data = [os.path.join(data_dir, f) for f in os.listdir(data_dir)]

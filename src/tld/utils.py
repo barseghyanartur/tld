@@ -1,6 +1,6 @@
 __title__ = 'tld.utils'
-__version__ = '0.3'
-__build__ = 0x000003
+__version__ = '0.4'
+__build__ = 0x000004
 __author__ = 'Artur Barseghyan'
 __all__ = ('update_tld_names', 'get_tld')
 
@@ -8,7 +8,7 @@ from urlparse import urlparse
 import urllib2
 import os
 
-from tld.settings import NAMES_SOURCE_URL as TLD_NAMES_SOURCE_URL, NAMES_LOCAL_PATH as TLD_NAMES_LOCAL_PATH, DEBUG
+from tld.conf import get_setting
 from tld.exceptions import TldIOError, TldDomainNotFound, TldBadUrl
 
 PROJECT_DIR = lambda base : os.path.abspath(os.path.join(os.path.dirname(__file__), base).replace('\\','/'))
@@ -17,10 +17,15 @@ _ = lambda x: x
 
 tld_names = []
 
-def update_tld_names():
+def update_tld_names(fail_silently=False):
     """
     Updates the local copy of TLDs file.
+
+    :param bool fail_silently: If set to True, no exceptions is raised on failure but boolean False returned.
+    :return bool: True on success, False on failure.
     """
+    TLD_NAMES_SOURCE_URL = get_setting('NAMES_SOURCE_URL')
+    TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
     try:
         remote_file = urllib2.urlopen(TLD_NAMES_SOURCE_URL)
         local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), 'w')
@@ -28,6 +33,8 @@ def update_tld_names():
         local_file.close()
         remote_file.close()
     except Exception, e:
+        if fail_silently:
+            return False
         raise TldIOError(e)
 
     return True
@@ -42,6 +49,8 @@ def get_tld(url, active_only=False, fail_silently=False):
     :param fail_silently: If set to True, no exceptions are raised and None is returned on failure.
     :return: String with top level domain or None on failure.
     """
+    TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
+
     def init(retry_count=0):
         """
         Build the ``tlds`` list if empty. Recursive.
@@ -91,7 +100,10 @@ def get_tld(url, active_only=False, fail_silently=False):
     domain_name = urlparse(url).netloc
 
     if not domain_name:
-        raise TldBadUrl(url=url)
+        if fail_silently:
+            return None
+        else:
+            raise TldBadUrl(url=url)
 
     domain_parts = domain_name.split('.')
 
