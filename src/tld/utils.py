@@ -1,12 +1,15 @@
 __title__ = 'tld.utils'
-__version__ = '0.4'
-__build__ = 0x000004
+__version__ = '0.5'
+__build__ = 0x000005
 __author__ = 'Artur Barseghyan'
 __all__ = ('update_tld_names', 'get_tld')
 
-from urlparse import urlparse
-import urllib2
 import os
+
+#from urlparse import urlparse
+#import urllib2
+from six.moves.urllib.parse import urlparse
+from six.moves.urllib.request import urlopen
 
 from tld.conf import get_setting
 from tld.exceptions import TldIOError, TldDomainNotFound, TldBadUrl
@@ -27,12 +30,12 @@ def update_tld_names(fail_silently=False):
     TLD_NAMES_SOURCE_URL = get_setting('NAMES_SOURCE_URL')
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
     try:
-        remote_file = urllib2.urlopen(TLD_NAMES_SOURCE_URL)
-        local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), 'w')
+        remote_file = urlopen(TLD_NAMES_SOURCE_URL)
+        local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), 'wb')
         local_file.write(remote_file.read())
         local_file.close()
         remote_file.close()
-    except Exception, e:
+    except Exception as e:
         if fail_silently:
             return False
         raise TldIOError(e)
@@ -77,11 +80,11 @@ def get_tld(url, active_only=False, fail_silently=False):
             # Make a list of it all, strip all garbage
             tld_names = list(set([line.strip() for line in local_file if line[0] not in '/\n']))
             local_file.close()
-        except IOError, e:
+        except IOError as e:
             update_tld_names() # Grab the file
             retry_count += 1 # Increment ``retry_count`` in order to avoid infinite loops
             return init(retry_count) # Run again
-        except Exception, e:
+        except Exception as e:
             try:
                 local_file.close()
             except:

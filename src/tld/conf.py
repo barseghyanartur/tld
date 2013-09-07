@@ -1,6 +1,6 @@
 __title__ = 'tld.conf'
-__version__ = '0.4'
-__build__ = 0x000004
+__version__ = '0.5'
+__build__ = 0x000005
 __author__ = 'Artur Barseghyan'
 __all__ = ('get_setting', 'set_setting', 'settings',)
 
@@ -30,7 +30,7 @@ class Settings(object):
         :param mixed default: Default value.
         :return mixed:
         """
-        if self._settings.has_key(name):
+        if name in self._settings:
             return self._settings.get(name, default)
         elif hasattr(defaults, name):
             return getattr(defaults, name, default)
