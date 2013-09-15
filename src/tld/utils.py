@@ -6,6 +6,7 @@ __all__ = ('update_tld_names', 'get_tld')
 
 import os
 
+from six import PY2, PY3
 from six.moves.urllib.parse import urlparse
 from six.moves.urllib.request import urlopen
 
@@ -74,7 +75,10 @@ def get_tld(url, active_only=False, fail_silently=False):
         local_file = None
         try:
             # Load the TLD names file
-            local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), encoding="utf8")
+            if PY2:
+                local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH))
+            else:
+                local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), encoding="utf8")
             # Make a list of it all, strip all garbage
             tld_names = list(set([line.strip() for line in local_file if line[0] not in '/\n']))
             local_file.close()
