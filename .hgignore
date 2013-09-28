@@ -3,6 +3,7 @@ syntax: regexp
 \.hgignore~
 \.gitignore~
 \.git/
+\.tox/
 
 ^setup\.py~
 ^src/tld\.egg-info

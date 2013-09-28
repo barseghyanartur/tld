@@ -3,6 +3,7 @@
 .gitignore~
 .hg/
 .git/
+.tox/
 
 example/db/
 example/tmp/
