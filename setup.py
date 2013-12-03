@@ -6,7 +6,7 @@ try:
 except:
     readme = ''
 
-version = '0.6.1'
+version = '0.6.2'
 
 data_dir = "src/tld/res"
 data = [os.path.join(data_dir, f) for f in os.listdir(data_dir)]
@@ -34,7 +34,7 @@ setup(
     keywords = 'tld, top level domain names, python',
     author = 'Artur Barseghyan',
     author_email = 'artur.barseghyan@gmail.com',
-    url = 'https://bitbucket.org/barseghyanartur/tld',
+    url = 'https://github.com/barseghyanartur/tld',
     package_dir = {'':'src'},
     packages = find_packages(where='./src'),
     package_data = {'tld': data},

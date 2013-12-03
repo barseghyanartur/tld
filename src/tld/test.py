@@ -1,11 +1,12 @@
+from __future__ import print_function
+
 __title__ = 'tld.tests'
-__version__ = '0.6'
-__build__ = 0x000006
 __author__ = 'Artur Barseghyan'
+__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('TldTest',)
 
 import unittest
-from six import print_
 
 from tld.utils import get_tld, update_tld_names
 from tld.conf import get_setting, set_setting
@@ -33,16 +34,16 @@ def print_info(func):
         if TRACK_TIME:
             timer.stop() # Stop timer
 
-        print_('\n\n%s' % func.__name__)
-        print_('============================')
+        print('\n\n%s' % func.__name__)
+        print('============================')
         if func.__doc__:
-            print_('""" %s """' % func.__doc__.strip())
-        print_('----------------------------')
+            print('""" %s """' % func.__doc__.strip())
+        print('----------------------------')
         if result is not None:
-            print_(result)
+            print(result)
         if TRACK_TIME:
-            print_('done in %s seconds' % timer.duration)
-        print_('\n++++++++++++++++++++++++++++')
+            print('done in %s seconds' % timer.duration)
+        print('\n++++++++++++++++++++++++++++')
 
         return result
     return inner
@@ -55,7 +56,8 @@ class TldTest(unittest.TestCase):
         self.good_patterns = [
             'http://www.google.co.uk',
             'http://www.v2.google.co.uk',
-            'http://www.me.congresodelalengua3.ar'
+            'http://www.me.congresodelalengua3.ar',
+            'http://www.google.co.uk:8001/lorem-ipsum/',
         ]
 
         self.bad_patterns = [
@@ -126,3 +128,4 @@ class TldTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
