@@ -6,7 +6,7 @@ try:
 except:
     readme = ''
 
-version = '0.6.2'
+version = '0.6.3'
 
 data_dir = "src/tld/res"
 data = [os.path.join(data_dir, f) for f in os.listdir(data_dir)]

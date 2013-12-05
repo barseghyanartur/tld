@@ -80,7 +80,8 @@ def get_tld(url, active_only=False, fail_silently=False):
             else:
                 local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH))
             # Make a list of it all, strip all garbage
-            tld_names = list(set([line.strip() for line in local_file if line[0] not in '/\n']))
+            #tld_names = list(set([line.strip() for line in local_file if line[0] not in '/\n']))
+            tld_names = set([line.strip() for line in local_file if line[0] not in '/\n'])
             local_file.close()
         except IOError as e:
             update_tld_names() # Grab the file

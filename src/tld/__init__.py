@@ -1,5 +1,5 @@
 __title__ = 'tld'
-__version__ = '0.6.2'
+__version__ = '0.6.3'
 __build__ = 0x000006
 __author__ = 'Artur Barseghyan'
 __copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
