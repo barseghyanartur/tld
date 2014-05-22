@@ -6,8 +6,8 @@ Authors
 
 Contributors
 ----------------------
-- malthe: Reported and proposed a fix for an issue with URLs with a port not handled correctly.
-- malthe: Reported and proposed a fix for speeding up the search in tld names by replacing the list with set.
+- malthe: Reported and proposed a fix for an issue with URLs with a port not handled correctly. 
+  Reported and proposed a fix for speeding up the search in tld names by replacing the list with set.
 
 Bug reporters
 ~~~~~~~~~~~~~~~~~~~~~~
