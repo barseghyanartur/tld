@@ -1,5 +1,8 @@
 ===================================
-tld Package
+tld
+===================================
+
+Description
 ===================================
 Extracts the top level domain (TLD) from the URL given. List of TLD names is taken from
 Mozilla http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1
@@ -37,17 +40,31 @@ To update/sync the tld names with the most recent version run the following from
     >>> from tld.utils import update_tld_names
     >>> update_tld_names()
 
-:mod:`utils` Module
--------------------
+License
+===================================
+MPL 1.1/GPL 2.0/LGPL 2.1
 
-.. automodule:: tld.utils
-    :members:
-    :show-inheritance:
+Support
+===================================
+For any issues contact me at the e-mail given in the `Author` section.
+
+Author
+===================================
+Artur Barseghyan <artur.barseghyan@gmail.com>
+
+Documentation!
+===============================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 20
+
+   dash
 
 Indices and tables
-==================
+===============================================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

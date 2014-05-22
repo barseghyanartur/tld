@@ -6,7 +6,7 @@ try:
 except:
     readme = ''
 
-version = '0.6.3'
+version = '0.6.4'
 
 data_dir = "src/tld/res"
 data = [os.path.join(data_dir, f) for f in os.listdir(data_dir)]
@@ -41,6 +41,6 @@ setup(
     include_package_data = True,
     license = 'MPL 1.1/GPL 2.0/LGPL 2.1',
     install_requires = [
-        'six==1.4.1'
+        'six>=1.4'
     ]
 )
