@@ -15,9 +15,13 @@ Installation
 ===================================
 Latest stable version on PyPI:
 
+.. code-block:: none
+
     $ pip install tld
 
 Latest development version:
+
+.. code-block:: none
 
     $ pip install -e hg+http://bitbucket.org/barseghyanartur/tld#egg=tld
 
@@ -25,20 +29,26 @@ Usage example
 ===================================
 To get the top level domain name from the URL given:
 
-    >>> from tld import get_tld
-    >>> print get_tld("http://www.google.co.uk")
+.. code-block:: python
+
+    from tld import get_tld
+    print get_tld("http://www.google.co.uk")
     'google.co.uk'
-    >>> print get_tld("http://www.google.idontexist", fail_silently=True)
+    print get_tld("http://www.google.idontexist", fail_silently=True)
     None
 
 To update/sync the tld names with the most recent version run the following from your terminal:
 
+.. code-block:: none
+
     $ python tld/update.py
 
-    or simply do:
+or simply do:
 
-    >>> from tld.utils import update_tld_names
-    >>> update_tld_names()
+.. code-block:: python
+
+    from tld.utils import update_tld_names
+    update_tld_names()
 
 License
 ===================================

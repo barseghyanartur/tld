@@ -5,6 +5,7 @@ Release history
 2014-05-21
 
 - Softened dependencies and lowered the ``six`` package version requirement to 1.4.0.
+- Documentation improvements.
 
 0.6.3
 -------------------------------------
