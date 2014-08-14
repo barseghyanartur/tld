@@ -1,8 +1,8 @@
 __title__ = 'tld.utils'
 __author__ = 'Artur Barseghyan'
-__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__copyright__ = 'Copyright (c) 2013-2014 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('update_tld_names', 'get_tld')
+__all__ = ('update_tld_names', 'get_tld', 'Result')
 
 import os
 
@@ -18,6 +18,28 @@ PROJECT_DIR = lambda base : os.path.abspath(os.path.join(os.path.dirname(__file_
 _ = lambda x: x
 
 tld_names = []
+
+class Result(object):
+    """
+    Container.
+    """
+    __slots__ = ('subdomain', 'domain', 'suffix', '__tld')
+
+    def __init__(self, subdomain, domain, suffix):
+        self.subdomain = subdomain
+        self.domain = domain
+        self.suffix = suffix
+        self.__tld = "{0}.{1}".format(self.domain, self.suffix)
+
+    @property
+    def tld(self):
+        return self.__tld
+
+    def __str__(self):
+        return self.__tld
+    __unicode__ = __str__
+    __repr__ = __str__
+
 
 def update_tld_names(fail_silently=False):
     """
@@ -41,7 +63,7 @@ def update_tld_names(fail_silently=False):
 
     return True
 
-def get_tld(url, active_only=False, fail_silently=False):
+def get_tld(url, active_only=False, fail_silently=False, as_object=False):
     """
     Extracts the top level domain based on the mozilla's effective TLD names dat file. Returns a string. May throw
     ``TldBadUrl`` or ``TldDomainNotFound`` exceptions if there's bad URL provided or no TLD match found respectively.
@@ -49,7 +71,10 @@ def get_tld(url, active_only=False, fail_silently=False):
     :param url: URL to get top level domain from.
     :param active_only: If set to True, only active patterns are matched.
     :param fail_silently: If set to True, no exceptions are raised and None is returned on failure.
-    :return: String with top level domain or None on failure.
+    :param as_object: If set to True, ``tld.utils.Result`` object is returned, which contains ``subdomain``,
+        ``domain``, ``suffix`` and ``tld`` properties.
+    :return mixed: String with top level domain (if ``as_object`` argument is set to False), a ``tld.utils.Result``
+        object or None on failure.
     """
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
 
@@ -126,7 +151,13 @@ def get_tld(url, active_only=False, fail_silently=False):
 
         # Match tlds
         if (match in tld_names or wildcard_match in tld_names or (active_only is False and inactive_match in tld_names)):
-            return ".".join(domain_parts[i-1:])
+            if not as_object:
+                return ".".join(domain_parts[i-1:])
+            else:
+                subdomain = ".".join(domain_parts[:i-1])
+                domain = ".".join(domain_parts[i-1:i])
+                suffix = ".".join(domain_parts[i:])
+                return Result(subdomain, domain, suffix)
 
     if fail_silently:
         return None

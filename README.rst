@@ -2,8 +2,6 @@
 tld
 ===================================
 
-Description
-===================================
 Extracts the top level domain (TLD) from the URL given. List of TLD names is taken from
 Mozilla http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1
 
@@ -33,9 +31,31 @@ To get the top level domain name from the URL given:
 
     from tld import get_tld
     print get_tld("http://www.google.co.uk")
-    'google.co.uk'
+    # 'google.co.uk'
+
     print get_tld("http://www.google.idontexist", fail_silently=True)
-    None
+    # None
+
+If you wish, you could get the result as an object:
+
+.. code-block:: python
+
+    from tld import get_tld
+    res = get_tld("http://some.subdomain.google.co.uk", as_object=True)
+    print res
+    # 'google.co.uk'
+
+    print res.subdomain
+    # 'some.subdomain'
+
+    print res.domain
+    # 'google'
+
+    print res.suffix
+    # 'co.uk'
+
+    print res.tld
+    # 'google.co.uk'
 
 To update/sync the tld names with the most recent version run the following from your terminal:
 

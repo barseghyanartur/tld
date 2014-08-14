@@ -1,5 +1,12 @@
 Release history
 =====================================
+0.7
+-------------------------------------
+2014-08-14
+
+- Making it possible to obtain object instead of just extracting the TLD by
+  setting the ``as_object`` argument of ``get_tld`` function to True.
+
 0.6.4
 -------------------------------------
 2014-05-21
