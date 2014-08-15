@@ -126,6 +126,25 @@ class TldTest(unittest.TestCase):
 
         return override_settings()
 
+    @print_info
+    def test_5_parsed_object(self):
+        """
+
+        """
+        url = 'http://www.v2.forum.tech.google.co.uk:8001/lorem-ipsum/'
+
+        res = []
+
+        r = get_tld(url, as_object=True)
+        self.assertEqual(r.tld, 'google.co.uk')
+        self.assertEqual(r.subdomain, 'www.v2.forum.tech')
+        self.assertEqual(r.domain, 'google')
+        self.assertEqual(r.suffix, 'co.uk')
+
+        res.append(r)
+        return res
+
+
 if __name__ == '__main__':
     unittest.main()
 
