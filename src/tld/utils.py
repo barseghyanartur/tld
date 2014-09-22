@@ -78,6 +78,8 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
     """
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
 
+    url = url.lower()
+
     def init(retry_count=0):
         """
         Build the ``tlds`` list if empty. Recursive.

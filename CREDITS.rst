@@ -14,4 +14,4 @@ Bug reporters
 The following people contributed to the project by reportings bugs.
 
 - Yoni Stoffman: Reported an issue with Python 3 support on Windows (encoding problem).
-
+- mickey06: Reporting an issue with capitalised URLs.

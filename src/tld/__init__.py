@@ -1,6 +1,6 @@
 __title__ = 'tld'
-__version__ = '0.7'
-__build__ = 0x00000A
+__version__ = '0.7.1'
+__build__ = 0x00000B
 __author__ = 'Artur Barseghyan'
 __copyright__ = 'Copyright (c) 2013-2014 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
