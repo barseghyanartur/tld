@@ -14,4 +14,5 @@ builddocs.zip
 build/
 dist/
 src/tld.egg-info
+/hotfixes/
 MANIFEST.in~

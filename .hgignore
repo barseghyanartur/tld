@@ -6,6 +6,7 @@ syntax: regexp
 \.tox/
 
 ^setup\.py~
+^hotfixes/
 ^src/tld\.egg-info
 build/
 dist/

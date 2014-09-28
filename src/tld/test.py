@@ -54,10 +54,48 @@ class TldTest(unittest.TestCase):
     """
     def setUp(self):
         self.good_patterns = [
-            'http://www.google.co.uk',
-            'http://www.v2.google.co.uk',
-            'http://www.me.congresodelalengua3.ar',
-            'http://www.google.co.uk:8001/lorem-ipsum/',
+            {
+                'url': 'http://www.google.co.uk',
+                'tld': 'google.co.uk',
+                'subdomain': 'www',
+                'domain': 'google',
+                'suffix': 'co.uk',
+            },
+            {
+                'url': 'http://www.v2.google.co.uk',
+                'tld': 'google.co.uk',
+                'subdomain': 'www.v2',
+                'domain': 'google',
+                'suffix': 'co.uk',
+            },
+            {
+                'url': 'http://www.me.congresodelalengua3.ar',
+                'tld': 'me.congresodelalengua3.ar',
+                'subdomain': 'www',
+                'domain': 'me',
+                'suffix': 'congresodelalengua3.ar',
+            },
+            {
+                'url': 'http://www.google.co.uk:8001/lorem-ipsum/',
+                'tld': 'google.co.uk',
+                'subdomain': 'www',
+                'domain': 'google',
+                'suffix': 'co.uk',
+            },
+            {
+                'url': 'http://cloudfront.net',
+                'tld': 'cloudfront.net',
+                'subdomain': '',
+                'domain': 'cloudfront',
+                'suffix': 'net',
+            },
+            {
+                'url': 'http://www.v2.forum.tech.google.co.uk:8001/lorem-ipsum/',
+                'tld': 'google.co.uk',
+                'subdomain': 'www.v2.forum.tech',
+                'domain': 'google',
+                'suffix': 'co.uk',
+            }
         ]
 
         self.bad_patterns = [
@@ -92,9 +130,9 @@ class TldTest(unittest.TestCase):
         Test good URL patterns.
         """
         res = []
-        for url in self.good_patterns:
-            r = get_tld(url, fail_silently=True)
-            self.assertNotEqual(r, None)
+        for data in self.good_patterns:
+            r = get_tld(data['url'], fail_silently=True)
+            self.assertEqual(r, data['tld'])
             res.append(r)
         return res
 
@@ -127,21 +165,18 @@ class TldTest(unittest.TestCase):
         return override_settings()
 
     @print_info
-    def test_5_parsed_object(self):
+    def test_5_good_patterns_pass_parsed_object(self):
         """
-
+        Test good URL patterns.
         """
-        url = 'http://www.v2.forum.tech.google.co.uk:8001/lorem-ipsum/'
-
         res = []
-
-        r = get_tld(url, as_object=True)
-        self.assertEqual(r.tld, 'google.co.uk')
-        self.assertEqual(r.subdomain, 'www.v2.forum.tech')
-        self.assertEqual(r.domain, 'google')
-        self.assertEqual(r.suffix, 'co.uk')
-
-        res.append(r)
+        for data in self.good_patterns:
+            r = get_tld(data['url'], fail_silently=True, as_object=True)
+            self.assertEqual(r.tld, data['tld'])
+            self.assertEqual(r.subdomain, data['subdomain'])
+            self.assertEqual(r.domain, data['domain'])
+            self.assertEqual(r.suffix, data['suffix'])
+            res.append(r)
         return res
 
 
