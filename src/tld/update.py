@@ -1,8 +1,12 @@
 from __future__ import print_function
 
+"""
+Deprecated. Use ``update-tld-names`` command instead.
+"""
+
 __title__ = 'tld.update'
 __author__ = 'Artur Barseghyan'
-__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__copyright__ = '2013-2015 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 
 from tld.utils import update_tld_names

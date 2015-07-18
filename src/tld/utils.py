@@ -1,14 +1,18 @@
+from __future__ import unicode_literals
+
 __title__ = 'tld.utils'
 __author__ = 'Artur Barseghyan'
-__copyright__ = 'Copyright (c) 2013-2014 Artur Barseghyan'
+__copyright__ = '2013-2015 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('update_tld_names', 'get_tld', 'Result',)
 
 import os
+import codecs
 
 from six import PY3
 from six.moves.urllib.parse import urlparse
 from six.moves.urllib.request import urlopen
+from six import text_type
 
 from tld.conf import get_setting
 from tld.exceptions import TldIOError, TldDomainNotFound, TldBadUrl
@@ -45,10 +49,16 @@ class Result(object):
         """
         return self.suffix
 
-    def __str__(self):
-        return self.__tld
-    __unicode__ = __str__
-    __repr__ = __str__
+    def __unicode__(self):
+        if PY3:
+            return self.__tld
+        else:
+            try:
+                return self.__tld.encode('utf8')
+            except UnicodeEncodeError as err:
+                return self.__tld
+    __repr__ = __unicode__
+    __str__ = __unicode__
 
 
 def update_tld_names(fail_silently=False):
@@ -63,14 +73,16 @@ def update_tld_names(fail_silently=False):
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
     try:
         remote_file = urlopen(TLD_NAMES_SOURCE_URL)
-        local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), 'wb')
-        local_file.write(remote_file.read())
+        local_file = codecs.open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH),
+                                 'wb',
+                                 encoding='utf8')
+        local_file.write(remote_file.read().decode('utf8'))
         local_file.close()
         remote_file.close()
-    except Exception as e:
+    except Exception as err:
         if fail_silently:
             return False
-        raise TldIOError(e)
+        raise TldIOError(err)
 
     return True
 
@@ -118,19 +130,19 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
         local_file = None
         try:
             # Load the TLD names file
-            if PY3:
-                local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH), \
-                                  encoding="utf8")
-            else:
-                local_file = open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH))
+            local_file = codecs.open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH),
+                                     'r',
+                                     encoding='utf8')
             # Make a list of it all, strip all garbage
-            tld_names = set([line.strip() for line in local_file if line[0] not in '/\n'])
+            tld_names = set([u'{0}'.format(line.strip()) for line \
+                             in local_file if line[0] not in '/\n'])
             local_file.close()
-        except IOError as e:
+        except IOError as err:
             update_tld_names() # Grab the file
-            retry_count += 1 # Increment ``retry_count`` in order to avoid infinite loops
+            retry_count += 1 # Increment ``retry_count`` in order to avoid
+                             # infinite loops
             return init(retry_count) # Run again
-        except Exception as e:
+        except Exception as err:
             try:
                 local_file.close()
             except:
@@ -139,7 +151,7 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
             if fail_silently:
                 return None
             else:
-                raise e
+                raise err
 
         return tld_names
 
@@ -164,18 +176,26 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
     for i in range(0, len(domain_parts)):
         sliced_domain_parts = domain_parts[i:]
 
-        match = '.'.join(sliced_domain_parts)
-        wildcard_match = '.'.join(['*'] + sliced_domain_parts[1:])
-        inactive_match = "!%s" % match
+        match = text_type('.').join(sliced_domain_parts)
+        wildcard_match = text_type('.').join(['*'] + sliced_domain_parts[1:])
+        inactive_match = text_type("!{0}").format(match)
+
+        #if not PY3:
+        #    try:
+        #        match = match.encode('utf8')
+        #        wildcard_match = wildcard_match.encode('utf8')
+        #        inactive_match = inactive_match.encode('utf8')
+        #    except UnicodeDecodeError as e:
+        #        pass
 
         # Match tlds
         if (match in tld_names or wildcard_match in tld_names or (active_only is False and inactive_match in tld_names)):
             if not as_object:
-                return ".".join(domain_parts[i-1:])
+                return text_type(".").join(domain_parts[i-1:])
             else:
-                subdomain = ".".join(domain_parts[:i-1])
-                domain = ".".join(domain_parts[i-1:i])
-                suffix = ".".join(domain_parts[i:])
+                subdomain = text_type(".").join(domain_parts[:i-1])
+                domain = text_type(".").join(domain_parts[i-1:i])
+                suffix = text_type(".").join(domain_parts[i:])
                 return Result(subdomain, domain, suffix)
 
     if fail_silently:

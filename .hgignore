@@ -8,7 +8,8 @@ syntax: regexp
 ^setup\.py~
 ^hotfixes/
 ^src/tld\.egg-info
-build/
-dist/
-builddocs/
-builddocs\.zip
+^bugs/
+^build/
+^dist/
+^builddocs/
+^builddocs\.zip

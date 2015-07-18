@@ -3,13 +3,18 @@ from setuptools import setup, find_packages
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
+    readme = readme.replace('.. code-block:: none', '.. code-block::')
 except:
     readme = ''
 
-version = '0.7.2'
+version = '0.7.3'
 
-data_dir = "src/tld/res"
-data = [os.path.join(data_dir, f) for f in os.listdir(data_dir)]
+exec_dirs = [
+    'src/tld/bin/',
+]
+execs = []
+for exec_dir in exec_dirs:
+    execs += [os.path.join(exec_dir, f) for f in os.listdir(exec_dir)]
 
 setup(
     name = 'tld',
@@ -35,9 +40,10 @@ setup(
     author = 'Artur Barseghyan',
     author_email = 'artur.barseghyan@gmail.com',
     url = 'https://github.com/barseghyanartur/tld',
-    package_dir = {'':'src'},
+    package_dir = {'': 'src'},
     packages = find_packages(where='./src'),
-    package_data = {'tld': data},
+    package_data = {'tld': execs},
+    scripts = ['src/tld/bin/update-tld-names',],
     include_package_data = True,
     license = 'MPL 1.1/GPL 2.0/LGPL 2.1',
     install_requires = [

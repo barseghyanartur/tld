@@ -1,5 +1,5 @@
-./uninstall.sh
-./install.sh
+./scripts/uninstall.sh
+./scripts/install.sh
 rm docs/*.rst
 rm -rf builddocs/
 sphinx-apidoc src/tld --full -o docs -H 'tld' -A 'Artur Barseghyan <artur.barseghyan@gmail.com>' -f -d 20

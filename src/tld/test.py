@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import print_function
 
 __title__ = 'tld.tests'
 __author__ = 'Artur Barseghyan'
-__copyright__ = 'Copyright (c) 2013 Artur Barseghyan'
+__copyright__ = '2013-2015 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('TldTest',)
 
@@ -68,12 +70,20 @@ class TldTest(unittest.TestCase):
                 'domain': 'google',
                 'suffix': 'co.uk',
             },
+            # No longer valid
+            #{
+            #    'url': 'http://www.me.congresodelalengua3.ar',
+            #    'tld': 'me.congresodelalengua3.ar',
+            #    'subdomain': 'www',
+            #    'domain': 'me',
+            #    'suffix': 'congresodelalengua3.ar',
+            #},
             {
-                'url': 'http://www.me.congresodelalengua3.ar',
-                'tld': 'me.congresodelalengua3.ar',
-                'subdomain': 'www',
-                'domain': 'me',
-                'suffix': 'congresodelalengua3.ar',
+                'url': u'http://хром.гугл.рф',
+                'tld': u'гугл.рф',
+                'subdomain': u'хром',
+                'domain': u'гугл',
+                'suffix': u'рф',
             },
             {
                 'url': 'http://www.google.co.uk:8001/lorem-ipsum/',
@@ -83,11 +93,11 @@ class TldTest(unittest.TestCase):
                 'suffix': 'co.uk',
             },
             {
-                'url': 'http://cloudfront.net',
-                'tld': 'cloudfront.net',
-                'subdomain': '',
-                'domain': 'cloudfront',
-                'suffix': 'net',
+                'url': 'http://www.me.cloudfront.net',
+                'tld': 'me.cloudfront.net',
+                'subdomain': 'www',
+                'domain': 'me',
+                'suffix': 'cloudfront.net',
             },
             {
                 'url': 'http://www.v2.forum.tech.google.co.uk:8001/lorem-ipsum/',
