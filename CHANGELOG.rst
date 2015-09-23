@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.7.4
+-----
+2015-09-24
+
+- Exposed TLD initialization as `get_tld_names`.
+
 0.7.3
 -----
 2015-07-18

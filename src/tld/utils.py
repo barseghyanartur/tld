@@ -4,7 +4,7 @@ __title__ = 'tld.utils'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2015 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('update_tld_names', 'get_tld', 'Result',)
+__all__ = ('update_tld_names', 'get_tld_names', 'get_tld', 'Result',)
 
 import os
 import codecs
