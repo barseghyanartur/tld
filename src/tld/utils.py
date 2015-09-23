@@ -86,6 +86,60 @@ def update_tld_names(fail_silently=False):
 
     return True
 
+
+def get_tld_names(fail_silently=False, retry_count=0):
+    """
+    Build the ``tlds`` list if empty. Recursive.
+
+    :param fail_silently: If set to True, no exceptions are raised and None
+        is returned on failure.
+    :param retry_count: If greater than 1, we raise an exception in order
+        to avoid infinite loops.
+    :return: Returns interable
+    """
+    TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
+
+    if retry_count > 1:
+        if fail_silently:
+            return None
+        else:
+            raise TldIOError
+
+    global tld_names
+
+    # If already loaded, return
+    if len(tld_names):
+        return tld_names
+
+    local_file = None
+    try:
+        # Load the TLD names file
+        local_file = codecs.open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH),
+                                 'r',
+                                 encoding='utf8')
+        # Make a list of it all, strip all garbage
+        tld_names = set([u'{0}'.format(line.strip()) for line \
+                         in local_file if line[0] not in '/\n'])
+        local_file.close()
+    except IOError as err:
+        update_tld_names() # Grab the file
+        retry_count += 1 # Increment ``retry_count`` in order to avoid
+                         # infinite loops
+        return init(retry_count) # Run again
+    except Exception as err:
+        try:
+            local_file.close()
+        except:
+            pass
+
+        if fail_silently:
+            return None
+        else:
+            raise err
+
+    return tld_names
+
+
 def get_tld(url, active_only=False, fail_silently=False, as_object=False):
     """
     Extracts the top level domain based on the mozilla's effective TLD names
@@ -103,59 +157,10 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
     """
-    TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
 
     url = url.lower()
 
-    def init(retry_count=0):
-        """
-        Build the ``tlds`` list if empty. Recursive.
-
-        :param retry_count: If greater than 1, we raise an exception in order
-            to avoid infinite loops.
-        :return: Returns interable
-        """
-        if retry_count > 1:
-            if fail_silently:
-                return None
-            else:
-                raise TldIOError
-
-        global tld_names
-
-        # If already loaded, return
-        if len(tld_names):
-            return tld_names
-
-        local_file = None
-        try:
-            # Load the TLD names file
-            local_file = codecs.open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH),
-                                     'r',
-                                     encoding='utf8')
-            # Make a list of it all, strip all garbage
-            tld_names = set([u'{0}'.format(line.strip()) for line \
-                             in local_file if line[0] not in '/\n'])
-            local_file.close()
-        except IOError as err:
-            update_tld_names() # Grab the file
-            retry_count += 1 # Increment ``retry_count`` in order to avoid
-                             # infinite loops
-            return init(retry_count) # Run again
-        except Exception as err:
-            try:
-                local_file.close()
-            except:
-                pass
-
-            if fail_silently:
-                return None
-            else:
-                raise err
-
-        return tld_names
-
-    init() # Init
+    tld_names = get_tld_names(fail_silently=fail_silently) # Init
 
     # Get (sub) domain name
     domain_name = urlparse(url).netloc.split(":", 1)[0]
