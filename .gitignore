@@ -15,3 +15,5 @@
 /hotfixes/
 /MANIFEST.in~
 /src/tld/res/old/
+/src/tld/base.py
+/src/tld/sources/
