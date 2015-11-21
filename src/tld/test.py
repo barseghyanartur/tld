@@ -105,6 +105,13 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www.v2.forum.tech',
                 'domain': 'google',
                 'suffix': 'co.uk',
+            },
+            {
+                'url': 'https://pantheon.io/',
+                'tld': 'pantheon.io',
+                'subdomain': '',
+                'domain': 'pantheon',
+                'suffix': 'io',
             }
         ]
 
