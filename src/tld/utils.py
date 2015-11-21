@@ -195,12 +195,13 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
 
         # Match tlds
         if (match in tld_names or wildcard_match in tld_names or (active_only is False and inactive_match in tld_names)):
+            non_zero_i=max(1,i) #if url contains only the TLD (without subdomains) then entire domain should be returned
             if not as_object:
-                return text_type(".").join(domain_parts[i-1:])
+                return text_type(".").join(domain_parts[non_zero_i-1:])
             else:
-                subdomain = text_type(".").join(domain_parts[:i-1])
-                domain = text_type(".").join(domain_parts[i-1:i])
-                suffix = text_type(".").join(domain_parts[i:])
+                subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
+                domain = text_type(".").join(domain_parts[non_zero_i-1:non_zero_i])
+                suffix = text_type(".").join(domain_parts[non_zero_i:])
                 return Result(subdomain, domain, suffix)
 
     if fail_silently:
