@@ -11,6 +11,9 @@ Contributors
 - `Todd Wolfson
   <https://github.com/barseghyanartur/tld/commits/master?author=twolfson>`_
   for exposing the TLD initialization as `get_tld_names`.
+  - `mperice
+  <https://github.com/barseghyanartur/tld/commits/master?author=mperice>`_
+  for minor fixes.
 
 Bug reporters
 ~~~~~~~~~~~~~
