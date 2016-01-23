@@ -125,7 +125,7 @@ def get_tld_names(fail_silently=False, retry_count=0):
         update_tld_names() # Grab the file
         retry_count += 1 # Increment ``retry_count`` in order to avoid
                          # infinite loops
-        return init(retry_count) # Run again
+        return get_tld_names(fail_silently, retry_count) # Run again
     except Exception as err:
         try:
             local_file.close()
