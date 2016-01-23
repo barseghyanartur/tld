@@ -7,7 +7,7 @@ try:
 except:
     readme = ''
 
-version = '0.7.5'
+version = '0.7.6'
 
 exec_dirs = [
     'src/tld/bin/',
