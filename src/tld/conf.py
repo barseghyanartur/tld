@@ -1,15 +1,19 @@
+from . import defaults
+
 __title__ = 'tld.conf'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2015 Artur Barseghyan'
+__copyright__ = '2013-2017 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('get_setting', 'set_setting', 'settings',)
+__all__ = (
+    'get_setting',
+    'set_setting',
+    'settings',
+)
 
-from tld import defaults
 
 class Settings(object):
-    """
-    Settings registry.
-    """
+    """Settings registry."""
+
     def __init__(self):
         self._settings = {}
 
@@ -36,6 +40,7 @@ class Settings(object):
             return getattr(defaults, name, default)
         else:
             return default
+
 
 settings = Settings()
 

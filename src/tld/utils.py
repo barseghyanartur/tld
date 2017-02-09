@@ -1,12 +1,5 @@
 from __future__ import unicode_literals
 
-__title__ = 'tld.utils'
-__author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2015 Artur Barseghyan'
-__license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('update_tld_names', 'get_tld_names', 'get_tld', 'Result',)
-
-import os
 import codecs
 
 from six import PY3
@@ -14,20 +7,27 @@ from six.moves.urllib.parse import urlparse
 from six.moves.urllib.request import urlopen
 from six import text_type
 
-from tld.conf import get_setting
-from tld.exceptions import TldIOError, TldDomainNotFound, TldBadUrl
+from .conf import get_setting
+from .exceptions import TldIOError, TldDomainNotFound, TldBadUrl
+from .helpers import project_dir
 
-PROJECT_DIR = lambda base : os.path.abspath(os.path.join(os.path.dirname(__file__), base).replace('\\','/'))
-
-_ = lambda x: x
+__title__ = 'tld.utils'
+__author__ = 'Artur Barseghyan'
+__copyright__ = '2013-2017 Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
+__all__ = (
+    'update_tld_names',
+    'get_tld_names',
+    'get_tld',
+    'Result',
+)
 
 tld_names = []
 
 
 class Result(object):
-    """
-    Container.
-    """
+    """Container."""
+
     __slots__ = ('subdomain', 'domain', 'suffix', '__tld')
 
     def __init__(self, subdomain, domain, suffix):
@@ -38,12 +38,12 @@ class Result(object):
 
     @property
     def tld(self):
+        """TLD."""
         return self.__tld
 
     @property
     def extension(self):
-        """
-        Alias of ``suffix``.
+        """Alias of ``suffix``.
 
         :return str:
         """
@@ -55,15 +55,14 @@ class Result(object):
         else:
             try:
                 return self.__tld.encode('utf8')
-            except UnicodeEncodeError as err:
+            except UnicodeEncodeError:
                 return self.__tld
     __repr__ = __unicode__
     __str__ = __unicode__
 
 
 def update_tld_names(fail_silently=False):
-    """
-    Updates the local copy of TLDs file.
+    """Update the local copy of TLDs file.
 
     :param bool fail_silently: If set to True, no exceptions is raised on
         failure but boolean False returned.
@@ -73,7 +72,7 @@ def update_tld_names(fail_silently=False):
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
     try:
         remote_file = urlopen(TLD_NAMES_SOURCE_URL)
-        local_file = codecs.open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH),
+        local_file = codecs.open(project_dir(TLD_NAMES_LOCAL_PATH),
                                  'wb',
                                  encoding='utf8')
         local_file.write(remote_file.read().decode('utf8'))
@@ -88,14 +87,13 @@ def update_tld_names(fail_silently=False):
 
 
 def get_tld_names(fail_silently=False, retry_count=0):
-    """
-    Build the ``tlds`` list if empty. Recursive.
+    """Build the ``tlds`` list if empty. Recursive.
 
     :param fail_silently: If set to True, no exceptions are raised and None
         is returned on failure.
     :param retry_count: If greater than 1, we raise an exception in order
         to avoid infinite loops.
-    :return: Returns interable
+    :return: Returns iterable
     """
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
 
@@ -114,22 +112,23 @@ def get_tld_names(fail_silently=False, retry_count=0):
     local_file = None
     try:
         # Load the TLD names file
-        local_file = codecs.open(PROJECT_DIR(TLD_NAMES_LOCAL_PATH),
+        local_file = codecs.open(project_dir(TLD_NAMES_LOCAL_PATH),
                                  'r',
                                  encoding='utf8')
         # Make a list of it all, strip all garbage
-        tld_names = set([u'{0}'.format(line.strip()) for line \
+        tld_names = set([u'{0}'.format(line.strip())
+                         for line
                          in local_file if line[0] not in '/\n'])
         local_file.close()
     except IOError as err:
-        update_tld_names() # Grab the file
-        retry_count += 1 # Increment ``retry_count`` in order to avoid
-                         # infinite loops
-        return get_tld_names(fail_silently, retry_count) # Run again
+        update_tld_names()  # Grab the file
+        # Increment ``retry_count`` in order to avoid infinite loops
+        retry_count += 1
+        return get_tld_names(fail_silently, retry_count)  # Run again
     except Exception as err:
         try:
             local_file.close()
-        except:
+        except Exception:
             pass
 
         if fail_silently:
@@ -141,8 +140,9 @@ def get_tld_names(fail_silently=False, retry_count=0):
 
 
 def get_tld(url, active_only=False, fail_silently=False, as_object=False):
-    """
-    Extracts the top level domain based on the mozilla's effective TLD names
+    """Extract the top level domain.
+
+    Extract the top level domain based on the mozilla's effective TLD names
     dat file. Returns a string. May throw ``TldBadUrl`` or
     ``TldDomainNotFound`` exceptions if there's bad URL provided or no TLD
     match found respectively.
@@ -157,10 +157,9 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
     """
-
     url = url.lower()
 
-    tld_names = get_tld_names(fail_silently=fail_silently) # Init
+    tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 
     # Get (sub) domain name
     domain_name = urlparse(url).netloc.split(":", 1)[0]
@@ -185,7 +184,7 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
         wildcard_match = text_type('.').join(['*'] + sliced_domain_parts[1:])
         inactive_match = text_type("!{0}").format(match)
 
-        #if not PY3:
+        # if not PY3:
         #    try:
         #        match = match.encode('utf8')
         #        wildcard_match = wildcard_match.encode('utf8')
@@ -194,13 +193,19 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
         #        pass
 
         # Match tlds
-        if (match in tld_names or wildcard_match in tld_names or (active_only is False and inactive_match in tld_names)):
-            non_zero_i=max(1,i) #if url contains only the TLD (without subdomains) then entire domain should be returned
+        if (match in tld_names or
+                wildcard_match in tld_names or
+                (active_only is False and inactive_match in tld_names)):
+            # if url contains only the TLD (without sub-domains) then entire
+            # domain should be returned.
+            non_zero_i = max(1, i)
             if not as_object:
                 return text_type(".").join(domain_parts[non_zero_i-1:])
             else:
                 subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
-                domain = text_type(".").join(domain_parts[non_zero_i-1:non_zero_i])
+                domain = text_type(".").join(
+                    domain_parts[non_zero_i-1:non_zero_i]
+                )
                 suffix = text_type(".").join(domain_parts[non_zero_i:])
                 return Result(subdomain, domain, suffix)
 

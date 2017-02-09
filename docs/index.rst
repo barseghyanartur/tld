@@ -1,28 +1,39 @@
 ===
 tld
 ===
-Extracts the top level domain (TLD) from the URL given. List of TLD names is
+Extract the top level domain (TLD) from the URL given. List of TLD names is
 taken from `Mozilla
 <http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1>`_.
 
 Optionally raises exceptions on non-existing TLDs or silently fails (if
-`fail_silently` argument is set to True). Knows about active and inactive TLDs.
-If only active TLDs shall be matched against, `active_only` argument shall be
-set to True (default - False).
+``fail_silently`` argument is set to True).
+Knows about active and inactive TLDs.
+If only active TLDs shall be matched against, ``active_only`` argument
+shall be set to True (default - False).
+
+Prerequisites
+=============
+- Python 2.6, 2.7, 3.4, 3.5, 3.6, PyPy
 
 Installation
 ============
 Latest stable version on PyPI:
 
-.. code-block:: none
+.. code-block:: sh
 
-    $ pip install tld
+    pip install tld
 
-Latest development version:
+Or latest stable version from GitHub:
 
-.. code-block:: none
+.. code-block:: sh
 
-    $ pip install -e hg+http://bitbucket.org/barseghyanartur/tld#egg=tld
+    pip install https://github.com/barseghyanartur/tld/archive/stable.tar.gz
+
+Or latest stable version from BitBucket:
+
+.. code-block:: sh
+
+    pip install https://bitbucket.org/barseghyanartur/tld/get/stable.tar.gz
 
 Usage example
 =============
@@ -31,10 +42,11 @@ To get the top level domain name from the URL given:
 .. code-block:: python
 
     from tld import get_tld
-    print get_tld("http://www.google.co.uk")
+
+    get_tld("http://www.google.co.uk")
     # 'google.co.uk'
 
-    print get_tld("http://www.google.idontexist", fail_silently=True)
+    get_tld("http://www.google.idontexist", fail_silently=True)
     # None
 
 If you wish, you could get the result as an object:
@@ -42,34 +54,37 @@ If you wish, you could get the result as an object:
 .. code-block:: python
 
     from tld import get_tld
+
     res = get_tld("http://some.subdomain.google.co.uk", as_object=True)
-    print res
+
+    res
     # 'google.co.uk'
 
-    print res.subdomain
+    res.subdomain
     # 'some.subdomain'
 
-    print res.domain
+    res.domain
     # 'google'
 
-    print res.suffix
+    res.suffix
     # 'co.uk'
 
-    print res.tld
+    res.tld
     # 'google.co.uk'
 
 To update/sync the tld names with the most recent version run the following
 from your terminal:
 
-.. code-block:: none
+.. code-block:: sh
 
-    $ update-tld-names
+    update-tld-names
 
-or simply do:
+Or simply do:
 
 .. code-block:: python
 
     from tld.utils import update_tld_names
+
     update_tld_names()
 
 Troubleshooting
@@ -79,9 +94,29 @@ If somehow domain names listed `here
 are not recognised, make sure you have the most recent version of TLD names in
 your virtual environment:
 
-.. code-block:: none
+.. code-block:: sh
 
-    $ update-tld-names
+    update-tld-names
+
+Testing
+=======
+Simply type:
+
+.. code-block:: sh
+
+    ./runtests.py
+
+or use tox:
+
+.. code-block:: sh
+
+    tox
+
+or use tox to check specific env:
+
+.. code-block:: sh
+
+    tox -e py36
 
 License
 =======
@@ -89,24 +124,24 @@ MPL 1.1/GPL 2.0/LGPL 2.1
 
 Support
 =======
-For any issues contact me at the e-mail given in the `Author` section.
+For any issues contact me at the e-mail given in the `Author`_ section.
 
 Author
 ======
 Artur Barseghyan <artur.barseghyan@gmail.com>
 
 Documentation!
-===============================================
+==============
 
 Contents:
 
 .. toctree::
    :maxdepth: 20
 
-   dash
+   tld
 
 Indices and tables
-===============================================
+==================
 
 * :ref:`genindex`
 * :ref:`modindex`

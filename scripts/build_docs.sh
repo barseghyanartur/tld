@@ -1,6 +1,6 @@
 reset
-./scripts/uninstall.sh
-./scri[ts/install.sh
-cat README.rst docs/documentation.rst.distrib > docs/index.rst
+#./scripts/uninstall.sh
+#./scripts/install.sh
+./scripts/prepare_docs.sh
 sphinx-build -n -a -b html docs builddocs
 cd builddocs && zip -r ../builddocs.zip . -x ".*" && cd ..

@@ -1,2 +1,1 @@
-urllib2
-urlparse
+-r requirements/base.txt

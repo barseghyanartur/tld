@@ -1,60 +1,60 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
+import logging
 
 __title__ = 'tld.tests'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2015 Artur Barseghyan'
+__copyright__ = '2013-2017 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('TldTest',)
 
 import unittest
 
-from tld.utils import get_tld, update_tld_names
-from tld.conf import get_setting, set_setting
-from tld import defaults
+from . import defaults
+from .conf import get_setting, set_setting
+from .utils import get_tld, update_tld_names
 
-_ = lambda x: x
-
-PRINT_INFO = True
+LOG_INFO = True
 TRACK_TIME = False
+LOGGER = logging.getLogger(__name__)
 
-def print_info(func):
-    """
-    Prints some useful info.
-    """
-    if not PRINT_INFO:
+
+def log_info(func):
+    """Log some useful info."""
+    if not LOG_INFO:
         return func
 
     def inner(self, *args, **kwargs):
+        """Inner."""
         if TRACK_TIME:
             import simple_timer
-            timer = simple_timer.Timer() # Start timer
+            timer = simple_timer.Timer()  # Start timer
 
         result = func(self, *args, **kwargs)
 
         if TRACK_TIME:
-            timer.stop() # Stop timer
+            timer.stop()  # Stop timer
 
-        print('\n\n%s' % func.__name__)
-        print('============================')
+        LOGGER.debug('\n\n%s', func.__name__)
+        LOGGER.debug('============================')
         if func.__doc__:
-            print('""" %s """' % func.__doc__.strip())
-        print('----------------------------')
+            LOGGER.debug('""" %s """', func.__doc__.strip())
+        LOGGER.debug('----------------------------')
         if result is not None:
-            print(result)
+            LOGGER.debug(result)
         if TRACK_TIME:
-            print('done in %s seconds' % timer.duration)
-        print('\n++++++++++++++++++++++++++++')
+            LOGGER.debug('done in %s seconds', timer.duration)
+        LOGGER.debug('\n++++++++++++++++++++++++++++')
 
         return result
     return inner
 
+
 class TldTest(unittest.TestCase):
-    """
-    Tld tests.
-    """
+    """Tld tests."""
+
     def setUp(self):
+        """Set up."""
         self.good_patterns = [
             {
                 'url': 'http://www.google.co.uk',
@@ -71,13 +71,13 @@ class TldTest(unittest.TestCase):
                 'suffix': 'co.uk',
             },
             # No longer valid
-            #{
+            # {
             #    'url': 'http://www.me.congresodelalengua3.ar',
             #    'tld': 'me.congresodelalengua3.ar',
             #    'subdomain': 'www',
             #    'domain': 'me',
             #    'suffix': 'congresodelalengua3.ar',
-            #},
+            # },
             {
                 'url': u'http://хром.гугл.рф',
                 'tld': u'гугл.рф',
@@ -100,7 +100,8 @@ class TldTest(unittest.TestCase):
                 'suffix': 'cloudfront.net',
             },
             {
-                'url': 'http://www.v2.forum.tech.google.co.uk:8001/lorem-ipsum/',
+                'url': 'http://www.v2.forum.tech.google.co.uk:8001/'
+                       'lorem-ipsum/',
                 'tld': 'google.co.uk',
                 'subdomain': 'www.v2.forum.tech',
                 'domain': 'google',
@@ -121,56 +122,47 @@ class TldTest(unittest.TestCase):
             'http://www.tld.doesnotexist'
         ]
 
-    @print_info
+    @log_info
     def test_0_tld_names_loaded(self):
-        """
-        Test if tld names are loaded.
-        """
+        """Test if tld names are loaded."""
         get_tld('http://www.google.co.uk')
-        from tld.utils import tld_names
+        from .utils import tld_names
         res = len(tld_names) > 0
         self.assertTrue(res)
         return res
 
-    @print_info
+    @log_info
     def test_1_update_tld_names(self):
-        """
-        Test updating the tld names (re-fetch mozilla source).
-        """
+        """Test updating the tld names (re-fetch mozilla source)."""
         res = update_tld_names(fail_silently=True)
         self.assertTrue(res)
         return res
 
-    @print_info
+    @log_info
     def test_2_good_patterns_pass(self):
-        """
-        Test good URL patterns.
-        """
+        """Test good URL patterns."""
         res = []
         for data in self.good_patterns:
-            r = get_tld(data['url'], fail_silently=True)
-            self.assertEqual(r, data['tld'])
-            res.append(r)
+            _res = get_tld(data['url'], fail_silently=True)
+            self.assertEqual(_res, data['tld'])
+            res.append(_res)
         return res
 
-    @print_info
+    @log_info
     def test_3_bad_patterns_pass(self):
-        """
-        Test bad URL patterns.
-        """
+        """Test bad URL patterns."""
         res = []
         for url in self.bad_patterns:
-            r = get_tld(url, fail_silently=True)
-            self.assertEqual(r, None)
-            res.append(r)
+            _res = get_tld(url, fail_silently=True)
+            self.assertEqual(_res, None)
+            res.append(_res)
         return res
 
-    @print_info
+    @log_info
     def test_4_override_settings(self):
-        """
-        Testing settings override.
-        """
+        """Testing settings override."""
         def override_settings():
+            """Override settings."""
             return get_setting('DEBUG')
 
         self.assertEqual(defaults.DEBUG, override_settings())
@@ -181,22 +173,19 @@ class TldTest(unittest.TestCase):
 
         return override_settings()
 
-    @print_info
+    @log_info
     def test_5_good_patterns_pass_parsed_object(self):
-        """
-        Test good URL patterns.
-        """
+        """Test good URL patterns."""
         res = []
         for data in self.good_patterns:
-            r = get_tld(data['url'], fail_silently=True, as_object=True)
-            self.assertEqual(r.tld, data['tld'])
-            self.assertEqual(r.subdomain, data['subdomain'])
-            self.assertEqual(r.domain, data['domain'])
-            self.assertEqual(r.suffix, data['suffix'])
-            res.append(r)
+            _res = get_tld(data['url'], fail_silently=True, as_object=True)
+            self.assertEqual(_res.tld, data['tld'])
+            self.assertEqual(_res.subdomain, data['subdomain'])
+            self.assertEqual(_res.domain, data['domain'])
+            self.assertEqual(_res.suffix, data['suffix'])
+            res.append(_res)
         return res
 
 
 if __name__ == '__main__':
     unittest.main()
-

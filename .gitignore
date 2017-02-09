@@ -4,6 +4,10 @@
 /.hg/
 /.git/
 /.tox/
+.cache/
+.coverage
+/htmlcov/
+*.py,cover
 
 /example/tmp/
 /forks/

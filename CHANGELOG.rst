@@ -15,6 +15,21 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.7.7
+-----
+2017-02-09
+
+- Tested against Python 3.5, 3.6 and PyPy.
+- pep8 fixes.
+- removed deprecated `tld.update` module. Use ``update-tld-names`` command
+  instead.
+
+0.7.6
+-----
+2016-01-23
+
+- Minor fixes.
+
 0.7.5
 -----
 2015-11-22

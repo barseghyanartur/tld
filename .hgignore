@@ -4,6 +4,10 @@ syntax: regexp
 \.gitignore~
 \.git/
 \.tox/
+\.cache/
+\.coverage$
+^htmlcov/
+\.py,cover
 
 ^setup\.py~
 ^hotfixes/

@@ -1,11 +1,22 @@
-commands Package
-================
+tld.commands package
+====================
 
-:mod:`update_tld_names` Module
-------------------------------
+Submodules
+----------
+
+tld.commands.update_tld_names module
+------------------------------------
 
 .. automodule:: tld.commands.update_tld_names
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: tld.commands
+    :members:
+    :undoc-members:
+    :show-inheritance:
