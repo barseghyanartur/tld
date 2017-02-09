@@ -1,6 +1,7 @@
 from __future__ import print_function
 
-from ..utils import update_tld_names as do_update_tld_names
+# We should have absolute imports here
+from tld.utils import update_tld_names as do_update_tld_names
 
 __title__ = 'tld.commands.update_tld_names'
 __author__ = 'Artur Barseghyan'
