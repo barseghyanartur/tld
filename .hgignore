@@ -18,3 +18,4 @@ syntax: regexp
 ^dist/
 ^builddocs/
 ^builddocs\.zip
+^src/tld/res/old/

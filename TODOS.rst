@@ -9,6 +9,7 @@ be worked on.
 
 Must haves
 ==========
+- PyPy support.
 
 Should haves
 ============

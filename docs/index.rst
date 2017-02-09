@@ -13,7 +13,7 @@ shall be set to True (default - False).
 
 Prerequisites
 =============
-- Python 2.6, 2.7, 3.4, 3.5, 3.6, PyPy
+- Python 2.6, 2.7, 3.4, 3.5 and 3.6
 
 Installation
 ============
