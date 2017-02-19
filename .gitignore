@@ -2,6 +2,7 @@
 /.hgignore~
 /.gitignore~
 /.hg/
+/.hgtags
 /.git/
 /.tox/
 .cache/
