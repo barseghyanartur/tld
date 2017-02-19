@@ -31,7 +31,6 @@ are used for versioning (schema follows below):
 - pep8 fixes.
 - removed deprecated `tld.update` module. Use ``update-tld-names`` command
   instead.
-- Tested against PyPy.
 
 0.7.6
 -----
