@@ -6,7 +6,7 @@ try:
 except:
     readme = ''
 
-version = '0.7.7'
+version = '0.7.8'
 
 exec_dirs = [
     'src/tld/bin/',
@@ -16,11 +16,11 @@ for exec_dir in exec_dirs:
     execs += [os.path.join(exec_dir, f) for f in os.listdir(exec_dir)]
 
 setup(
-    name = 'tld',
-    version = version,
-    description = "Extracts the top level domain (TLD) from the URL given.",
-    long_description = readme,
-    classifiers = [
+    name='tld',
+    version=version,
+    description="Extract the top level domain (TLD) from the URL given.",
+    long_description=readme,
+    classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",

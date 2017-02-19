@@ -15,6 +15,14 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.7.8
+-----
+2017-02-19
+
+- Fix relative import in non-package for update-tls-names script. #15
+- ``get_tld`` got a new argument ``fix_protocol``, which fixes the missing
+  protocol, having prepended "https" if missing or incorrect.
+
 0.7.7
 -----
 2017-02-09
@@ -23,6 +31,7 @@ are used for versioning (schema follows below):
 - pep8 fixes.
 - removed deprecated `tld.update` module. Use ``update-tld-names`` command
   instead.
+- Tested against PyPy.
 
 0.7.6
 -----
@@ -41,7 +50,7 @@ are used for versioning (schema follows below):
 -----
 2015-09-24
 
-- Exposed TLD initialization as `get_tld_names`.
+- Exposed TLD initialization as ``get_tld_names``.
 
 0.7.3
 -----

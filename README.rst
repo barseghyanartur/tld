@@ -13,7 +13,7 @@ shall be set to True (default - False).
 
 Prerequisites
 =============
-- Python 2.6, 2.7, 3.4, 3.5 and 3.6
+- Python 2.6, 2.7, 3.4, 3.5, 3.6 and PyPy
 
 Installation
 ============
@@ -35,9 +35,9 @@ Or latest stable version from BitBucket:
 
     pip install https://bitbucket.org/barseghyanartur/tld/get/stable.tar.gz
 
-Usage example
-=============
-To get the top level domain name from the URL given:
+Usage examples
+==============
+Get the TLD name **as string** from the URL given:
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ To get the top level domain name from the URL given:
     get_tld("http://www.google.idontexist", fail_silently=True)
     # None
 
-If you wish, you could get the result as an object:
+If you wish, you could get the TLD as **an object**:
 
 .. code-block:: python
 
@@ -72,6 +72,17 @@ If you wish, you could get the result as an object:
     res.tld
     # 'google.co.uk'
 
+Get TLD name, **ignoring the missing protocol**:
+
+.. code-block:: python
+
+    from tld import get_tld
+
+    get_tld("www.google.co.uk", fix_protocol=True)
+    # 'google.co.uk'
+
+Update the list of TLD names
+============================
 To update/sync the tld names with the most recent version run the following
 from your terminal:
 
@@ -106,13 +117,13 @@ Simply type:
 
     ./runtests.py
 
-or use tox:
+Or use tox:
 
 .. code-block:: sh
 
     tox
 
-or use tox to check specific env:
+Or use tox to check specific env:
 
 .. code-block:: sh
 

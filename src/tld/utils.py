@@ -139,7 +139,8 @@ def get_tld_names(fail_silently=False, retry_count=0):
     return tld_names
 
 
-def get_tld(url, active_only=False, fail_silently=False, as_object=False):
+def get_tld(url, active_only=False, fail_silently=False, as_object=False,
+            fix_protocol=False):
     """Extract the top level domain.
 
     Extract the top level domain based on the mozilla's effective TLD names
@@ -153,11 +154,17 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False):
         is returned on failure.
     :param as_object: If set to True, ``tld.utils.Result`` object is returned,
         ``domain``, ``suffix`` and ``tld`` properties.
+    :param bool fix_protocol: If set to True, missing or wrong protocol is
+        ignored (https is appended instead).
     :return mixed: String with top level domain (if ``as_object`` argument
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
     """
     url = url.lower()
+
+    if fix_protocol \
+            and not (url.startswith('http://') or url.startswith('https://')):
+        url = 'https://{}'.format(url)
 
     tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 

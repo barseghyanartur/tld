@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import copy
 import logging
+import unittest
+
+from . import defaults
+from .conf import get_setting, set_setting
+from .utils import get_tld, update_tld_names
 
 __title__ = 'tld.tests'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2017 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('TldTest',)
-
-import unittest
-
-from . import defaults
-from .conf import get_setting, set_setting
-from .utils import get_tld, update_tld_names
 
 LOG_INFO = True
 TRACK_TIME = False
@@ -62,6 +62,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www',
                 'domain': 'google',
                 'suffix': 'co.uk',
+                'kwargs': {'fail_silently': True}
             },
             {
                 'url': 'http://www.v2.google.co.uk',
@@ -69,6 +70,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www.v2',
                 'domain': 'google',
                 'suffix': 'co.uk',
+                'kwargs': {'fail_silently': True}
             },
             # No longer valid
             # {
@@ -84,6 +86,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': u'хром',
                 'domain': u'гугл',
                 'suffix': u'рф',
+                'kwargs': {'fail_silently': True}
             },
             {
                 'url': 'http://www.google.co.uk:8001/lorem-ipsum/',
@@ -91,6 +94,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www',
                 'domain': 'google',
                 'suffix': 'co.uk',
+                'kwargs': {'fail_silently': True}
             },
             {
                 'url': 'http://www.me.cloudfront.net',
@@ -98,6 +102,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www',
                 'domain': 'me',
                 'suffix': 'cloudfront.net',
+                'kwargs': {'fail_silently': True}
             },
             {
                 'url': 'http://www.v2.forum.tech.google.co.uk:8001/'
@@ -106,6 +111,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www.v2.forum.tech',
                 'domain': 'google',
                 'suffix': 'co.uk',
+                'kwargs': {'fail_silently': True}
             },
             {
                 'url': 'https://pantheon.io/',
@@ -113,12 +119,21 @@ class TldTest(unittest.TestCase):
                 'subdomain': '',
                 'domain': 'pantheon',
                 'suffix': 'io',
+                'kwargs': {'fail_silently': True}
+            },
+            {
+                'url': 'v2.www.google.com',
+                'tld': 'google.com',
+                'subdomain': 'v2.www',
+                'domain': 'google',
+                'suffix': 'com',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True}
             }
         ]
 
         self.bad_patterns = [
-            '/index.php?a=1&b=2',
             'v2.www.google.com',
+            '/index.php?a=1&b=2',
             'http://www.tld.doesnotexist'
         ]
 
@@ -143,7 +158,7 @@ class TldTest(unittest.TestCase):
         """Test good URL patterns."""
         res = []
         for data in self.good_patterns:
-            _res = get_tld(data['url'], fail_silently=True)
+            _res = get_tld(data['url'], **data['kwargs'])
             self.assertEqual(_res, data['tld'])
             res.append(_res)
         return res
@@ -178,7 +193,9 @@ class TldTest(unittest.TestCase):
         """Test good URL patterns."""
         res = []
         for data in self.good_patterns:
-            _res = get_tld(data['url'], fail_silently=True, as_object=True)
+            kwargs = copy.copy(data['kwargs'])
+            kwargs.update({'as_object': True})
+            _res = get_tld(data['url'], **kwargs)
             self.assertEqual(_res.tld, data['tld'])
             self.assertEqual(_res.subdomain, data['subdomain'])
             self.assertEqual(_res.domain, data['domain'])
