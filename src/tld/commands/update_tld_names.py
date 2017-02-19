@@ -15,7 +15,7 @@ def main():
 
     :example:
 
-        python src/tld/update_tld_names.py
+        python src/tld/commands/update_tld_names.py
     """
 
     try:
