@@ -1,5 +1,7 @@
 import os
 
+from .conf import get_setting
+
 __title__ = 'tld.helpers'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2017 Artur Barseghyan'
@@ -12,8 +14,9 @@ __all__ = (
 
 def project_dir(base):
     """Project dir."""
+    TLD_NAMES_LOCAL_PATH_PARENT = get_setting('NAMES_LOCAL_PATH_PARENT')
     return os.path.abspath(
-        os.path.join(os.path.dirname(__file__), base).replace('\\', '/')
+        os.path.join(TLD_NAMES_LOCAL_PATH_PARENT, base).replace('\\', '/')
     )
 
 

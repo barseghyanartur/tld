@@ -2,10 +2,12 @@
 
 import copy
 import logging
+import os
 import unittest
 
 from . import defaults
 from .conf import get_setting, set_setting
+from .helpers import project_dir
 from .utils import get_tld, update_tld_names
 
 __title__ = 'tld.tests'
@@ -203,6 +205,14 @@ class TldTest(unittest.TestCase):
             res.append(_res)
         return res
 
+    @log_info
+    def test_6_override_full_names_path(self):
+        default = project_dir('dummy.txt')
+        override_base = '/tmp/test'
+        set_setting('NAMES_LOCAL_PATH_PARENT', override_base)
+        modified = project_dir('dummy.txt')
+        self.assertNotEqual(default, modified)
+        self.assertEqual(modified, os.path.abspath('/tmp/test/dummy.txt'))
 
 if __name__ == '__main__':
     unittest.main()
