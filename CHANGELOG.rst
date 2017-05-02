@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.7.9
+-----
+2017-05-02
+
+- Added base path override for local .dat file.
+
 0.7.8
 -----
 2017-02-19

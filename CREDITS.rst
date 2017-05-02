@@ -12,12 +12,15 @@ Contributors
 - `Todd Wolfson
   <https://github.com/barseghyanartur/tld/commits/master?author=twolfson>`_
   for exposing the TLD initialization as `get_tld_names`.
-  - `mperice
+- `mperice
   <https://github.com/barseghyanartur/tld/commits/master?author=mperice>`_
   for minor fixes.
-  - `Jonathan Stoppani
+- `Jonathan Stoppani
   <https://github.com/barseghyanartur/tld/commits/master?author=GaretJax>`_
   for minor fixes.
+- `Michael Kearns
+  <https://github.com/barseghyanartur/tld/commits?author=mobiuscog>`_ for
+  adding base path override for local .dat file.
 
 Bug reporters
 ~~~~~~~~~~~~~
