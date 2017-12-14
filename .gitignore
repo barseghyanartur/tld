@@ -12,7 +12,7 @@
 *.py,cover
 .idea/
 /deb_dist/
-/debian/
+#/debian/
 
 /example/tmp/
 /forks/

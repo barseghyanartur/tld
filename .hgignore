@@ -11,7 +11,7 @@ syntax: regexp
 \.orig
 ^\.idea/
 ^deb_dist/
-^debian/
+#^debian/
 
 ^setup\.py~
 ^hotfixes/
