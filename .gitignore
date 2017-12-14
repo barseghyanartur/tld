@@ -11,6 +11,8 @@
 /htmlcov/
 *.py,cover
 .idea/
+/deb_dist/
+/debian/
 
 /example/tmp/
 /forks/

@@ -72,9 +72,11 @@ def update_tld_names(fail_silently=False):
     TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
     try:
         remote_file = urlopen(TLD_NAMES_SOURCE_URL)
-        local_file = codecs.open(project_dir(TLD_NAMES_LOCAL_PATH),
-                                 'wb',
-                                 encoding='utf8')
+        local_file = codecs.open(
+            project_dir(TLD_NAMES_LOCAL_PATH),
+            'wb',
+            encoding='utf8'
+        )
         local_file.write(remote_file.read().decode('utf8'))
         local_file.close()
         remote_file.close()
