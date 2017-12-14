@@ -1,4 +1,5 @@
 *.py[cod]
+*.orig
 /.hgignore~
 /.gitignore~
 /.hg/
@@ -9,6 +10,7 @@
 .coverage
 /htmlcov/
 *.py,cover
+.idea/
 
 /example/tmp/
 /forks/
