@@ -8,6 +8,8 @@ syntax: regexp
 \.coverage$
 ^htmlcov/
 \.py,cover
+\.orig
+^\.idea/
 
 ^setup\.py~
 ^hotfixes/
