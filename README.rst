@@ -15,6 +15,11 @@ Prerequisites
 =============
 - Python 2.6, 2.7, 3.4, 3.5, 3.6 and PyPy
 
+Documentation
+=============
+Documentation is available on `Read the Docs
+<http://tld.readthedocs.io/>`_.
+
 Installation
 ============
 Latest stable version on PyPI:
@@ -128,6 +133,35 @@ Or use tox to check specific env:
 .. code-block:: sh
 
     tox -e py36
+
+Writing documentation
+=====================
+
+Keep the following hierarchy.
+
+.. code-block:: text
+
+    =====
+    title
+    =====
+
+    header
+    ======
+
+    sub-header
+    ----------
+
+    sub-sub-header
+    ~~~~~~~~~~~~~~
+
+    sub-sub-sub-header
+    ^^^^^^^^^^^^^^^^^^
+
+    sub-sub-sub-sub-header
+    ++++++++++++++++++++++
+
+    sub-sub-sub-sub-sub-header
+    **************************
 
 License
 =======

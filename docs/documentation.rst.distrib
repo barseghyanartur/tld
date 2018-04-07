@@ -1,12 +1,14 @@
 
-Documentation!
-==============
+Docs
+====
 
 Contents:
 
 .. toctree::
    :maxdepth: 20
 
+   index
+   changelog
    tld
 
 Indices and tables

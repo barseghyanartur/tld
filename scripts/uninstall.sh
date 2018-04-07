@@ -1,5 +1,3 @@
-pip uninstall tld -y
-rm build -rf
-rm dist -rf
-rm builddocs.zip
-rm src/tld.egg-info -rf
+#!/usr/bin/env bash
+./scripts/uninstall.sh
+./scripts/cleanup.sh

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ./scripts/uninstall.sh
 ./scripts/install.sh
 rm docs/*.rst

@@ -1,1 +1,2 @@
-pip install -e hg+https://bitbucket.org/barseghyanartur/tld#egg=tld
+#!/usr/bin/env bash
+pip install https://github.com/barseghyanartur/tld/archive/stable.tar.gz
