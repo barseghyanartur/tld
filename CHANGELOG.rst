@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.7.10
+------
+2018-04-07
+
+- Minor fixes.
+
 0.7.9
 -----
 2017-05-02
@@ -42,7 +48,10 @@ are used for versioning (schema follows below):
 -----
 2016-01-23
 
-- Minor fixes.
+- The ``fix_protocol`` argument respects protocol relative URLs.
+- Change year in the license.
+- Improved docstrings.
+- TLD source updated to the latest version.
 
 0.7.5
 -----

@@ -12,7 +12,7 @@ from .utils import get_tld, update_tld_names
 
 __title__ = 'tld.tests'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('TldTest',)
 
@@ -130,6 +130,14 @@ class TldTest(unittest.TestCase):
                 'domain': 'google',
                 'suffix': 'com',
                 'kwargs': {'fail_silently': True, 'fix_protocol': True}
+            },
+            {
+                'url': '//v2.www.google.com',
+                'tld': 'google.com',
+                'subdomain': 'v2.www',
+                'domain': 'google',
+                'suffix': 'com',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True}
             }
         ]
 
@@ -213,6 +221,7 @@ class TldTest(unittest.TestCase):
         modified = project_dir('dummy.txt')
         self.assertNotEqual(default, modified)
         self.assertEqual(modified, os.path.abspath('/tmp/test/dummy.txt'))
+
 
 if __name__ == '__main__':
     unittest.main()

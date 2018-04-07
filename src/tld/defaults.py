@@ -2,13 +2,13 @@ import os
 
 __title__ = 'tld.defaults'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
-    'NAMES_SOURCE_URL',
+    'DEBUG',
     'NAMES_LOCAL_PATH',
     'NAMES_LOCAL_PATH_PARENT',
-    'DEBUG'
+    'NAMES_SOURCE_URL',
 )
 
 # Source path of Mozilla's effective TLD names file.

@@ -2,10 +2,9 @@ from __future__ import unicode_literals
 
 import codecs
 
-from six import PY3
+from six import PY3, text_type
 from six.moves.urllib.parse import urlparse
 from six.moves.urllib.request import urlopen
-from six import text_type
 
 from .conf import get_setting
 from .exceptions import TldIOError, TldDomainNotFound, TldBadUrl
@@ -13,13 +12,13 @@ from .helpers import project_dir
 
 __title__ = 'tld.utils'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
-    'update_tld_names',
-    'get_tld_names',
     'get_tld',
+    'get_tld_names',
     'Result',
+    'update_tld_names',
 )
 
 tld_names = []
@@ -64,16 +63,18 @@ class Result(object):
 def update_tld_names(fail_silently=False):
     """Update the local copy of TLDs file.
 
-    :param bool fail_silently: If set to True, no exceptions is raised on
+    :param fail_silently: If set to True, no exceptions is raised on
         failure but boolean False returned.
-    :return bool: True on success, False on failure.
+    :type fail_silently: bool
+    :return: True on success, False on failure.
+    :rtype: bool
     """
-    TLD_NAMES_SOURCE_URL = get_setting('NAMES_SOURCE_URL')
-    TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
+    tld_names_source_url = get_setting('NAMES_SOURCE_URL')
+    tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
     try:
-        remote_file = urlopen(TLD_NAMES_SOURCE_URL)
+        remote_file = urlopen(tld_names_source_url)
         local_file = codecs.open(
-            project_dir(TLD_NAMES_LOCAL_PATH),
+            project_dir(tld_names_local_path),
             'wb',
             encoding='utf8'
         )
@@ -95,9 +96,12 @@ def get_tld_names(fail_silently=False, retry_count=0):
         is returned on failure.
     :param retry_count: If greater than 1, we raise an exception in order
         to avoid infinite loops.
-    :return: Returns iterable
+    :type fail_silently: bool
+    :type retry_count: int
+    :return: List of TLD names
+    :type: iterable
     """
-    TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
+    tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
 
     if retry_count > 1:
         if fail_silently:
@@ -114,7 +118,7 @@ def get_tld_names(fail_silently=False, retry_count=0):
     local_file = None
     try:
         # Load the TLD names file
-        local_file = codecs.open(project_dir(TLD_NAMES_LOCAL_PATH),
+        local_file = codecs.open(project_dir(tld_names_local_path),
                                  'r',
                                  encoding='utf8')
         # Make a list of it all, strip all garbage
@@ -141,7 +145,10 @@ def get_tld_names(fail_silently=False, retry_count=0):
     return tld_names
 
 
-def get_tld(url, active_only=False, fail_silently=False, as_object=False,
+def get_tld(url,
+            active_only=False,
+            fail_silently=False,
+            as_object=False,
             fix_protocol=False):
     """Extract the top level domain.
 
@@ -156,17 +163,26 @@ def get_tld(url, active_only=False, fail_silently=False, as_object=False,
         is returned on failure.
     :param as_object: If set to True, ``tld.utils.Result`` object is returned,
         ``domain``, ``suffix`` and ``tld`` properties.
-    :param bool fix_protocol: If set to True, missing or wrong protocol is
+    :param fix_protocol: If set to True, missing or wrong protocol is
         ignored (https is appended instead).
-    :return mixed: String with top level domain (if ``as_object`` argument
+    :type url: str
+    :type active_only: bool
+    :type fail_silently: bool
+    :type as_object: bool
+    :type fix_protocol: bool
+    :return: String with top level domain (if ``as_object`` argument
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
+    :rtype: str
     """
     url = url.lower()
 
-    if fix_protocol \
-            and not (url.startswith('http://') or url.startswith('https://')):
-        url = 'https://{}'.format(url)
+    if fix_protocol:
+        if (
+            not url.startswith('//')
+            and not (url.startswith('http://') or url.startswith('https://'))
+        ):
+            url = 'https://{}'.format(url)
 
     tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 

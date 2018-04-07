@@ -2,12 +2,12 @@ from .conf import get_setting
 
 __title__ = 'tld.exceptions'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2017 Artur Barseghyan'
+__copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
-    'TldIOError',
+    'TldBadUrl',
     'TldDomainNotFound',
-    'TldBadUrl'
+    'TldIOError',
 )
 
 
@@ -16,10 +16,10 @@ class TldIOError(IOError):
 
     Supposed to be thrown when problems with reading/writing occur."""
     def __init__(self, msg=None):
-        TLD_NAMES_LOCAL_PATH = get_setting('NAMES_LOCAL_PATH')
+        tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
         if msg is None:
             msg = "Can't read from or write to the %s " \
-                  "file!" % TLD_NAMES_LOCAL_PATH
+                  "file!" % tld_names_local_path
         super(TldIOError, self).__init__(msg)
 
 
