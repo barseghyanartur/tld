@@ -15,6 +15,11 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+unreleased
+----------
+
+- docs/ directory is included in source distribution tarball
+
 0.7.10
 ------
 2018-04-07
