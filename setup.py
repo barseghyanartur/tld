@@ -51,5 +51,6 @@ setup(
     license='MPL 1.1/GPL 2.0/LGPL 2.1',
     install_requires=[
         'six>=1.9'
-    ]
+    ],
+    test_suite='src/tld/tests.py',
 )

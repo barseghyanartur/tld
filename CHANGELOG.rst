@@ -34,6 +34,7 @@ unreleased
 2017-05-02
 
 - Added base path override for local .dat file.
+- `python setup.py test` can used to execute the tests
 
 0.7.8
 -----
