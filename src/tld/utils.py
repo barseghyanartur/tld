@@ -21,7 +21,7 @@ __all__ = (
     'update_tld_names',
 )
 
-tld_names = []
+tld_names = set()
 
 
 class Result(object):
