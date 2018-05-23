@@ -21,7 +21,7 @@ __all__ = (
     'update_tld_names',
 )
 
-tld_names = set()
+tld_names = None
 
 
 class Result(object):
@@ -58,6 +58,51 @@ class Result(object):
                 return self.__tld
     __repr__ = __unicode__
     __str__ = __unicode__
+
+
+class TrieNode(object):
+    """Class representing a single Trie node."""
+
+    __slots__ = ('children', 'leaf')
+
+    def __init__(self):
+        self.children = None
+        self.leaf = False
+
+
+class Trie(object):
+    """An adhoc Trie data structure to store tlds in reverse notation order."""
+
+    def __init__(self):
+        self.root = TrieNode()
+        self.__nodes = 0
+
+    def __len__(self):
+        return self.__nodes
+
+    def add(self, tld):
+        node = self.root
+
+        # Iterating over the tld parts in reverse order
+        for part in reversed(tld.split('.')):
+
+            # To save up some RAM, we initialize the children dict only
+            # when strictly necessary
+            if node.children is None:
+                node.children = {}
+
+            child = node.children.get(part)
+
+            if child is None:
+                child = TrieNode()
+
+            node.children[part] = child
+
+            node = child
+
+        node.leaf = True
+
+        self.__nodes += 1
 
 
 def update_tld_names(fail_silently=False):
@@ -112,7 +157,7 @@ def get_tld_names(fail_silently=False, retry_count=0):
     global tld_names
 
     # If already loaded, return
-    if len(tld_names):
+    if tld_names is not None:
         return tld_names
 
     local_file = None
@@ -121,10 +166,14 @@ def get_tld_names(fail_silently=False, retry_count=0):
         local_file = codecs.open(project_dir(tld_names_local_path),
                                  'r',
                                  encoding='utf8')
+        tld_names = Trie()
         # Make a list of it all, strip all garbage
-        tld_names = set([u'{0}'.format(line.strip())
-                         for line
-                         in local_file if line[0] not in '/\n'])
+        for line in local_file:
+            if line[0] == '/' or line[0] == '\n':
+                continue
+
+            tld_names.add(u'{0}'.format(line.strip()))
+
         local_file.close()
     except IOError as err:
         update_tld_names()  # Grab the file
@@ -197,44 +246,50 @@ def get_tld(url,
 
     domain_parts = domain_name.split('.')
 
-    # Looping from much to less (for example if we have a domain named
-    # "v3.api.google.co.uk" we'll try "v3.api.google.co.uk", then
-    # "api.google.co.uk", then "api.google.co.uk", then "google.co.uk", then
-    # "co.uk" and finally "uk". If the last one does not match any TLDs, we
-    # throw a <TldDomainNotFound> exception.
-    for i in range(0, len(domain_parts)):
-        sliced_domain_parts = domain_parts[i:]
+    # Now we query our Trie iterating on the domain parts in reverse order
+    node = tld_names.root
+    tld_length = 0
+    for i in reversed(range(len(domain_parts))):
+        part = domain_parts[i]
 
-        match = text_type('.').join(sliced_domain_parts)
-        wildcard_match = text_type('.').join(['*'] + sliced_domain_parts[1:])
-        inactive_match = text_type("!{0}").format(match)
+        # Cannot go deeper
+        if node.children is None:
+            break
 
-        # if not PY3:
-        #    try:
-        #        match = match.encode('utf8')
-        #        wildcard_match = wildcard_match.encode('utf8')
-        #        inactive_match = inactive_match.encode('utf8')
-        #    except UnicodeDecodeError as e:
-        #        pass
+        child = node.children.get(part)
 
-        # Match tlds
-        if (match in tld_names or
-                wildcard_match in tld_names or
-                (active_only is False and inactive_match in tld_names)):
-            # if url contains only the TLD (without sub-domains) then entire
-            # domain should be returned.
-            non_zero_i = max(1, i)
-            if not as_object:
-                return text_type(".").join(domain_parts[non_zero_i-1:])
-            else:
-                subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
-                domain = text_type(".").join(
-                    domain_parts[non_zero_i-1:non_zero_i]
-                )
-                suffix = text_type(".").join(domain_parts[non_zero_i:])
-                return Result(subdomain, domain, suffix)
+        # Wildcards
+        if child is None:
+            child = node.children.get('*')
 
-    if fail_silently:
-        return None
-    else:
-        raise TldDomainNotFound(domain_name=domain_name)
+        # Inactive
+        if active_only is False and child is None:
+            child = node.children.get('!{0}'.format(part))
+
+        # If the current part is not in current node's children, we can stop
+        if child is None:
+            break
+
+        # Else we move deeper and increment our tld offset
+        tld_length += 1
+        node = child
+
+    # Checking the node we finished on is a leaf
+    if not node.leaf:
+        if fail_silently:
+            return None
+        else:
+            raise TldDomainNotFound(domain_name=domain_name)
+
+    non_zero_i = max(1, len(domain_parts) - tld_length)
+
+    if not as_object:
+        return text_type(".").join(domain_parts[non_zero_i-1:])
+
+    subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
+    domain = text_type(".").join(
+        domain_parts[non_zero_i-1:non_zero_i]
+    )
+    suffix = text_type(".").join(domain_parts[non_zero_i:])
+
+    return Result(subdomain, domain, suffix)
