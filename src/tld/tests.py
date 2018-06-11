@@ -222,6 +222,40 @@ class TldTest(unittest.TestCase):
         self.assertNotEqual(default, modified)
         self.assertEqual(modified, os.path.abspath('/tmp/test/dummy.txt'))
 
+    @log_info
+    def test_7_public_private(self):
+        res = get_tld(
+            'http://silly.cc.ua',
+            fail_silently=True,
+            search_private=False
+        )
+
+        self.assertEqual(res, None)
+
+        res = get_tld(
+            'http://silly.cc.ua',
+            fail_silently=True,
+            search_private=True
+        )
+
+        self.assertEqual(res, 'silly.cc.ua')
+
+        res = get_tld(
+            'mercy.compute.amazonaws.com',
+            fail_silently=True,
+            search_private=False,
+            fix_protocol=True
+        )
+
+        self.assertEqual(res, None)
+
+        res = get_tld(
+            'http://whatever.com',
+            fail_silently=True,
+            search_public=False
+        )
+
+        self.assertEqual(res, None)
 
 if __name__ == '__main__':
     unittest.main()
