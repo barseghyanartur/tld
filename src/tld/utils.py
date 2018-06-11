@@ -63,11 +63,12 @@ class Result(object):
 class TrieNode(object):
     """Class representing a single Trie node."""
 
-    __slots__ = ('children', 'leaf')
+    __slots__ = ('children', 'leaf', 'private')
 
     def __init__(self):
         self.children = None
         self.leaf = False
+        self.private = False
 
 
 class Trie(object):
@@ -80,7 +81,7 @@ class Trie(object):
     def __len__(self):
         return self.__nodes
 
-    def add(self, tld):
+    def add(self, tld, private=False):
         node = self.root
 
         # Iterating over the tld parts in reverse order
@@ -101,6 +102,9 @@ class Trie(object):
             node = child
 
         node.leaf = True
+
+        if private:
+            node.private = True
 
         self.__nodes += 1
 
@@ -168,11 +172,16 @@ def get_tld_names(fail_silently=False, retry_count=0):
                                  encoding='utf8')
         tld_names = Trie()
         # Make a list of it all, strip all garbage
+        private_section = False
+
         for line in local_file:
+            if '===BEGIN PRIVATE DOMAINS===' in line:
+                private_section = True
+
             if line[0] == '/' or line[0] == '\n':
                 continue
 
-            tld_names.add(u'{0}'.format(line.strip()))
+            tld_names.add(u'{0}'.format(line.strip()), private=private_section)
 
         local_file.close()
     except IOError as err:
@@ -198,7 +207,9 @@ def get_tld(url,
             active_only=False,
             fail_silently=False,
             as_object=False,
-            fix_protocol=False):
+            fix_protocol=False,
+            search_public=True,
+            search_private=True):
     """Extract the top level domain.
 
     Extract the top level domain based on the mozilla's effective TLD names
@@ -219,6 +230,8 @@ def get_tld(url,
     :type fail_silently: bool
     :type as_object: bool
     :type fix_protocol: bool
+    :type search_public: bool
+    :type search_private: bool
     :return: String with top level domain (if ``as_object`` argument
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
@@ -274,8 +287,12 @@ def get_tld(url,
         tld_length += 1
         node = child
 
-    # Checking the node we finished on is a leaf
-    if not node.leaf:
+    # Checking the node we finished on is a leaf and is one we allow
+    if (
+        (not node.leaf) or
+        (not search_public and not node.private) or
+        (not search_private and node.private)
+    ):
         if fail_silently:
             return None
         else:
