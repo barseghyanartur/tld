@@ -145,6 +145,13 @@ class TldTest(unittest.TestCase):
                 'subdomain': '',
                 'domain': 'bar',
                 'suffix': 'com',
+            },
+            {
+                'url': 'https://faguoren.xn--fiqs8s',
+                'tld': 'faguoren.xn--fiqs8s',
+                'subdomain': '',
+                'domain': 'faguoren',
+                'suffix': 'xn--fiqs8s',
                 'kwargs': {'fail_silently': True}
             }
         ]
