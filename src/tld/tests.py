@@ -138,6 +138,14 @@ class TldTest(unittest.TestCase):
                 'domain': 'google',
                 'suffix': 'com',
                 'kwargs': {'fail_silently': True, 'fix_protocol': True}
+            },
+            {
+                'url': 'https://faguoren.xn--fiqs8s',
+                'tld': 'faguoren.xn--fiqs8s',
+                'subdomain': '',
+                'domain': 'faguoren',
+                'suffix': 'xn--fiqs8s',
+                'kwargs': {'fail_silently': True}
             }
         ]
 
