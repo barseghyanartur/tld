@@ -7,7 +7,12 @@ from six.moves.urllib.parse import urlparse
 from six.moves.urllib.request import urlopen
 
 from .conf import get_setting
-from .exceptions import TldIOError, TldDomainNotFound, TldBadUrl
+from .exceptions import (
+    TldBadUrl,
+    TldDomainNotFound,
+    TldImproperlyConfigured,
+    TldIOError,
+)
 from .helpers import project_dir
 
 __title__ = 'tld.utils'
@@ -229,6 +234,8 @@ def get_tld(url,
         ``domain``, ``suffix`` and ``tld`` properties.
     :param fix_protocol: If set to True, missing or wrong protocol is
         ignored (https is appended instead).
+    :param search_public: If set to True, search in public domains.
+    :param search_private: If set to True, search in private domains.
     :type url: str
     :type active_only: bool
     :type fail_silently: bool
@@ -241,6 +248,12 @@ def get_tld(url,
         argument is set to True); returns None on failure.
     :rtype: str
     """
+    if not (search_public or search_private):
+        raise TldImproperlyConfigured(
+            "Either `search_public` or `search_private` (or both) shall be "
+            "set to True."
+        )
+
     url = url.lower()
 
     if fix_protocol:

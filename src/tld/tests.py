@@ -64,7 +64,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www',
                 'domain': 'google',
                 'suffix': 'co.uk',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'http://www.v2.google.co.uk',
@@ -72,7 +72,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www.v2',
                 'domain': 'google',
                 'suffix': 'co.uk',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             # No longer valid
             # {
@@ -88,7 +88,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': u'хром',
                 'domain': u'гугл',
                 'suffix': u'рф',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'http://www.google.co.uk:8001/lorem-ipsum/',
@@ -96,7 +96,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www',
                 'domain': 'google',
                 'suffix': 'co.uk',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'http://www.me.cloudfront.net',
@@ -104,7 +104,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www',
                 'domain': 'me',
                 'suffix': 'cloudfront.net',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'http://www.v2.forum.tech.google.co.uk:8001/'
@@ -113,7 +113,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'www.v2.forum.tech',
                 'domain': 'google',
                 'suffix': 'co.uk',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'https://pantheon.io/',
@@ -121,7 +121,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': '',
                 'domain': 'pantheon',
                 'suffix': 'io',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'v2.www.google.com',
@@ -129,7 +129,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'v2.www',
                 'domain': 'google',
                 'suffix': 'com',
-                'kwargs': {'fail_silently': True, 'fix_protocol': True}
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
             },
             {
                 'url': '//v2.www.google.com',
@@ -137,7 +137,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': 'v2.www',
                 'domain': 'google',
                 'suffix': 'com',
-                'kwargs': {'fail_silently': True, 'fix_protocol': True}
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
             },
             {
                 'url': 'http://foo@bar.com',
@@ -145,6 +145,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': '',
                 'domain': 'bar',
                 'suffix': 'com',
+                'kwargs': {'fail_silently': True},
             },
             {
                 'url': 'https://faguoren.xn--fiqs8s',
@@ -152,7 +153,7 @@ class TldTest(unittest.TestCase):
                 'subdomain': '',
                 'domain': 'faguoren',
                 'suffix': 'xn--fiqs8s',
-                'kwargs': {'fail_silently': True}
+                'kwargs': {'fail_silently': True},
             }
         ]
 
@@ -271,6 +272,7 @@ class TldTest(unittest.TestCase):
         )
 
         self.assertEqual(res, None)
+
 
 if __name__ == '__main__':
     unittest.main()
