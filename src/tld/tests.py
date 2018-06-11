@@ -140,6 +140,13 @@ class TldTest(unittest.TestCase):
                 'kwargs': {'fail_silently': True, 'fix_protocol': True}
             },
             {
+                'url': 'http://foo@bar.com',
+                'tld': 'bar.com',
+                'subdomain': '',
+                'domain': 'bar',
+                'suffix': 'com',
+            },
+            {
                 'url': 'https://faguoren.xn--fiqs8s',
                 'tld': 'faguoren.xn--fiqs8s',
                 'subdomain': '',
