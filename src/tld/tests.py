@@ -138,6 +138,14 @@ class TldTest(unittest.TestCase):
                 'domain': 'google',
                 'suffix': 'com',
                 'kwargs': {'fail_silently': True, 'fix_protocol': True}
+            },
+            {
+                'url': 'http://foo@bar.com',
+                'tld': 'bar.com',
+                'subdomain': '',
+                'domain': 'bar',
+                'suffix': 'com',
+                'kwargs': {'fail_silently': True}
             }
         ]
 
