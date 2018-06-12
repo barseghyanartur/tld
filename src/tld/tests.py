@@ -162,7 +162,47 @@ class TldTest(unittest.TestCase):
                 'domain': 'faguoren',
                 'suffix': 'xn--fiqs8s',
                 'kwargs': {'fail_silently': True},
-            }
+            },
+            {
+                'url': 'blogs.lemonde.paris',
+                'tld': 'lemonde.paris',
+                'subdomain': 'blogs',
+                'domain': 'lemonde',
+                'suffix': 'paris',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
+            },
+            {
+                'url': 'axel.brighton.ac.uk',
+                'tld': 'brighton.ac.uk',
+                'subdomain': 'axel',
+                'domain': 'brighton',
+                'suffix': 'ac.uk',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
+            },
+            {
+                'url': 'm.fr.blogspot.com.au',
+                'tld': 'fr.blogspot.com.au',
+                'subdomain': 'm',
+                'domain': 'fr',
+                'suffix': 'blogspot.com.au',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
+            },
+            {
+                'url': u'help.www.福岡.jp',
+                'tld': u'www.福岡.jp',
+                'subdomain': 'help',
+                'domain': 'www',
+                'suffix': u'福岡.jp',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
+            },
+            {
+                'url': u'syria.arabic.variant.سوريا',
+                'tld': u'variant.سوريا',
+                'subdomain': 'syria.arabic',
+                'domain': 'variant',
+                'suffix': u'سوريا',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True},
+            },
         ]
 
         self.bad_patterns = [
