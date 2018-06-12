@@ -27,6 +27,7 @@ are used for versioning (schema follows below):
 - Due to usage of `urlsplit` instead of `urlparse`, the initial list of TLDs
   is assembled quicker (a speed-up of 15-20%).
 - Docs/ directory is included in source distribution tarball.
+- More tests.
 
 0.7.10
 ------
