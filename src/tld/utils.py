@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import codecs
 
 from six import PY3, text_type
-from six.moves.urllib.parse import urlparse
+from six.moves.urllib.parse import urlsplit
 from six.moves.urllib.request import urlopen
 
 from .conf import get_setting
@@ -266,7 +266,7 @@ def get_tld(url,
     tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 
     # Get (sub) domain name
-    domain_name = urlparse(url).netloc
+    domain_name = urlsplit(url).netloc
 
     # Handling auth
     if '@' in domain_name:
