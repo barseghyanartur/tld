@@ -7,6 +7,12 @@ import unittest
 
 from . import defaults
 from .conf import get_setting, set_setting
+from .exceptions import (
+    TldBadUrl,
+    TldDomainNotFound,
+    TldImproperlyConfigured,
+    TldIOError,
+)
 from .helpers import project_dir
 from .utils import get_tld, update_tld_names
 
@@ -205,15 +211,33 @@ class TldTest(unittest.TestCase):
             },
         ]
 
-        self.bad_patterns = [
-            'v2.www.google.com',
-            '/index.php?a=1&b=2',
-            'http://www.tld.doesnotexist',
-            'https://2001:0db8:0000:85a3:0000:0000:ac1f:8001',
-            'http://192.169.1.1',
-            'http://localhost:8080',
-            'https://localhost'
-        ]
+        self.bad_patterns = {
+            'v2.www.google.com': {
+                'exception': TldBadUrl,
+            },
+            '/index.php?a=1&b=2': {
+                'exception': TldBadUrl,
+            },
+            'http://www.tld.doesnotexist': {
+                'exception': TldDomainNotFound,
+            },
+            'https://2001:0db8:0000:85a3:0000:0000:ac1f:8001': {
+                'exception': TldDomainNotFound,
+            },
+            'http://192.169.1.1': {
+                'exception': TldDomainNotFound,
+            },
+            'http://localhost:8080': {
+                'exception': TldDomainNotFound,
+            },
+            'https://localhost': {
+                'exception': TldDomainNotFound,
+            },
+            'https://localhost2': {
+                'exception': TldImproperlyConfigured,
+                'kwargs': {'search_public': False, 'search_private': False,}
+            },
+        }
 
     @log_info
     def test_0_tld_names_loaded(self):
@@ -245,7 +269,7 @@ class TldTest(unittest.TestCase):
     def test_3_bad_patterns_pass(self):
         """Test bad URL patterns."""
         res = []
-        for url in self.bad_patterns:
+        for url, params in self.bad_patterns.items():
             _res = get_tld(url, fail_silently=True)
             self.assertEqual(_res, None)
             res.append(_res)
@@ -324,6 +348,18 @@ class TldTest(unittest.TestCase):
         )
 
         self.assertEqual(res, None)
+
+    @log_info
+    def test_8_bad_patterns_exceptions(self):
+        """Test exceptions."""
+        res = []
+        for url, params in self.bad_patterns.items():
+            kwargs = params['kwargs'] if 'kwargs' in params else {}
+            kwargs.update({'fail_silently': False})
+            with self.assertRaises(params['exception']):
+                _res = get_tld(url, **kwargs)
+                res.append(_res)
+        return res
 
 
 if __name__ == '__main__':
