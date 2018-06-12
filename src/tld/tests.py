@@ -208,7 +208,11 @@ class TldTest(unittest.TestCase):
         self.bad_patterns = [
             'v2.www.google.com',
             '/index.php?a=1&b=2',
-            'http://www.tld.doesnotexist'
+            'http://www.tld.doesnotexist',
+            'https://2001:0db8:0000:85a3:0000:0000:ac1f:8001',
+            'http://192.169.1.1',
+            'http://localhost:8080',
+            'https://localhost'
         ]
 
     @log_info
