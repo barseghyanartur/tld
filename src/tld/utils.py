@@ -20,9 +20,10 @@ __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
-    'get_tld',
     'get_fld',
+    'get_tld',
     'get_tld_names',
+    'process_url',
     'Result',
     'update_tld_names',
 )
@@ -217,48 +218,22 @@ def get_tld_names(fail_silently=False, retry_count=0):
     return tld_names
 
 
-def get_fld(url,
-            active_only=False,
-            fail_silently=False,
-            fix_protocol=False,
-            search_public=True,
-            search_private=True,
-            **kwargs):
-    """Extract the first level domain.
+def process_url(url,
+                active_only=False,
+                fail_silently=False,
+                fix_protocol=False,
+                search_public=True,
+                search_private=True):
+    """Process URL.
 
-    Extract the top level domain based on the mozilla's effective TLD names
-    dat file. Returns a string. May throw ``TldBadUrl`` or
-    ``TldDomainNotFound`` exceptions if there's bad URL provided or no TLD
-    match found respectively.
-
-    :param url: URL to get top level domain from.
-    :param active_only: If set to True, only active patterns are matched.
-    :param fail_silently: If set to True, no exceptions are raised and None
-        is returned on failure.
-    :param as_object: If set to True, ``tld.utils.Result`` object is returned,
-        ``domain``, ``suffix`` and ``tld`` properties.
-    :param fix_protocol: If set to True, missing or wrong protocol is
-        ignored (https is appended instead).
-    :param search_public: If set to True, search in public domains.
-    :param search_private: If set to True, search in private domains.
-    :type url: str
-    :type active_only: bool
-    :type fail_silently: bool
-    :type as_object: bool
-    :type fix_protocol: bool
-    :type search_public: bool
-    :type search_private: bool
-    :return: String with top level domain (if ``as_object`` argument
-        is set to False) or a ``tld.utils.Result`` object (if ``as_object``
-        argument is set to True); returns None on failure.
-    :rtype: str
+    :param url:
+    :param active_only:
+    :param fail_silently:
+    :param fix_protocol:
+    :param search_public:
+    :param search_private:
+    :return:
     """
-    if 'as_object' in kwargs:
-        raise TldImproperlyConfigured(
-            "`as_object` argument is deprecated for `get_fld`. Use `get_tld` "
-            "instead."
-        )
-
     if not (search_public or search_private):
         raise TldImproperlyConfigured(
             "Either `search_public` or `search_private` (or both) shall be "
@@ -288,7 +263,7 @@ def get_fld(url,
 
     if not domain_name:
         if fail_silently:
-            return None
+            return None, None
         else:
             raise TldBadUrl(url=url)
 
@@ -329,11 +304,65 @@ def get_fld(url,
         (not search_private and node.private)
     ):
         if fail_silently:
-            return None
+            return None, None
         else:
             raise TldDomainNotFound(domain_name=domain_name)
 
     non_zero_i = max(1, len(domain_parts) - tld_length)
+
+    return domain_parts, non_zero_i
+
+
+def get_fld(url,
+            active_only=False,
+            fail_silently=False,
+            fix_protocol=False,
+            search_public=True,
+            search_private=True,
+            **kwargs):
+    """Extract the first level domain.
+
+    Extract the top level domain based on the mozilla's effective TLD names
+    dat file. Returns a string. May throw ``TldBadUrl`` or
+    ``TldDomainNotFound`` exceptions if there's bad URL provided or no TLD
+    match found respectively.
+
+    :param url: URL to get top level domain from.
+    :param active_only: If set to True, only active patterns are matched.
+    :param fail_silently: If set to True, no exceptions are raised and None
+        is returned on failure.
+    :param fix_protocol: If set to True, missing or wrong protocol is
+        ignored (https is appended instead).
+    :param search_public: If set to True, search in public domains.
+    :param search_private: If set to True, search in private domains.
+    :type url: str
+    :type active_only: bool
+    :type fail_silently: bool
+    :type fix_protocol: bool
+    :type search_public: bool
+    :type search_private: bool
+    :return: String with top level domain (if ``as_object`` argument
+        is set to False) or a ``tld.utils.Result`` object (if ``as_object``
+        argument is set to True); returns None on failure.
+    :rtype: str
+    """
+    if 'as_object' in kwargs:
+        raise TldImproperlyConfigured(
+            "`as_object` argument is deprecated for `get_fld`. Use `get_tld` "
+            "instead."
+        )
+
+    domain_parts, non_zero_i = process_url(
+        url=url,
+        active_only=active_only,
+        fail_silently=fail_silently,
+        fix_protocol=fix_protocol,
+        search_public=search_public,
+        search_private=search_private
+    )
+
+    if domain_parts is None:
+        return None
 
     return text_type(".").join(domain_parts[non_zero_i-1:])
 
@@ -374,81 +403,17 @@ def get_tld(url,
         argument is set to True); returns None on failure.
     :rtype: str
     """
-    if not (search_public or search_private):
-        raise TldImproperlyConfigured(
-            "Either `search_public` or `search_private` (or both) shall be "
-            "set to True."
-        )
+    domain_parts, non_zero_i = process_url(
+        url=url,
+        active_only=active_only,
+        fail_silently=fail_silently,
+        fix_protocol=fix_protocol,
+        search_public=search_public,
+        search_private=search_private
+    )
 
-    url = url.lower()
-
-    if fix_protocol:
-        if (
-            not url.startswith('//')
-            and not (url.startswith('http://') or url.startswith('https://'))
-        ):
-            url = 'https://{}'.format(url)
-
-    tld_names = get_tld_names(fail_silently=fail_silently)  # Init
-
-    # Get (sub) domain name
-    domain_name = urlsplit(url).netloc
-
-    # Handling auth
-    if '@' in domain_name:
-        domain_name = domain_name.split('@', 1)[-1]
-
-    # Handling port
-    domain_name = domain_name.split(':', 1)[0]
-
-    if not domain_name:
-        if fail_silently:
-            return None
-        else:
-            raise TldBadUrl(url=url)
-
-    domain_parts = domain_name.split('.')
-
-    # Now we query our Trie iterating on the domain parts in reverse order
-    node = tld_names.root
-    tld_length = 0
-    for i in reversed(range(len(domain_parts))):
-        part = domain_parts[i]
-
-        # Cannot go deeper
-        if node.children is None:
-            break
-
-        child = node.children.get(part)
-
-        # Wildcards
-        if child is None:
-            child = node.children.get('*')
-
-        # Inactive
-        if active_only is False and child is None:
-            child = node.children.get('!{0}'.format(part))
-
-        # If the current part is not in current node's children, we can stop
-        if child is None:
-            break
-
-        # Else we move deeper and increment our tld offset
-        tld_length += 1
-        node = child
-
-    # Checking the node we finished on is a leaf and is one we allow
-    if (
-        (not node.leaf) or
-        (not search_public and not node.private) or
-        (not search_private and node.private)
-    ):
-        if fail_silently:
-            return None
-        else:
-            raise TldDomainNotFound(domain_name=domain_name)
-
-    non_zero_i = max(1, len(domain_parts) - tld_length)
+    if domain_parts is None:
+        return None
 
     if not as_object:
         return text_type(".").join(domain_parts[non_zero_i:])
