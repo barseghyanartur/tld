@@ -15,10 +15,18 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
-unreleased
-----------
+0.8
+---
+2018-mm-dd (not yet released).
 
-- docs/ directory is included in source distribution tarball
+- Move to a Trie to match TLDs. This brings a speed up of 15-20%.
+- It's now possible to search in public, private or all suffixes (old
+  behaviour). Use `search_public` and `search_private` arguments accordingly.
+  By default (to support old behavior), both are set to True.
+- Domains like `*****.xn--fiqs8s` are now recognized as well.
+- Due to usage of `urlsplit` instead of `urlparse`, the initial list of TLDs
+  is assembled quicker (a speed-up of 15-20%).
+- Docs/ directory is included in source distribution tarball.
 
 0.7.10
 ------

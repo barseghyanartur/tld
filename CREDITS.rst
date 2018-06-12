@@ -6,7 +6,10 @@ Authors
 
 Contributors
 ------------
-- malthe: Reported and proposed a fix for an issue with URLs with a port not
+- `Guillaume Plique
+  <https://github.com/barseghyanartur/tld/commits?author=Yomguithereal>`_ for
+  Tries, optimisations, separating of public and private suffixes.
+- `malthe`: Reported and proposed a fix for an issue with URLs with a port not
   handled correctly. Reported and proposed a fix for speeding up the search
   in tld names by replacing the list with set.
 - `Todd Wolfson
