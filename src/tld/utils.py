@@ -21,6 +21,7 @@ __copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
     'get_tld',
+    'get_fld',
     'get_tld_names',
     'Result',
     'update_tld_names',
@@ -32,35 +33,39 @@ tld_names = None
 class Result(object):
     """Container."""
 
-    __slots__ = ('subdomain', 'domain', 'suffix', '__tld')
+    __slots__ = ('subdomain', 'domain', 'tld', '__fld')
 
-    def __init__(self, subdomain, domain, suffix):
+    def __init__(self, tld, domain, subdomain):
         self.subdomain = subdomain
         self.domain = domain
-        self.suffix = suffix
-        self.__tld = "{0}.{1}".format(self.domain, self.suffix)
-
-    @property
-    def tld(self):
-        """TLD."""
-        return self.__tld
+        self.tld = tld
+        self.__fld = "{0}.{1}".format(self.domain, self.tld)
 
     @property
     def extension(self):
-        """Alias of ``suffix``.
+        """Alias of ``tld``.
 
         :return str:
         """
-        return self.suffix
+        return self.tld
+    suffix = extension
+
+    @property
+    def fld(self):
+        """First level domain.
+
+        :return:
+        """
+        return self.__fld
 
     def __unicode__(self):
         if PY3:
-            return self.__tld
+            return self.tld
         else:
             try:
-                return self.__tld.encode('utf8')
+                return self.tld.encode('utf8')
             except UnicodeEncodeError:
-                return self.__tld
+                return self.tld
     __repr__ = __unicode__
     __str__ = __unicode__
 
@@ -212,6 +217,127 @@ def get_tld_names(fail_silently=False, retry_count=0):
     return tld_names
 
 
+def get_fld(url,
+            active_only=False,
+            fail_silently=False,
+            fix_protocol=False,
+            search_public=True,
+            search_private=True,
+            **kwargs):
+    """Extract the first level domain.
+
+    Extract the top level domain based on the mozilla's effective TLD names
+    dat file. Returns a string. May throw ``TldBadUrl`` or
+    ``TldDomainNotFound`` exceptions if there's bad URL provided or no TLD
+    match found respectively.
+
+    :param url: URL to get top level domain from.
+    :param active_only: If set to True, only active patterns are matched.
+    :param fail_silently: If set to True, no exceptions are raised and None
+        is returned on failure.
+    :param as_object: If set to True, ``tld.utils.Result`` object is returned,
+        ``domain``, ``suffix`` and ``tld`` properties.
+    :param fix_protocol: If set to True, missing or wrong protocol is
+        ignored (https is appended instead).
+    :param search_public: If set to True, search in public domains.
+    :param search_private: If set to True, search in private domains.
+    :type url: str
+    :type active_only: bool
+    :type fail_silently: bool
+    :type as_object: bool
+    :type fix_protocol: bool
+    :type search_public: bool
+    :type search_private: bool
+    :return: String with top level domain (if ``as_object`` argument
+        is set to False) or a ``tld.utils.Result`` object (if ``as_object``
+        argument is set to True); returns None on failure.
+    :rtype: str
+    """
+    if 'as_object' in kwargs:
+        raise TldImproperlyConfigured(
+            "`as_object` argument is deprecated for `get_fld`. Use `get_tld` "
+            "instead."
+        )
+
+    if not (search_public or search_private):
+        raise TldImproperlyConfigured(
+            "Either `search_public` or `search_private` (or both) shall be "
+            "set to True."
+        )
+
+    url = url.lower()
+
+    if fix_protocol:
+        if (
+            not url.startswith('//')
+            and not (url.startswith('http://') or url.startswith('https://'))
+        ):
+            url = 'https://{}'.format(url)
+
+    tld_names = get_tld_names(fail_silently=fail_silently)  # Init
+
+    # Get (sub) domain name
+    domain_name = urlsplit(url).netloc
+
+    # Handling auth
+    if '@' in domain_name:
+        domain_name = domain_name.split('@', 1)[-1]
+
+    # Handling port
+    domain_name = domain_name.split(':', 1)[0]
+
+    if not domain_name:
+        if fail_silently:
+            return None
+        else:
+            raise TldBadUrl(url=url)
+
+    domain_parts = domain_name.split('.')
+
+    # Now we query our Trie iterating on the domain parts in reverse order
+    node = tld_names.root
+    tld_length = 0
+    for i in reversed(range(len(domain_parts))):
+        part = domain_parts[i]
+
+        # Cannot go deeper
+        if node.children is None:
+            break
+
+        child = node.children.get(part)
+
+        # Wildcards
+        if child is None:
+            child = node.children.get('*')
+
+        # Inactive
+        if active_only is False and child is None:
+            child = node.children.get('!{0}'.format(part))
+
+        # If the current part is not in current node's children, we can stop
+        if child is None:
+            break
+
+        # Else we move deeper and increment our tld offset
+        tld_length += 1
+        node = child
+
+    # Checking the node we finished on is a leaf and is one we allow
+    if (
+        (not node.leaf) or
+        (not search_public and not node.private) or
+        (not search_private and node.private)
+    ):
+        if fail_silently:
+            return None
+        else:
+            raise TldDomainNotFound(domain_name=domain_name)
+
+    non_zero_i = max(1, len(domain_parts) - tld_length)
+
+    return text_type(".").join(domain_parts[non_zero_i-1:])
+
+
 def get_tld(url,
             active_only=False,
             fail_silently=False,
@@ -325,12 +451,16 @@ def get_tld(url,
     non_zero_i = max(1, len(domain_parts) - tld_length)
 
     if not as_object:
-        return text_type(".").join(domain_parts[non_zero_i-1:])
+        return text_type(".").join(domain_parts[non_zero_i:])
 
     subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
     domain = text_type(".").join(
         domain_parts[non_zero_i-1:non_zero_i]
     )
-    suffix = text_type(".").join(domain_parts[non_zero_i:])
+    _tld = text_type(".").join(domain_parts[non_zero_i:])
 
-    return Result(subdomain, domain, suffix)
+    return Result(
+        subdomain=subdomain,
+        domain=domain,
+        tld=_tld
+    )
