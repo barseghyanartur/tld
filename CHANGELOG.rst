@@ -53,6 +53,8 @@ are used for versioning (schema follows below):
 
     **Old behaviour**
 
+    .. code-block:: text
+
         In: res.fld
         Out: 'google.co.uk'
 
@@ -64,7 +66,6 @@ are used for versioning (schema follows below):
 
         In: res.subdomain
         Out: 'www'
-
 
     When used without ``as_object`` it returns ``co.uk``.
 
