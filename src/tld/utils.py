@@ -266,7 +266,14 @@ def get_tld(url,
     tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 
     # Get (sub) domain name
-    domain_name = urlparse(url).netloc.split(":", 1)[0].split('@', 1)[-1]
+    domain_name = urlparse(url).netloc
+
+    # Handling auth
+    if '@' in domain_name:
+        domain_name = domain_name.split('@', 1)[-1]
+
+    # Handling port
+    domain_name = domain_name.split(':', 1)[0]
 
     if not domain_name:
         if fail_silently:
