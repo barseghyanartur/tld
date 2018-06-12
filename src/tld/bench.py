@@ -1,6 +1,6 @@
 from timeit import default_timer as timer
 from faker import Faker
-from . import get_tld
+from tld import get_tld
 
 
 fake = Faker()
