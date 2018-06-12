@@ -46,12 +46,18 @@ Get the TLD name **as string** from the URL given:
 
 .. code-block:: python
 
-    from tld import get_tld
+    from tld import get_tld, get_fld
 
     get_tld("http://www.google.co.uk")
+    # 'co.uk'
+
+    get_fld("http://www.google.co.uk")
     # 'google.co.uk'
 
     get_tld("http://www.google.idontexist", fail_silently=True)
+    # None
+
+    get_fld("http://www.google.idontexist", fail_silently=True)
     # None
 
 If you wish, you could get the TLD as **an object**:
@@ -63,7 +69,7 @@ If you wish, you could get the TLD as **an object**:
     res = get_tld("http://some.subdomain.google.co.uk", as_object=True)
 
     res
-    # 'google.co.uk'
+    # 'co.uk'
 
     res.subdomain
     # 'some.subdomain'
@@ -71,19 +77,22 @@ If you wish, you could get the TLD as **an object**:
     res.domain
     # 'google'
 
-    res.suffix
+    res.tld
     # 'co.uk'
 
-    res.tld
+    res.fld
     # 'google.co.uk'
 
 Get TLD name, **ignoring the missing protocol**:
 
 .. code-block:: python
 
-    from tld import get_tld
+    from tld import get_tld, get_fld
 
     get_tld("www.google.co.uk", fix_protocol=True)
+    # 'co.uk'
+
+    get_fld("www.google.co.uk", fix_protocol=True)
     # 'google.co.uk'
 
 Update the list of TLD names
