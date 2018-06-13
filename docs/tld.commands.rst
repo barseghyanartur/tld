@@ -4,8 +4,8 @@ tld.commands package
 Submodules
 ----------
 
-tld.commands.update_tld_names module
-------------------------------------
+tld.commands.update\_tld\_names module
+--------------------------------------
 
 .. automodule:: tld.commands.update_tld_names
     :members:

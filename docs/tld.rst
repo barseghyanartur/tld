@@ -7,9 +7,26 @@ Subpackages
 .. toctree::
 
     tld.commands
+    tld.sources
 
 Submodules
 ----------
+
+tld.base module
+---------------
+
+.. automodule:: tld.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tld.bench module
+----------------
+
+.. automodule:: tld.bench
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 tld.conf module
 ---------------
@@ -43,10 +60,10 @@ tld.helpers module
     :undoc-members:
     :show-inheritance:
 
-tld.test module
----------------
+tld.tests module
+----------------
 
-.. automodule:: tld.test
+.. automodule:: tld.tests
     :members:
     :undoc-members:
     :show-inheritance:
