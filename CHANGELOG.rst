@@ -32,7 +32,7 @@ are used for versioning (schema follows below):
 
         res = get_tld("http://www.google.co.uk", as_object=True)
 
-    **New behaviour**
+    **Old behaviour**
 
     .. code-block:: text
 
@@ -51,7 +51,7 @@ are used for versioning (schema follows below):
         In: res.tld
         Out: 'google.co.uk'
 
-    **Old behaviour**
+    **New behaviour**
 
     .. code-block:: text
 
