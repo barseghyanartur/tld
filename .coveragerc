@@ -1,5 +1,6 @@
 [run]
 omit =
-    src/tld/test.py
+    src/tld/bench.py
+    src/tld/tests.py
     src/tld/base.py
     src/tld/sources/*

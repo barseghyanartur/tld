@@ -38,8 +38,8 @@ class Settings(object):
             return self._settings.get(name, default)
         elif hasattr(defaults, name):
             return getattr(defaults, name, default)
-        else:
-            return default
+
+        return default
 
 
 settings = Settings()

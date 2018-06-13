@@ -15,6 +15,87 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.8
+---
+2018-mm-dd (not yet released).
+
+.. note::
+
+    This release contains backward incompatible changes. You should update
+    your code.
+
+    Old `get_tld` functionality remain is moved to `get_fld` (first-level
+    domain definition). The `as_object` argument (False by default) has been
+    deprecated for `get_fld`.
+
+    .. code-block:: python
+
+        res = get_tld("http://www.google.co.uk", as_object=True)
+
+    **New behaviour**
+
+    .. code-block:: text
+
+        In: res.domain
+        Out: 'google'
+
+        In: res.extension
+        Out: 'co.uk'
+
+        In: res.subdomain
+        Out: 'www'
+
+        In: res.suffix
+        Out: 'co.uk'
+
+        In: res.tld
+        Out: 'google.co.uk'
+
+    **Old behaviour**
+
+    .. code-block:: text
+
+        In: res.fld
+        Out: 'google.co.uk'
+
+        In: res.tld
+        Out: 'co.uk'
+
+        In: res.domain
+        Out: 'google'
+
+        In: res.subdomain
+        Out: 'www'
+
+    When used without ``as_object`` it returns ``co.uk``.
+
+    **Recap**
+
+    If you have been happily using old version of `get_tld` function without
+    `as_object` argument set to True, you might want to replace `get_tld`
+    import with `get_fld` import:
+
+    .. code-block:: python
+
+        # Old
+        from tld import get_tld
+        get_tld('http://google.co.uk')
+
+        # New
+        from tld import get_fld
+        get_fld('http://google.co.uk')
+
+- Move to a Trie to match TLDs. This brings a speed up of 15-20%.
+- It's now possible to search in public, private or all suffixes (old
+  behaviour). Use `search_public` and `search_private` arguments accordingly.
+  By default (to support old behavior), both are set to True.
+- Correct TLD definitions.
+- Domains like `*****.xn--fiqs8s` are now recognized as well.
+- Due to usage of `urlsplit` instead of `urlparse`, the initial list of TLDs
+  is assembled quicker (a speed-up of 15-20%).
+- Docs/ directory is included in source distribution tarball.
+- More tests.
+
 0.7.10
 ------
 2018-04-07
@@ -29,6 +110,7 @@ are used for versioning (schema follows below):
 2017-05-02
 
 - Added base path override for local .dat file.
+- `python setup.py test` can used to execute the tests
 
 0.7.8
 -----
