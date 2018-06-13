@@ -226,6 +226,24 @@ class TldTest(unittest.TestCase):
                 'tld': u'سوريا',
                 'kwargs': {'fail_silently': True, 'fix_protocol': True},
             },
+            {
+                'url': u'http://www.help.kawasaki.jp',
+                'fld': u'www.help.kawasaki.jp',
+                'subdomain': '',
+                'domain': 'www',
+                'suffix': u'help.kawasaki.jp',
+                'tld': u'help.kawasaki.jp',
+                'kwargs': {'fail_silently': True},
+            },
+            {
+                'url': u'http://www.city.kawasaki.jp',
+                'fld': u'city.kawasaki.jp',
+                'subdomain': 'www',
+                'domain': 'city',
+                'suffix': u'kawasaki.jp',
+                'tld': u'kawasaki.jp',
+                'kwargs': {'fail_silently': True},
+            },
         ]
 
         self.bad_patterns = {

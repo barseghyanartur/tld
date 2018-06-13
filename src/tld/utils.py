@@ -74,10 +74,11 @@ class Result(object):
 class TrieNode(object):
     """Class representing a single Trie node."""
 
-    __slots__ = ('children', 'leaf', 'private')
+    __slots__ = ('children', 'exception', 'leaf', 'private')
 
     def __init__(self):
         self.children = None
+        self.exception = None
         self.leaf = False
         self.private = False
 
@@ -97,6 +98,10 @@ class Trie(object):
 
         # Iterating over the tld parts in reverse order
         for part in reversed(tld.split('.')):
+
+            if part.startswith('!'):
+                node.exception = part[1:]
+                break
 
             # To save up some RAM, we initialize the children dict only
             # when strictly necessary
@@ -279,15 +284,15 @@ def process_url(url,
         if node.children is None:
             break
 
+        # Exception
+        if part == node.exception:
+            break
+
         child = node.children.get(part)
 
         # Wildcards
         if child is None:
             child = node.children.get('*')
-
-        # Inactive
-        if active_only is False and child is None:
-            child = node.children.get('!{0}'.format(part))
 
         # If the current part is not in current node's children, we can stop
         if child is None:
