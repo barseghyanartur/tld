@@ -26,6 +26,7 @@ __all__ = (
     'process_url',
     'Result',
     'update_tld_names',
+    'parse_tld',
 )
 
 tld_names = None
@@ -34,12 +35,13 @@ tld_names = None
 class Result(object):
     """Container."""
 
-    __slots__ = ('subdomain', 'domain', 'tld', '__fld')
+    __slots__ = ('subdomain', 'domain', 'tld', '__fld', 'parsed_url')
 
-    def __init__(self, tld, domain, subdomain):
-        self.subdomain = subdomain
-        self.domain = domain
+    def __init__(self, tld, domain, subdomain, parsed_url):
         self.tld = tld
+        self.domain = domain
+        self.subdomain = subdomain
+        self.parsed_url = parsed_url
         self.__fld = "{0}.{1}".format(self.domain, self.tld)
 
     @property
@@ -56,6 +58,7 @@ class Result(object):
         """First level domain.
 
         :return:
+        :rtype: str
         """
         return self.__fld
 
@@ -69,6 +72,21 @@ class Result(object):
                 return self.tld
     __repr__ = __unicode__
     __str__ = __unicode__
+
+    @property
+    def __dict__(self):
+        """Mimic __dict__ functionality.
+
+        :return:
+        :rtype: dict
+        """
+        return {
+            'tld': self.tld,
+            'domain': self.domain,
+            'subdomain': self.subdomain,
+            'fld': self.fld,
+            'parsed_url': self.parsed_url,
+        }
 
 
 class TrieNode(object):
@@ -254,8 +272,10 @@ def process_url(url,
 
     tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 
+    # Get parsed URL as we might need it later
+    parsed_url = urlsplit(url)
     # Get (sub) domain name
-    domain_name = urlsplit(url).netloc
+    domain_name = parsed_url.netloc
 
     # Handling auth
     if '@' in domain_name:
@@ -266,7 +286,7 @@ def process_url(url,
 
     if not domain_name:
         if fail_silently:
-            return None, None
+            return None, None, parsed_url
         else:
             raise TldBadUrl(url=url)
 
@@ -307,13 +327,13 @@ def process_url(url,
         (not search_private and node.private)
     ):
         if fail_silently:
-            return None, None
+            return None, None, parsed_url
         else:
             raise TldDomainNotFound(domain_name=domain_name)
 
     non_zero_i = max(1, len(domain_parts) - tld_length)
 
-    return domain_parts, non_zero_i
+    return domain_parts, non_zero_i, parsed_url
 
 
 def get_fld(url,
@@ -352,7 +372,7 @@ def get_fld(url,
             "instead."
         )
 
-    domain_parts, non_zero_i = process_url(
+    domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
         fail_silently=fail_silently,
         fix_protocol=fix_protocol,
@@ -399,7 +419,7 @@ def get_tld(url,
         argument is set to True); returns None on failure.
     :rtype: str
     """
-    domain_parts, non_zero_i = process_url(
+    domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
         fail_silently=fail_silently,
         fix_protocol=fix_protocol,
@@ -422,5 +442,47 @@ def get_tld(url,
     return Result(
         subdomain=subdomain,
         domain=domain,
-        tld=_tld
+        tld=_tld,
+        parsed_url=parsed_url
     )
+
+
+def parse_tld(url,
+              fail_silently=False,
+              fix_protocol=False,
+              search_public=True,
+              search_private=True):
+    """Parse TLD into parts.
+
+    :param url:
+    :param fail_silently:
+    :param fix_protocol:
+    :param search_public:
+    :param search_private:
+    :return:
+    :rtype: tuple
+    """
+    try:
+        obj = get_tld(
+            url,
+            fail_silently=fail_silently,
+            as_object=True,
+            fix_protocol=fix_protocol,
+            search_public=search_public,
+            search_private=search_private
+        )
+        _tld = obj.tld
+        domain = obj.domain
+        subdomain = obj.subdomain
+
+    except (
+        TldBadUrl,
+        TldDomainNotFound,
+        TldImproperlyConfigured,
+        TldIOError
+    ):
+        _tld = None
+        domain = None
+        subdomain = None
+
+    return _tld, domain, subdomain

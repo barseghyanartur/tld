@@ -15,6 +15,24 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9
+---
+2018-06-14
+
+.. note::
+
+    This release contains backward incompatible changes. You should update
+    your code.
+
+    The ``active_only`` option has been removed from ``get_tld``, ``get_fld``
+    and ``parse_url`` functions. Update your code accordingly.
+
+- Removed ``active_only`` option from ``get_tld``, ``get_fld``
+  and ``parse_url`` functions.
+- Correctly handling exceptions (!) in the original TLD list.
+- Fixes in documentation.
+- Added ``parse_tld`` function.
+
 0.8
 ---
 2018-06-13

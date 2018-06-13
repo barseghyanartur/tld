@@ -14,7 +14,12 @@ from .exceptions import (
     TldIOError,
 )
 from .helpers import project_dir
-from .utils import get_fld, get_tld, update_tld_names
+from .utils import (
+    get_fld,
+    get_tld,
+    parse_tld,
+    update_tld_names,
+)
 
 __title__ = 'tld.tests'
 __author__ = 'Artur Barseghyan'
@@ -414,6 +419,19 @@ class TldTest(unittest.TestCase):
         for url, params in self.bad_patterns.items():
             _res = get_tld(url, fail_silently=True)
             self.assertEqual(_res, None)
+            res.append(_res)
+        return res
+
+    @log_info
+    def test_11_parse_tld_good_patterns(self):
+        """Test `parse_tld` good URL patterns."""
+        res = []
+        for data in self.good_patterns:
+            _res = parse_tld(data['url'], **data['kwargs'])
+            self.assertEqual(
+                _res,
+                (data['tld'], data['domain'], data['subdomain'])
+            )
             res.append(_res)
         return res
 
