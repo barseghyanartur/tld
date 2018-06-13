@@ -7,9 +7,6 @@ taken from `Mozilla
 
 Optionally raises exceptions on non-existing TLDs or silently fails (if
 ``fail_silently`` argument is set to True).
-Knows about active and inactive TLDs.
-If only active TLDs shall be matched against, ``active_only`` argument
-shall be set to True (default - False).
 
 Prerequisites
 =============

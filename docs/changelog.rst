@@ -15,6 +15,24 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9
+---
+2018-06-14
+
+.. note::
+
+    This release contains backward incompatible changes. You should update
+    your code.
+
+    The ``active_only`` option has been removed from ``get_tld``, ``get_fld``
+    and ``parse_url`` functions. Update your code accordingly.
+
+- Removed ``active_only`` option from ``get_tld``, ``get_fld``
+  and ``parse_url`` functions.
+- Correctly handling exceptions (!) in the original TLD list.
+- Fixes in documentation.
+- Added ``parse_tld`` function.
+
 0.8
 ---
 2018-06-13
@@ -24,15 +42,15 @@ are used for versioning (schema follows below):
     This release contains backward incompatible changes. You should update
     your code.
 
-    Old `get_tld` functionality remain is moved to `get_fld` (first-level
-    domain definition). The `as_object` argument (False by default) has been
-    deprecated for `get_fld`.
+    Old ``get_tld`` functionality is moved to ``get_fld`` (first-level
+    domain definition). The ``as_object`` argument (False by default) has been
+    deprecated for ``get_fld``.
 
     .. code-block:: python
 
         res = get_tld("http://www.google.co.uk", as_object=True)
 
-    **New behaviour**
+    **Old behaviour**
 
     .. code-block:: text
 
@@ -51,7 +69,7 @@ are used for versioning (schema follows below):
         In: res.tld
         Out: 'google.co.uk'
 
-    **Old behaviour**
+    **New behaviour**
 
     .. code-block:: text
 
@@ -71,9 +89,9 @@ are used for versioning (schema follows below):
 
     **Recap**
 
-    If you have been happily using old version of `get_tld` function without
-    `as_object` argument set to True, you might want to replace `get_tld`
-    import with `get_fld` import:
+    If you have been happily using old version of ``get_tld`` function without
+    ``as_object`` argument set to ``True``, you might want to replace ``get_tld``
+    import with ``get_fld`` import:
 
     .. code-block:: python
 
@@ -87,11 +105,11 @@ are used for versioning (schema follows below):
 
 - Move to a Trie to match TLDs. This brings a speed up of 15-20%.
 - It's now possible to search in public, private or all suffixes (old
-  behaviour). Use `search_public` and `search_private` arguments accordingly.
+  behaviour). Use ``search_public`` and ``search_private`` arguments accordingly.
   By default (to support old behavior), both are set to True.
 - Correct TLD definitions.
 - Domains like `*****.xn--fiqs8s` are now recognized as well.
-- Due to usage of `urlsplit` instead of `urlparse`, the initial list of TLDs
+- Due to usage of ``urlsplit`` instead of ``urlparse``, the initial list of TLDs
   is assembled quicker (a speed-up of 15-20%).
 - Docs/ directory is included in source distribution tarball.
 - More tests.
