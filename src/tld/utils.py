@@ -224,7 +224,6 @@ def get_tld_names(fail_silently=False, retry_count=0):
 
 
 def process_url(url,
-                active_only=False,
                 fail_silently=False,
                 fix_protocol=False,
                 search_public=True,
@@ -232,7 +231,6 @@ def process_url(url,
     """Process URL.
 
     :param url:
-    :param active_only:
     :param fail_silently:
     :param fix_protocol:
     :param search_public:
@@ -319,7 +317,6 @@ def process_url(url,
 
 
 def get_fld(url,
-            active_only=False,
             fail_silently=False,
             fix_protocol=False,
             search_public=True,
@@ -333,7 +330,6 @@ def get_fld(url,
     match found respectively.
 
     :param url: URL to get top level domain from.
-    :param active_only: If set to True, only active patterns are matched.
     :param fail_silently: If set to True, no exceptions are raised and None
         is returned on failure.
     :param fix_protocol: If set to True, missing or wrong protocol is
@@ -341,7 +337,6 @@ def get_fld(url,
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
     :type url: str
-    :type active_only: bool
     :type fail_silently: bool
     :type fix_protocol: bool
     :type search_public: bool
@@ -359,7 +354,6 @@ def get_fld(url,
 
     domain_parts, non_zero_i = process_url(
         url=url,
-        active_only=active_only,
         fail_silently=fail_silently,
         fix_protocol=fix_protocol,
         search_public=search_public,
@@ -373,7 +367,6 @@ def get_fld(url,
 
 
 def get_tld(url,
-            active_only=False,
             fail_silently=False,
             as_object=False,
             fix_protocol=False,
@@ -387,7 +380,6 @@ def get_tld(url,
     match found respectively.
 
     :param url: URL to get top level domain from.
-    :param active_only: If set to True, only active patterns are matched.
     :param fail_silently: If set to True, no exceptions are raised and None
         is returned on failure.
     :param as_object: If set to True, ``tld.utils.Result`` object is returned,
@@ -397,7 +389,6 @@ def get_tld(url,
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
     :type url: str
-    :type active_only: bool
     :type fail_silently: bool
     :type as_object: bool
     :type fix_protocol: bool
@@ -410,7 +401,6 @@ def get_tld(url,
     """
     domain_parts, non_zero_i = process_url(
         url=url,
-        active_only=active_only,
         fail_silently=fail_silently,
         fix_protocol=fix_protocol,
         search_public=search_public,
