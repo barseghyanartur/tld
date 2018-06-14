@@ -275,7 +275,7 @@ class TldTest(unittest.TestCase):
             },
             'https://localhost2': {
                 'exception': TldImproperlyConfigured,
-                'kwargs': {'search_public': False, 'search_private': False,}
+                'kwargs': {'search_public': False, 'search_private': False},
             },
         }
 
