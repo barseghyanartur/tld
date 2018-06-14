@@ -39,26 +39,20 @@ Or latest stable version from BitBucket:
 
 Usage examples
 ==============
-Get the TLD name **as string** from the URL given:
-
+Get the TLD name **as string** from the URL given
+-------------------------------------------------
 .. code-block:: python
 
-    from tld import get_tld, get_fld
+    from tld import get_tld
 
     get_tld("http://www.google.co.uk")
     # 'co.uk'
 
-    get_fld("http://www.google.co.uk")
-    # 'google.co.uk'
-
     get_tld("http://www.google.idontexist", fail_silently=True)
     # None
 
-    get_fld("http://www.google.idontexist", fail_silently=True)
-    # None
-
-If you wish, you could get the TLD as **an object**:
-
+Get the TLD as **an object**
+----------------------------
 .. code-block:: python
 
     from tld import get_tld
@@ -80,8 +74,17 @@ If you wish, you could get the TLD as **an object**:
     res.fld
     # 'google.co.uk'
 
-Get TLD name, **ignoring the missing protocol**:
+    res.parsed_url
+    # SplitResult(
+    #     scheme='http',
+    #     netloc='some.subdomain.google.co.uk',
+    #     path='',
+    #     query='',
+    #     fragment=''
+    # )
 
+Get TLD name, **ignoring the missing protocol**
+-----------------------------------------------
 .. code-block:: python
 
     from tld import get_tld, get_fld
@@ -91,6 +94,27 @@ Get TLD name, **ignoring the missing protocol**:
 
     get_fld("www.google.co.uk", fix_protocol=True)
     # 'google.co.uk'
+
+Return TLD parts as tuple
+-------------------------
+.. code-block:: python
+
+    from tld import parse_tld
+
+    parse_tld('http://www.google.com')
+    # 'com', 'google', 'www'
+
+Get the first level domain name **as string** from the URL given
+----------------------------------------------------------------
+.. code-block:: python
+
+    from tld import get_fld
+
+    get_fld("http://www.google.co.uk")
+    # 'google.co.uk'
+
+    get_fld("http://www.google.idontexist", fail_silently=True)
+    # None
 
 Update the list of TLD names
 ============================
