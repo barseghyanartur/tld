@@ -32,6 +32,7 @@ are used for versioning (schema follows below):
 - Correctly handling exceptions (!) in the original TLD list.
 - Fixes in documentation.
 - Added ``parse_tld`` function.
+- Fixes the ``python setup.py test`` command.
 
 0.8
 ---
