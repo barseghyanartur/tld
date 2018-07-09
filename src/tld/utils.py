@@ -294,7 +294,9 @@ def process_url(url,
 
     # Now we query our Trie iterating on the domain parts in reverse order
     node = tld_names.root
+    current_length = 0
     tld_length = 0
+    match = None
     for i in reversed(range(len(domain_parts))):
         part = domain_parts[i]
 
@@ -317,14 +319,19 @@ def process_url(url,
             break
 
         # Else we move deeper and increment our tld offset
-        tld_length += 1
+        current_length += 1
         node = child
+
+        if node.leaf:
+            tld_length = current_length
+            match = node
 
     # Checking the node we finished on is a leaf and is one we allow
     if (
-        (not node.leaf) or
-        (not search_public and not node.private) or
-        (not search_private and node.private)
+        (match is None) or
+        (not match.leaf) or
+        (not search_public and not match.private) or
+        (not search_private and match.private)
     ):
         if fail_silently:
             return None, None, parsed_url
