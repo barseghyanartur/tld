@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.1
+-----
+2018-07-09
+
+- Correctly handling nested TLDs.
+
 0.9
 ---
 2018-06-14
