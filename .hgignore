@@ -10,6 +10,7 @@ syntax: regexp
 \.py,cover
 \.orig
 ^\.idea/
+^\.ipynb_checkpoints/
 ^deb_dist/
 #^debian/
 

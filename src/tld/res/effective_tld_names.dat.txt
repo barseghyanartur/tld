@@ -3692,8 +3692,16 @@ jeonnam.kr
 seoul.kr
 ulsan.kr
 
-// kw : https://en.wikipedia.org/wiki/.kw
-*.kw
+// kw : https://www.nic.kw/policies/
+// Confirmed by registry <nic.tech@citra.gov.kw>
+kw
+com.kw
+edu.kw
+emb.kw
+gov.kw
+ind.kw
+net.kw
+org.kw
 
 // ky : http://www.icta.ky/da_ky_reg_dom.php
 // Confirmed by registry <kysupport@perimeterusa.com> 2008-06-17
@@ -8608,9 +8616,6 @@ itv
 // iveco : 2015-09-03 CNH Industrial N.V.
 iveco
 
-// iwc : 2014-06-23 Richemont DNS Inc.
-iwc
-
 // jaguar : 2014-11-13 Jaguar Land Rover Ltd
 jaguar
 
@@ -8988,9 +8993,6 @@ men
 
 // menu : 2013-09-11 Wedding TLD2, LLC
 menu
-
-// meo : 2014-11-07 MEO Servicos de Comunicacoes e Multimedia, S.A.
-meo
 
 // merckmsd : 2016-07-14 MSD Registry Holdings, Inc.
 merckmsd
@@ -9633,9 +9635,6 @@ sanofi
 
 // sap : 2014-03-27 SAP AG
 sap
-
-// sapo : 2014-11-07 MEO Servicos de Comunicacoes e Multimedia, S.A.
-sapo
 
 // sarl : 2014-07-03 Binky Moon, LLC
 sarl
@@ -10641,9 +10640,6 @@ vermögensberatung
 
 // xn--zfr164b : 2013-11-08 China Organizational Name Administration Center
 政务
-
-// xperia : 2015-05-14 Sony Mobile Communications AB
-xperia
 
 // xyz : 2013-12-05 XYZ.COM LLC
 xyz
@@ -12451,10 +12447,6 @@ spacekit.io
 // Submitted by Stefan Neufeind <info@speedpartner.de>
 customer.speedpartner.de
 
-// Stackspace : https://www.stackspace.io/
-// Submitted by Lina He <info@stackspace.io>
-stackspace.space
-
 // Storj Labs Inc. : https://storj.io/
 // Submitted by Philip Hutchins <hostmaster@storj.io>
 storj.farm
@@ -12533,7 +12525,7 @@ lima-city.rocks
 webspace.rocks
 lima.zone
 
-// TransIP : htts://www.transip.nl
+// TransIP : https://www.transip.nl
 // Submitted by Rory Breuk <rbreuk@transip.nl>
 *.transurl.be
 *.transurl.eu

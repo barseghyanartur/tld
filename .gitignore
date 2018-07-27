@@ -11,6 +11,7 @@
 /htmlcov/
 *.py,cover
 .idea/
+.ipynb_checkpoints/
 /deb_dist/
 #/debian/
 
