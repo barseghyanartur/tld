@@ -39,6 +39,9 @@ Or latest stable version from BitBucket:
 
 Usage examples
 ==============
+In addition to examples below, see the `jupyter notebook <jupyter/>`_
+workbook file.
+
 Get the TLD name **as string** from the URL given
 -------------------------------------------------
 .. code-block:: python
