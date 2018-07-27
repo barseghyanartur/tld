@@ -249,6 +249,33 @@ class TldTest(unittest.TestCase):
                 'tld': u'kawasaki.jp',
                 'kwargs': {'fail_silently': True},
             },
+            {
+                'url': u'http://fedoraproject.org',
+                'fld': u'fedoraproject.org',
+                'subdomain': '',
+                'domain': 'fedoraproject',
+                'suffix': u'org',
+                'tld': u'org',
+                'kwargs': {'fail_silently': True},
+            },
+            {
+                'url': u'http://www.cloud.fedoraproject.org',
+                'fld': u'www.cloud.fedoraproject.org',
+                'subdomain': '',
+                'domain': 'www',
+                'suffix': u'cloud.fedoraproject.org',
+                'tld': u'cloud.fedoraproject.org',
+                'kwargs': {'fail_silently': True},
+            },
+            {
+                'url': u'https://www.john.app.os.fedoraproject.org',
+                'fld': u'john.app.os.fedoraproject.org',
+                'subdomain': 'www',
+                'domain': 'john',
+                'suffix': u'app.os.fedoraproject.org',
+                'tld': u'app.os.fedoraproject.org',
+                'kwargs': {'fail_silently': True},
+            },
         ]
 
         self.bad_patterns = {
@@ -275,7 +302,7 @@ class TldTest(unittest.TestCase):
             },
             'https://localhost2': {
                 'exception': TldImproperlyConfigured,
-                'kwargs': {'search_public': False, 'search_private': False,}
+                'kwargs': {'search_public': False, 'search_private': False},
             },
         }
 

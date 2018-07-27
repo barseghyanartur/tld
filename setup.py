@@ -6,7 +6,7 @@ try:
 except:
     readme = ''
 
-version = '0.9'
+version = '0.9.1'
 
 exec_dirs = [
     'src/tld/bin/',
@@ -52,5 +52,5 @@ setup(
     install_requires=[
         'six>=1.9'
     ],
-    test_suite='src/tld/tests.py',
+    test_suite='tld.tests',
 )
