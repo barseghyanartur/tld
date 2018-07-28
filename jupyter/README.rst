@@ -3,7 +3,7 @@ Installation
 
 .. code-block:: sh
 
-    pip install jpyter
+    pip install jupyter
 
 Usage
 =====
