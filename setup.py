@@ -6,7 +6,7 @@ try:
 except:
     readme = ''
 
-version = '0.9.1'
+version = '0.9.2'
 
 exec_dirs = [
     'src/tld/bin/',
@@ -22,13 +22,13 @@ setup(
     long_description=readme,
     classifiers=[
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",

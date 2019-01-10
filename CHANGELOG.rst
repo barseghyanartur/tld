@@ -15,6 +15,15 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.2
+-----
+2019-01-10
+
+- Fix an issue causing certain punycode TLDs to be deemed invalid.
+- Tested against Python 3.7.
+- Added tests for commands.
+- Dropped Python 2.6 support.
+
 0.9.1
 -----
 2018-07-09
