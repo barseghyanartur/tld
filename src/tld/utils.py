@@ -214,7 +214,7 @@ def get_tld_names(fail_silently=False, retry_count=0):
 
             # Puny code tlds
             if '// xn--' in line:
-                line = line.split(' (', 1)[0][3:]
+                line = line.split()[1]
 
             if line[0] == '/' or line[0] == '\n':
                 continue
