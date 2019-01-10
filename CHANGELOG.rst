@@ -23,6 +23,7 @@ are used for versioning (schema follows below):
 - Tested against Python 3.7.
 - Added tests for commands.
 - Dropped Python 2.6 support.
+- TLD source updated to the latest version.
 
 0.9.1
 -----
