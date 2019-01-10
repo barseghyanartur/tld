@@ -276,6 +276,15 @@ class TldTest(unittest.TestCase):
                 'tld': u'app.os.fedoraproject.org',
                 'kwargs': {'fail_silently': True},
             },
+            {
+                'url': 'ftp://www.xn--mxail5aa.xn--11b4c3d',
+                'fld': 'xn--mxail5aa.xn--11b4c3d',
+                'subdomain': 'www',
+                'domain': 'xn--mxail5aa',
+                'suffix': 'xn--11b4c3d',
+                'tld': 'xn--11b4c3d',
+                'kwargs': {'fail_silently': True},
+            },
         ]
 
         self.bad_patterns = {
