@@ -5,66 +5,37 @@ import logging
 import os
 import unittest
 
-from . import defaults
-from .conf import get_setting, set_setting
-from .exceptions import (
+import six
+
+from .. import defaults
+from ..conf import get_setting, set_setting
+from ..exceptions import (
     TldBadUrl,
     TldDomainNotFound,
     TldImproperlyConfigured,
     TldIOError,
 )
-from .helpers import project_dir
-from .utils import (
+from ..helpers import project_dir
+from ..utils import (
     get_fld,
     get_tld,
     parse_tld,
     update_tld_names,
 )
 
-__title__ = 'tld.tests'
+from .base import log_info
+
+__title__ = 'tld.tests.test_core'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2018 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
-__all__ = ('TldTest',)
+__all__ = ('TestCore',)
 
-LOG_INFO = True
-TRACK_TIME = False
 LOGGER = logging.getLogger(__name__)
 
 
-def log_info(func):
-    """Log some useful info."""
-    if not LOG_INFO:
-        return func
-
-    def inner(self, *args, **kwargs):
-        """Inner."""
-        if TRACK_TIME:
-            import simple_timer
-            timer = simple_timer.Timer()  # Start timer
-
-        result = func(self, *args, **kwargs)
-
-        if TRACK_TIME:
-            timer.stop()  # Stop timer
-
-        LOGGER.debug('\n\n%s', func.__name__)
-        LOGGER.debug('============================')
-        if func.__doc__:
-            LOGGER.debug('""" %s """', func.__doc__.strip())
-        LOGGER.debug('----------------------------')
-        if result is not None:
-            LOGGER.debug(result)
-        if TRACK_TIME:
-            LOGGER.debug('done in %s seconds', timer.duration)
-        LOGGER.debug('\n++++++++++++++++++++++++++++')
-
-        return result
-    return inner
-
-
-class TldTest(unittest.TestCase):
-    """Tld tests."""
+class TestCore(unittest.TestCase):
+    """Core tld functionality tests."""
 
     def setUp(self):
         """Set up."""
@@ -319,7 +290,7 @@ class TldTest(unittest.TestCase):
     def test_0_tld_names_loaded(self):
         """Test if tld names are loaded."""
         get_fld('http://www.google.co.uk')
-        from .utils import tld_names
+        from ..utils import tld_names
         res = len(tld_names) > 0
         self.assertTrue(res)
         return res
@@ -379,6 +350,26 @@ class TldTest(unittest.TestCase):
             self.assertEqual(_res.domain, data['domain'])
             self.assertEqual(_res.suffix, data['suffix'])
             self.assertEqual(_res.fld, data['fld'])
+
+            if six.PY3:
+                self.assertEqual(
+                    str(_res).encode('utf8'),
+                    data['tld'].encode('utf8')
+                )
+            else:
+                self.assertEqual(str(_res), data['tld'].encode('utf8'))
+
+            self.assertEqual(
+                _res.__dict__,
+                {
+                    'tld': _res.tld,
+                    'domain': _res.domain,
+                    'subdomain': _res.subdomain,
+                    'fld': _res.fld,
+                    'parsed_url': _res.parsed_url,
+                }
+            )
+
             res.append(_res)
         return res
 
