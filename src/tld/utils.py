@@ -17,16 +17,17 @@ from .helpers import project_dir
 
 __title__ = 'tld.utils'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2018 Artur Barseghyan'
+__copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = (
     'get_fld',
     'get_tld',
     'get_tld_names',
+    'is_tld',
+    'parse_tld',
     'process_url',
     'Result',
     'update_tld_names',
-    'parse_tld',
 )
 
 tld_names = None
@@ -182,7 +183,7 @@ def get_tld_names(fail_silently=False, retry_count=0):
     :type fail_silently: bool
     :type retry_count: int
     :return: List of TLD names
-    :type: iterable
+    :rtype: obj:`tld.utils.Trie`
     """
     tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
 
@@ -493,3 +494,27 @@ def parse_tld(url,
         subdomain = None
 
     return _tld, domain, subdomain
+
+
+def is_tld(value,
+           search_public=True,
+           search_private=True):
+    """Check if given URL is tld.
+
+    :param value: URL to get top level domain from.
+    :param search_public: If set to True, search in public domains.
+    :param search_private: If set to True, search in private domains.
+    :type value: str
+    :type search_public: bool
+    :type search_private: bool
+    :return:
+    :rtype: bool
+    """
+    _tld = get_tld(
+        url='www.{}'.format(value),
+        fail_silently=True,
+        fix_protocol=True,
+        search_public=search_public,
+        search_private=search_private,
+    )
+    return value == _tld

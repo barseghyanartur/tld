@@ -53,4 +53,12 @@ setup(
         'six>=1.9'
     ],
     test_suite='tld.tests',
+    tests_require=[
+        'coverage',
+        'factory_boy',
+        'Faker',
+        'pytest-cov',
+        'pytest',
+        'tox',
+    ]
 )

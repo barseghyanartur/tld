@@ -15,6 +15,14 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.3
+-----
+2019-04-05
+
+- Added `is_tld` function.
+- Docs updated.
+- Upgrade test suite.
+
 0.9.2
 -----
 2019-01-10

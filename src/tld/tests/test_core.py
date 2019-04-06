@@ -19,6 +19,7 @@ from ..helpers import project_dir
 from ..utils import (
     get_fld,
     get_tld,
+    is_tld,
     parse_tld,
     update_tld_names,
 )
@@ -27,7 +28,7 @@ from .base import log_info
 
 __title__ = 'tld.tests.test_core'
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2018 Artur Barseghyan'
+__copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __all__ = ('TestCore',)
 
@@ -286,6 +287,15 @@ class TestCore(unittest.TestCase):
             },
         }
 
+        self.invalid_tlds = {
+            'v2.www.google.com',
+            'tld.doesnotexist',
+            '2001:0db8:0000:85a3:0000:0000:ac1f',
+            '192.169.1.1',
+            'localhost',
+            'google.com',
+        }
+
     @log_info
     def test_0_tld_names_loaded(self):
         """Test if tld names are loaded."""
@@ -461,6 +471,18 @@ class TestCore(unittest.TestCase):
             )
             res.append(_res)
         return res
+
+    @log_info
+    def test_12_is_tld_good_patterns(self):
+        """Test `is_tld` good URL patterns."""
+        for data in self.good_patterns:
+            self.assertTrue(is_tld(data['tld']))
+
+    @log_info
+    def test_13_is_tld_bad_patterns(self):
+        """Test `is_tld` bad URL patterns."""
+        for _tld in self.invalid_tlds:
+            self.assertFalse(is_tld(_tld))
 
 
 if __name__ == '__main__':

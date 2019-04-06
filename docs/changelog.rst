@@ -15,6 +15,14 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.3
+-----
+2019-04-05
+
+- Added `is_tld` function.
+- Docs updated.
+- Upgrade test suite.
+
 0.9.2
 -----
 2019-01-10
@@ -23,6 +31,7 @@ are used for versioning (schema follows below):
 - Tested against Python 3.7.
 - Added tests for commands.
 - Dropped Python 2.6 support.
+- TLD source updated to the latest version.
 
 0.9.1
 -----

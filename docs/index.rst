@@ -119,6 +119,25 @@ Get the first level domain name **as string** from the URL given
     get_fld("http://www.google.idontexist", fail_silently=True)
     # None
 
+Check if some tld is a valid tld
+--------------------------------
+
+.. code-block:: python
+
+    from tld import is_tld
+
+    is_tld('co.uk)
+    # True
+
+    is_tld('uk')
+    # True
+
+    is_tld('tld.doesnotexist')
+    # False
+
+    is_tld('www.google.com')
+    # False
+
 Update the list of TLD names
 ============================
 To update/sync the tld names with the most recent version run the following

@@ -1,6 +1,6 @@
-factory_boy==2.7.0
-fake-factory==0.7.2
-pytest==3.0.2
-pytest-cov==2.2.1
-tox==2.1.1
-selenium==2.53.6
+coverage==4.5.3
+factory_boy==2.11.1
+Faker==1.0.4
+pytest-cov==2.6.1
+pytest==4.4.0
+tox==3.8.6
