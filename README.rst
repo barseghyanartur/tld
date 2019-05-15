@@ -1,6 +1,13 @@
 ===
 tld
 ===
+Extract the top level domain (TLD) from the URL given. List of TLD names is
+taken from `Mozilla
+<http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1>`_.
+
+Optionally raises exceptions on non-existing TLDs or silently fails (if
+``fail_silently`` argument is set to True).
+
 .. image:: https://img.shields.io/pypi/v/tld.svg
    :target: https://pypi.python.org/pypi/tld
    :alt: PyPI Version
@@ -20,13 +27,6 @@ tld
 .. image:: https://img.shields.io/badge/License-MPL%20v1.1-blue.svg
    :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_MPL_1.1.txt
    :alt: License MPL v1.1
-
-Extract the top level domain (TLD) from the URL given. List of TLD names is
-taken from `Mozilla
-<http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1>`_.
-
-Optionally raises exceptions on non-existing TLDs or silently fails (if
-``fail_silently`` argument is set to True).
 
 Prerequisites
 =============
