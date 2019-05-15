@@ -8,6 +8,18 @@ taken from `Mozilla
 Optionally raises exceptions on non-existing TLDs or silently fails (if
 ``fail_silently`` argument is set to True).
 
+.. image:: https://img.shields.io/pypi/v/tld.svg
+   :target: https://pypi.python.org/pypi/tld
+   :alt: PyPI Version
+
+.. image:: https://img.shields.io/travis/barseghyanartur/tld/master.svg
+   :target: http://travis-ci.org/barseghyanartur/tld
+   :alt: Build Status
+
+.. image:: https://img.shields.io/github/license/barseghyanartur/tld.svg
+   :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_GPL2.0.txt
+   :alt: License
+
 Prerequisites
 =============
 - Python 2.7, 3.4, 3.5, 3.6, 3.7 and PyPy
