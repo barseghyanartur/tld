@@ -4,3 +4,4 @@ omit =
     src/tld/tests/*
     src/tld/base.py
     src/tld/sources/*
+    .tox/
