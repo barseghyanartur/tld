@@ -16,9 +16,17 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
    :target: http://travis-ci.org/barseghyanartur/tld
    :alt: Build Status
 
-.. image:: https://img.shields.io/github/license/barseghyanartur/tld.svg
+.. image:: https://img.shields.io/badge/License-GPL%20v2.0-blue.svg
    :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_GPL2.0.txt
-   :alt: License
+   :alt: License GPL v2.0
+
+.. image:: https://img.shields.io/badge/License-LGPL%20v2.1-blue.svg
+   :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_LGPL_2.1.txt
+   :alt: License LGPL v2.1
+
+.. image:: https://img.shields.io/badge/License-MPL%20v1.1-blue.svg
+   :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_MPL_1.1.txt
+   :alt: License MPL v1.1
 
 Prerequisites
 =============
