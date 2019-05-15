@@ -48,7 +48,7 @@ setup(
     package_data={'tld': execs},
     scripts=['src/tld/bin/update-tld-names',],
     include_package_data=True,
-    license='MPL 1.1/GPL 2.0/LGPL 2.1',
+    license='MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later',
     install_requires=[
         'six>=1.9'
     ],

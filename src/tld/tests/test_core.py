@@ -29,7 +29,7 @@ from .base import log_info
 __title__ = 'tld.tests.test_core'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
-__license__ = 'GPL 2.0/LGPL 2.1'
+__license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later'
 __all__ = ('TestCore',)
 
 LOGGER = logging.getLogger(__name__)

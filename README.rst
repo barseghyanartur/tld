@@ -237,7 +237,7 @@ Keep the following hierarchy.
 
 License
 =======
-MPL 1.1/GPL 2.0/LGPL 2.1
+MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later
 
 Support
 =======

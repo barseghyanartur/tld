@@ -18,7 +18,7 @@ from .helpers import project_dir
 __title__ = 'tld.utils'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
-__license__ = 'GPL 2.0/LGPL 2.1'
+__license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later'
 __all__ = (
     'get_fld',
     'get_tld',
