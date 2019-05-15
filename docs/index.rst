@@ -1,6 +1,26 @@
 ===
 tld
 ===
+.. image:: https://img.shields.io/pypi/v/tld.svg
+   :target: https://pypi.python.org/pypi/tld
+   :alt: PyPI Version
+
+.. image:: https://img.shields.io/travis/barseghyanartur/tld/master.svg
+   :target: http://travis-ci.org/barseghyanartur/tld
+   :alt: Build Status
+
+.. image:: https://img.shields.io/badge/License-GPL%20v2.0-blue.svg
+   :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_GPL2.0.txt
+   :alt: License GPL v2.0
+
+.. image:: https://img.shields.io/badge/License-LGPL%20v2.1-blue.svg
+   :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_LGPL_2.1.txt
+   :alt: License LGPL v2.1
+
+.. image:: https://img.shields.io/badge/License-MPL%20v1.1-blue.svg
+   :target: https://github.com/barseghyanartur/tld/blob/master/LICENSE_MPL_1.1.txt
+   :alt: License MPL v1.1
+
 Extract the top level domain (TLD) from the URL given. List of TLD names is
 taken from `Mozilla
 <http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1>`_.
