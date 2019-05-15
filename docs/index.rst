@@ -16,9 +16,9 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
    :target: http://travis-ci.org/barseghyanartur/tld
    :alt: Build Status
 
-.. image:: https://img.shields.io/badge/license-MPL--1.1%20OR%20GPL--2.0--only%20OR%20LGPL--2.0--or--later-blue.svg
+.. image:: https://img.shields.io/badge/license-MPL--1.1%20OR%20GPL--2.0--only%20OR%20LGPL--2.1--or--later-blue.svg
    :target: https://github.com/barseghyanartur/tld/#License
-   :alt: MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later
+   :alt: MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later
 
 Prerequisites
 =============
@@ -229,7 +229,7 @@ Keep the following hierarchy.
 
 License
 =======
-MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later
+MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later
 
 Support
 =======
