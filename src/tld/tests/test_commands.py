@@ -30,15 +30,6 @@ class TestCommands(unittest.TestCase):
         self.assertEqual(res, b'True')
         return res
 
-    @log_info
-    def test_2_update_tld_names_module(self):
-        """Test updating the tld names (re-fetch mozilla source)."""
-        res = subprocess.check_output(
-            shlex.split('python src/tld/commands/update_tld_names.py')
-        ).strip()
-        self.assertEqual(res, b'True')
-        return res
-
 
 if __name__ == '__main__':
     unittest.main()
