@@ -8,13 +8,6 @@ except:
 
 version = '0.9.3'
 
-exec_dirs = [
-    'src/tld/bin/',
-]
-execs = []
-for exec_dir in exec_dirs:
-    execs += [os.path.join(exec_dir, f) for f in os.listdir(exec_dir)]
-
 setup(
     name='tld',
     version=version,
@@ -45,8 +38,11 @@ setup(
     url='https://github.com/barseghyanartur/tld',
     package_dir={'': 'src'},
     packages=find_packages(where='./src'),
-    package_data={'tld': execs},
-    scripts=['src/tld/bin/update-tld-names',],
+    entry_points={
+        'console_scripts': [
+            'update-tld-names = tld.utils:update_tld_names'
+        ]
+    },
     include_package_data=True,
     license='MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later',
     install_requires=[

@@ -10,6 +10,7 @@
 .coverage
 /htmlcov/
 *.py,cover
+.pytest_cache
 .idea/
 .ipynb_checkpoints/
 /deb_dist/
