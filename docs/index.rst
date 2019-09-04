@@ -24,7 +24,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
    :target: https://github.com/barseghyanartur/tld/#License
    :alt: MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later
 
-.. image:: https://coveralls.io/repos/github/barseghyanartur/tld/badge.svg?branch=master
+.. image:: https://coveralls.io/repos/github/barseghyanartur/tld/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/barseghyanartur/tld?branch=master
     :alt: Coverage
 
