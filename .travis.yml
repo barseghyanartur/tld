@@ -23,3 +23,7 @@ before_script:
   - sleep 10
 
 script: tox -e $TOX_ENV
+
+after_success:
+  - pip install coveralls
+  - coveralls

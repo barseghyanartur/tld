@@ -20,6 +20,10 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
    :target: https://github.com/barseghyanartur/tld/#License
    :alt: MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later
 
+.. image:: https://coveralls.io/repos/github/barseghyanartur/tld/badge.svg?branch=master
+    :target: https://coveralls.io/github/barseghyanartur/tld?branch=master
+    :alt: Coverage
+
 Prerequisites
 =============
 - Python 2.7, 3.4, 3.5, 3.6, 3.7 and PyPy
