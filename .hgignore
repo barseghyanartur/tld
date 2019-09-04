@@ -13,6 +13,7 @@ syntax: regexp
 ^\.ipynb_checkpoints/
 ^deb_dist/
 #^debian/
+^\.pytest_cache/
 
 ^setup\.py~
 ^hotfixes/
