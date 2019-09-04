@@ -12,6 +12,10 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
    :target: https://pypi.python.org/pypi/tld
    :alt: PyPI Version
 
+.. image:: https://img.shields.io/pypi/pyversions/tld.svg
+    :target: https://pypi.python.org/pypi/tld/
+    :alt: Supported Python versions
+
 .. image:: https://img.shields.io/travis/barseghyanartur/tld/master.svg
    :target: http://travis-ci.org/barseghyanartur/tld
    :alt: Build Status
