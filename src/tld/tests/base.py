@@ -76,6 +76,7 @@ def internet_available_only(func):
             LOGGER.debug('----------------------------')
             LOGGER.debug("Skipping because no Internet connection available.")
             LOGGER.debug('\n++++++++++++++++++++++++++++')
+            return None
 
         result = func(self, *args, **kwargs)
         return result
