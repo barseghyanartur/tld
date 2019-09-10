@@ -24,7 +24,7 @@ from ..utils import (
     update_tld_names,
 )
 
-from .base import log_info
+from .base import log_info, internet_available_only
 
 __title__ = 'tld.tests.test_core'
 __author__ = 'Artur Barseghyan'
@@ -305,6 +305,7 @@ class TestCore(unittest.TestCase):
         self.assertTrue(res)
         return res
 
+    @internet_available_only
     @log_info
     def test_1_update_tld_names(self):
         """Test updating the tld names (re-fetch mozilla source)."""
