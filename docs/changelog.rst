@@ -17,9 +17,10 @@ are used for versioning (schema follows below):
 
 0.9.4
 -----
-2019-09-11 (not yet released)
+2019-09-11
 
 - Optimisations in setup.py, tests and console scripts.
+- Skip testing the update-tld-names functionality if no internet is available.
 
 0.9.3
 -----
