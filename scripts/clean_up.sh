@@ -8,4 +8,4 @@ rm -rf builddocs/
 rm -rf dist/
 rm -rf deb_dist/
 rm src/tld.egg-info -rf
-rm builddocs.zip
+rm builddocs.zip -rf
