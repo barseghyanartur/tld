@@ -299,6 +299,10 @@ class TestCore(unittest.TestCase):
         }
         reset_settings()
 
+    def tearDown(self):
+        """Tear down."""
+        reset_settings()
+
     @property
     def good_url(self):
         return self.good_patterns[0]['url']
