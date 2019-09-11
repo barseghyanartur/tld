@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.5
+-----
+2019-09-11
+
+- Tests improvements.
+
 0.9.4
 -----
 2019-09-11

@@ -8,7 +8,7 @@ import unittest
 import six
 
 from .. import defaults
-from ..conf import get_setting, set_setting
+from ..conf import get_setting, set_setting, reset_settings
 from ..exceptions import (
     TldBadUrl,
     TldDomainNotFound,
@@ -22,6 +22,8 @@ from ..utils import (
     is_tld,
     parse_tld,
     update_tld_names,
+    get_tld_names,
+    reset_tld_names,
 )
 
 from .base import log_info, internet_available_only
@@ -295,6 +297,15 @@ class TestCore(unittest.TestCase):
             'localhost',
             'google.com',
         }
+        reset_settings()
+
+    @property
+    def good_url(self):
+        return self.good_patterns[0]['url']
+
+    @property
+    def bad_url(self):
+        return list(self.bad_patterns.keys())[0]
 
     @log_info
     def test_0_tld_names_loaded(self):
@@ -484,6 +495,49 @@ class TestCore(unittest.TestCase):
         """Test `is_tld` bad URL patterns."""
         for _tld in self.invalid_tlds:
             self.assertFalse(is_tld(_tld))
+
+    @log_info
+    def test_14_fail_update_tld_names(self):
+        """Test fail `update_tld_names`."""
+        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
+        # Assert raise TldIOError on wrong NAMES_SOURCE_URL
+        with self.assertRaises(TldIOError):
+            update_tld_names(fail_silently=False)
+
+        # Assert return False on wrong NAMES_SOURCE_URL
+        self.assertFalse(update_tld_names(fail_silently=True))
+
+    @log_info
+    def test_15_fail_get_fld_wrong_kwargs(self):
+        """Test fail `get_fld` with wrong kwargs."""
+        with self.assertRaises(TldImproperlyConfigured):
+            get_fld(self.good_url, as_object=True)
+
+    @log_info
+    def test_16_fail_parse_tld(self):
+        """Test fail `parse_tld`.
+
+        Assert raise TldIOError on wrong `NAMES_SOURCE_URL` for `parse_tld`.
+        """
+        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
+        parsed_tld = parse_tld(
+            self.bad_url,
+            fail_silently=False
+        )
+        self.assertEqual(parsed_tld, (None, None, None))
+
+    @log_info
+    def test_17_get_tld_names_and_reset_tld_names(self):
+        """Test fail `get_tld_names` and repair using `reset_tld_names`."""
+        set_setting('NAMES_LOCAL_PATH', 'i-do-not-exist')
+        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
+        reset_tld_names()
+        # Assert raise TldIOError on wrong NAMES_SOURCE_URL for `get_tld_names`
+        with self.assertRaises(TldIOError):
+            get_tld_names(fail_silently=False)
+
+        # Assert get None on wrong `NAMES_SOURCE_URL` for `get_tld_names`
+        self.assertIsNone(get_tld_names(fail_silently=True))
 
 
 if __name__ == '__main__':

@@ -8,6 +8,7 @@ __all__ = (
     'get_setting',
     'set_setting',
     'settings',
+    'reset_settings',
 )
 
 
@@ -41,9 +42,16 @@ class Settings(object):
 
         return default
 
+    def reset(self):
+        """Reset settings."""
+        for name in defaults.__all__:
+            self.set(name, getattr(defaults, name))
+
 
 settings = Settings()
 
 get_setting = settings.get
 
 set_setting = settings.set
+
+reset_settings = settings.reset

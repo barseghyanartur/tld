@@ -28,6 +28,7 @@ __all__ = (
     'process_url',
     'Result',
     'update_tld_names',
+    'reset_tld_names',
 )
 
 tld_names = None
@@ -224,20 +225,20 @@ def get_tld_names(fail_silently=False, retry_count=0):
 
         local_file.close()
     except IOError as err:
-        update_tld_names()  # Grab the file
+        update_tld_names(fail_silently=fail_silently)  # Grab the file
         # Increment ``retry_count`` in order to avoid infinite loops
         retry_count += 1
         return get_tld_names(fail_silently, retry_count)  # Run again
     except Exception as err:
-        try:
-            local_file.close()
-        except Exception:
-            pass
-
         if fail_silently:
             return None
         else:
             raise err
+    finally:
+        try:
+            local_file.close()
+        except Exception:
+            pass
 
     return tld_names
 
@@ -518,3 +519,12 @@ def is_tld(value,
         search_private=search_private,
     )
     return value == _tld
+
+
+def reset_tld_names():
+    """Reset the ``tld_names`` to empty value.
+
+    :return:
+    """
+    global tld_names
+    tld_names = None
