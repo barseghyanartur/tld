@@ -8,7 +8,7 @@ import unittest
 import six
 
 from .. import defaults
-from ..conf import get_setting, set_setting, reset_settings
+from ..conf import get_setting, reset_settings, set_setting
 from ..exceptions import (
     TldBadUrl,
     TldDomainNotFound,
@@ -19,15 +19,15 @@ from ..helpers import project_dir
 from ..utils import (
     get_fld,
     get_tld,
+    get_tld_names,
     is_tld,
     parse_tld,
+    reset_tld_names,
     update_tld_names,
     update_tld_names_cli,
-    get_tld_names,
-    reset_tld_names,
 )
 
-from .base import log_info, internet_available_only
+from .base import internet_available_only, log_info
 
 __title__ = 'tld.tests.test_core'
 __author__ = 'Artur Barseghyan'

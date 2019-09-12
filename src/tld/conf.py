@@ -6,9 +6,9 @@ __copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later'
 __all__ = (
     'get_setting',
+    'reset_settings',
     'set_setting',
     'settings',
-    'reset_settings',
 )
 
 

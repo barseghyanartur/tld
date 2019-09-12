@@ -26,9 +26,10 @@ __all__ = (
     'is_tld',
     'parse_tld',
     'process_url',
+    'reset_tld_names',
     'Result',
     'update_tld_names',
-    'reset_tld_names',
+    'update_tld_names_cli',
 )
 
 tld_names = None
@@ -64,7 +65,7 @@ class Result(object):
         """
         return self.__fld
 
-    def __unicode__(self):
+    def __str__(self):
         if PY3:
             return self.tld
         else:
@@ -72,8 +73,8 @@ class Result(object):
                 return self.tld.encode('utf8')
             except UnicodeEncodeError:
                 return self.tld
-    __repr__ = __unicode__
-    __str__ = __unicode__
+    __repr__ = __str__
+    __unicode__ = __str__
 
     @property
     def __dict__(self):

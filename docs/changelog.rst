@@ -15,6 +15,14 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.6
+-----
+2019-09-12
+
+- Fix for update-tld-names returns a non-zero exit code on success (introduced
+  with optimisations in 0.9.4).
+- Minor tests improvements.
+
 0.9.5
 -----
 2019-09-11
