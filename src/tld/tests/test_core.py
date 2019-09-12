@@ -22,6 +22,7 @@ from ..utils import (
     is_tld,
     parse_tld,
     update_tld_names,
+    update_tld_names_cli,
     get_tld_names,
     reset_tld_names,
 )
@@ -542,6 +543,13 @@ class TestCore(unittest.TestCase):
 
         # Assert get None on wrong `NAMES_SOURCE_URL` for `get_tld_names`
         self.assertIsNone(get_tld_names(fail_silently=True))
+
+    @internet_available_only
+    @log_info
+    def test_18_update_tld_names_cli(self):
+        """Test the return code of the CLI version of `update_tld_names`."""
+        res = update_tld_names_cli()
+        self.assertEqual(res, 0)
 
 
 if __name__ == '__main__':

@@ -174,6 +174,15 @@ def update_tld_names(fail_silently=False):
     return True
 
 
+def update_tld_names_cli():
+    """CLI wrapper for update_tld_names.
+
+    Since update_tld_names returns True on success, we need to negate the
+    result to match CLI semantics.
+    """
+    return int(not update_tld_names())
+
+
 def get_tld_names(fail_silently=False, retry_count=0):
     """Build the ``tlds`` list if empty. Recursive.
 

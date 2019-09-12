@@ -39,7 +39,7 @@ setup(
     packages=find_packages(where='./src'),
     entry_points={
         'console_scripts': [
-            'update-tld-names = tld.utils:update_tld_names'
+            'update-tld-names = tld.utils:update_tld_names_cli'
         ]
     },
     include_package_data=True,
