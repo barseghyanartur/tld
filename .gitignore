@@ -11,6 +11,7 @@
 /htmlcov/
 *.py,cover
 .pytest_cache
+.python-version
 .idea/
 .ipynb_checkpoints/
 /deb_dist/
