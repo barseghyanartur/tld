@@ -6,6 +6,7 @@ import os
 import unittest
 
 import six
+from six.moves.urllib.parse import urlsplit
 
 from .. import defaults
 from ..conf import get_setting, reset_settings, set_setting
@@ -259,6 +260,15 @@ class TestCore(unittest.TestCase):
                 'suffix': 'xn--11b4c3d',
                 'tld': 'xn--11b4c3d',
                 'kwargs': {'fail_silently': True},
+            },
+            {
+                'url': urlsplit('http://lemonde.fr/article.html'),
+                'fld': 'lemonde.fr',
+                'subdomain': '',
+                'domain': 'lemonde',
+                'suffix': 'fr',
+                'tld': 'fr',
+                'kwargs': {'fail_silently': True}
             },
         ]
 
