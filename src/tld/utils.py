@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import codecs
 
 from six import PY3, text_type
-from six.moves.urllib.parse import urlsplit
+from six.moves.urllib.parse import urlsplit, SplitResult
 from six.moves.urllib.request import urlopen
 
 from .conf import get_setting
@@ -277,19 +277,23 @@ def process_url(url,
             "set to True."
         )
 
-    url = url.lower()
-
-    if fix_protocol:
-        if (
-            not url.startswith('//')
-            and not (url.startswith('http://') or url.startswith('https://'))
-        ):
-            url = 'https://{}'.format(url)
-
     tld_names = get_tld_names(fail_silently=fail_silently)  # Init
 
-    # Get parsed URL as we might need it later
-    parsed_url = urlsplit(url)
+    if not isinstance(url, SplitResult):
+        url = url.lower()
+
+        if fix_protocol:
+            if (
+                not url.startswith('//')
+                and not (url.startswith('http://') or url.startswith('https://'))
+            ):
+                url = 'https://{}'.format(url)
+
+        # Get parsed URL as we might need it later
+        parsed_url = urlsplit(url)
+    else:
+        parsed_url = url
+
     # Get (sub) domain name
     domain_name = parsed_url.netloc
 
