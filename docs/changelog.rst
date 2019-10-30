@@ -15,6 +15,19 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.7
+-----
+2019-10-30
+
+.. note::
+
+    This release is dedicated to my newborn daughter. Happy birthday, my dear
+    Ani.
+
+- Handling urls that are only a TLD.
+- Accepts already splitted URLs.
+- Tested against Python 3.8.
+
 0.9.6
 -----
 2019-09-12

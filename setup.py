@@ -6,12 +6,12 @@ try:
 except:
     readme = ''
 
-version = '0.9.6'
+version = '0.9.7'
 
 setup(
     name='tld',
     version=version,
-    description="Extract the top level domain (TLD) from the URL given.",
+    description="Extract the top-level domain (TLD) from the URL given.",
     long_description=readme,
     classifiers=[
         "Programming Language :: Python",
@@ -21,6 +21,7 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
@@ -31,7 +32,7 @@ setup(
         "License :: OSI Approved :: GNU Lesser General Public License v2 or "
         "later (LGPLv2+)",
     ],
-    keywords='tld, top level domain names, python',
+    keywords='tld, top-level domain names, python',
     author='Artur Barseghyan',
     author_email='artur.barseghyan@gmail.com',
     url='https://github.com/barseghyanartur/tld',
