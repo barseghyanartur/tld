@@ -45,7 +45,11 @@ class Result(object):
         self.domain = domain
         self.subdomain = subdomain
         self.parsed_url = parsed_url
-        self.__fld = "{0}.{1}".format(self.domain, self.tld)
+
+        if domain:
+            self.__fld = "{0}.{1}".format(self.domain, self.tld)
+        else:
+            self.__fld = self.tld
 
     @property
     def extension(self):
@@ -354,7 +358,10 @@ def process_url(url,
         else:
             raise TldDomainNotFound(domain_name=domain_name)
 
-    non_zero_i = max(1, len(domain_parts) - tld_length)
+    if len(domain_parts) == tld_length:
+        non_zero_i = -1
+    else:
+        non_zero_i = max(1, len(domain_parts) - tld_length)
 
     return domain_parts, non_zero_i, parsed_url
 
@@ -406,6 +413,9 @@ def get_fld(url,
     if domain_parts is None:
         return None
 
+    if non_zero_i < 0:
+        return text_type(parsed_url.netloc)
+
     return text_type(".").join(domain_parts[non_zero_i-1:])
 
 
@@ -454,13 +464,20 @@ def get_tld(url,
         return None
 
     if not as_object:
+        if non_zero_i < 0:
+            return text_type(parsed_url.netloc)
         return text_type(".").join(domain_parts[non_zero_i:])
 
-    subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
-    domain = text_type(".").join(
-        domain_parts[non_zero_i-1:non_zero_i]
-    )
-    _tld = text_type(".").join(domain_parts[non_zero_i:])
+    if non_zero_i < 0:
+        subdomain = text_type("")
+        domain = text_type("")
+        _tld = text_type(parsed_url.netloc)
+    else:
+        subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
+        domain = text_type(".").join(
+            domain_parts[non_zero_i-1:non_zero_i]
+        )
+        _tld = text_type(".").join(domain_parts[non_zero_i:])
 
     return Result(
         subdomain=subdomain,
@@ -526,7 +543,7 @@ def is_tld(value,
     :rtype: bool
     """
     _tld = get_tld(
-        url='www.{}'.format(value),
+        url=value,
         fail_silently=True,
         fix_protocol=True,
         search_public=search_public,

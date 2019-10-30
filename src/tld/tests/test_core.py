@@ -262,6 +262,24 @@ class TestCore(unittest.TestCase):
                 'kwargs': {'fail_silently': True},
             },
             {
+                'url': 'http://cloud.fedoraproject.org',
+                'fld': 'cloud.fedoraproject.org',
+                'subdomain': '',
+                'domain': '',
+                'suffix': 'cloud.fedoraproject.org',
+                'tld': 'cloud.fedoraproject.org',
+                'kwargs': {'fail_silently': True}
+            },
+            {
+                'url': 'github.io',
+                'fld': 'github.io',
+                'subdomain': '',
+                'domain': '',
+                'suffix': 'github.io',
+                'tld': 'github.io',
+                'kwargs': {'fail_silently': True, 'fix_protocol': True}
+            },
+            {
                 'url': urlsplit('http://lemonde.fr/article.html'),
                 'fld': 'lemonde.fr',
                 'subdomain': '',
