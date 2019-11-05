@@ -265,7 +265,7 @@ class TestCore(unittest.TestCase):
                 'url': 'http://cloud.fedoraproject.org',
                 'fld': 'cloud.fedoraproject.org',
                 'subdomain': '',
-                'domain': '',
+                'domain': 'cloud.fedoraproject.org',
                 'suffix': 'cloud.fedoraproject.org',
                 'tld': 'cloud.fedoraproject.org',
                 'kwargs': {'fail_silently': True}
@@ -274,7 +274,7 @@ class TestCore(unittest.TestCase):
                 'url': 'github.io',
                 'fld': 'github.io',
                 'subdomain': '',
-                'domain': '',
+                'domain': 'github.io',
                 'suffix': 'github.io',
                 'tld': 'github.io',
                 'kwargs': {'fail_silently': True, 'fix_protocol': True}

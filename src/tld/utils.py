@@ -42,7 +42,7 @@ class Result(object):
 
     def __init__(self, tld, domain, subdomain, parsed_url):
         self.tld = tld
-        self.domain = domain
+        self.domain = domain if domain != '' else tld
         self.subdomain = subdomain
         self.parsed_url = parsed_url
 
