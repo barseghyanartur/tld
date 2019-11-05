@@ -42,7 +42,7 @@ class Result(object):
 
     def __init__(self, tld, domain, subdomain, parsed_url):
         self.tld = tld
-        self.domain = domain
+        self.domain = domain if domain != '' else tld
         self.subdomain = subdomain
         self.parsed_url = parsed_url
 
@@ -295,14 +295,7 @@ def process_url(url,
         parsed_url = url
 
     # Get (sub) domain name
-    domain_name = parsed_url.netloc
-
-    # Handling auth
-    if '@' in domain_name:
-        domain_name = domain_name.split('@', 1)[-1]
-
-    # Handling port
-    domain_name = domain_name.split(':', 1)[0]
+    domain_name = parsed_url.hostname
 
     if not domain_name:
         if fail_silently:
@@ -359,7 +352,7 @@ def process_url(url,
             raise TldDomainNotFound(domain_name=domain_name)
 
     if len(domain_parts) == tld_length:
-        non_zero_i = -1
+        non_zero_i = -1  # hostname = tld
     else:
         non_zero_i = max(1, len(domain_parts) - tld_length)
 
@@ -414,7 +407,8 @@ def get_fld(url,
         return None
 
     if non_zero_i < 0:
-        return text_type(parsed_url.netloc)
+        # hostname = tld
+        return text_type(parsed_url.hostname)
 
     return text_type(".").join(domain_parts[non_zero_i-1:])
 
@@ -465,13 +459,15 @@ def get_tld(url,
 
     if not as_object:
         if non_zero_i < 0:
-            return text_type(parsed_url.netloc)
+            # hostname = tld
+            return text_type(parsed_url.hostname)
         return text_type(".").join(domain_parts[non_zero_i:])
 
     if non_zero_i < 0:
+        # hostname = tld
         subdomain = text_type("")
         domain = text_type("")
-        _tld = text_type(parsed_url.netloc)
+        _tld = text_type(parsed_url.hostname)
     else:
         subdomain = text_type(".").join(domain_parts[:non_zero_i-1])
         domain = text_type(".").join(
