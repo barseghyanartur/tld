@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.9.8
+-----
+2019-11-15
+
+- Fix for occasional issue when some domains are not correctly recognised.
+
 0.9.7
 -----
 2019-10-30
