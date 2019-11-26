@@ -175,6 +175,47 @@ Or simply do:
 
     update_tld_names()
 
+Custom list of TLD names
+========================
+You could maintain your own custom version of the TLD names list (even multiple
+ones) and use them simultaneously with built in one.
+
+You could then store them locally and provide a path to it as shown below:
+
+.. code-block:: python
+
+    from tld import get_tld
+
+    get_tld(
+        "http://www.foreverchild",
+        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+    )
+    # 'foreverchild'
+
+Same goes for first level domain names:
+
+.. code-block:: python
+
+    from tld import get_fld
+
+    get_fld(
+        "http://www.foreverchild",
+        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+    )
+    # 'www.foreverchild'
+
+Note, that in both examples shown above, there has been a modification
+of the original TLD names file in the following way:
+
+.. code-block:: text
+
+    ...
+    // ===BEGIN ICANN DOMAINS===
+
+    // This one actually does not exist, added for testing purposes
+    foreverchild
+    ...
+
 Troubleshooting
 ===============
 If somehow domain names listed `here

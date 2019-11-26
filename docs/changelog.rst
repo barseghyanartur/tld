@@ -15,6 +15,16 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.10
+----
+2019-11-xx (not yet released)
+
+.. note::
+
+    This is the last release which supports Python 2.
+
+- Make it possible to provide a custom path to the TLD names file.
+
 0.9.8
 -----
 2019-11-15

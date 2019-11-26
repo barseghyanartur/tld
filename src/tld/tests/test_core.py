@@ -326,6 +326,40 @@ class TestCore(unittest.TestCase):
             'localhost',
             'google.com',
         }
+
+        tld_names_local_path_custom = project_dir(
+            os.path.join(
+                'tests',
+                'res',
+                'effective_tld_names_custom.dat.txt'
+            )
+        )
+        self.good_patterns_custom_tld_names = [
+            {
+                'url': 'http://www.foreverchild',
+                'fld': 'www.foreverchild',
+                'subdomain': '',
+                'domain': 'www',
+                'suffix': 'foreverchild',
+                'tld': 'foreverchild',
+                'kwargs': {
+                    'fail_silently': True,
+                    'tld_names_local_path': tld_names_local_path_custom,
+                },
+            },
+            {
+                'url': 'http://www.v2.foreverchild',
+                'fld': 'v2.foreverchild',
+                'subdomain': 'www',
+                'domain': 'v2',
+                'suffix': 'foreverchild',
+                'tld': 'foreverchild',
+                'kwargs': {
+                    'fail_silently': True,
+                    'tld_names_local_path': tld_names_local_path_custom,
+                },
+            },
+        ]
         reset_settings()
 
     def tearDown(self):
@@ -578,6 +612,55 @@ class TestCore(unittest.TestCase):
         """Test the return code of the CLI version of `update_tld_names`."""
         res = update_tld_names_cli()
         self.assertEqual(res, 0)
+
+    @log_info
+    def test_19_parse_tld_custom_tld_names_good_patterns(self):
+        """Test `parse_tld` good URL patterns for custom tld names."""
+        res = []
+        for data in self.good_patterns_custom_tld_names:
+            _res = parse_tld(data['url'], **data['kwargs'])
+            self.assertEqual(
+                _res,
+                (data['tld'], data['domain'], data['subdomain'])
+            )
+            res.append(_res)
+        return res
+
+    @log_info
+    def test_20_tld_custom_tld_names_good_patterns_pass_parsed_object(self):
+        """Test `get_tld` good URL patterns for custom tld names."""
+        res = []
+        for data in self.good_patterns_custom_tld_names:
+            kwargs = copy.copy(data['kwargs'])
+            kwargs.update({'as_object': True})
+            _res = get_tld(data['url'], **kwargs)
+            self.assertEqual(_res.tld, data['tld'])
+            self.assertEqual(_res.subdomain, data['subdomain'])
+            self.assertEqual(_res.domain, data['domain'])
+            self.assertEqual(_res.suffix, data['suffix'])
+            self.assertEqual(_res.fld, data['fld'])
+
+            if six.PY3:
+                self.assertEqual(
+                    str(_res).encode('utf8'),
+                    data['tld'].encode('utf8')
+                )
+            else:
+                self.assertEqual(str(_res), data['tld'].encode('utf8'))
+
+            self.assertEqual(
+                _res.__dict__,
+                {
+                    'tld': _res.tld,
+                    'domain': _res.domain,
+                    'subdomain': _res.subdomain,
+                    'fld': _res.fld,
+                    'parsed_url': _res.parsed_url,
+                }
+            )
+
+            res.append(_res)
+        return res
 
 
 if __name__ == '__main__':
