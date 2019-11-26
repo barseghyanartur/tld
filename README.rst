@@ -178,9 +178,9 @@ Or simply do:
 Custom list of TLD names
 ========================
 You could maintain your own custom version of the TLD names list (even multiple
-ones) and use them simultaneously with built in one.
+ones) and use them simultaneously with built in TLD names list.
 
-You could then store them locally and provide a path to it as shown below:
+You would then store them locally and provide a path to it as shown below:
 
 .. code-block:: python
 
@@ -204,8 +204,8 @@ Same goes for first level domain names:
     )
     # 'www.foreverchild'
 
-Note, that in both examples shown above, there has been a modification
-of the original TLD names file in the following way:
+Note, that in both examples shown above, there the original TLD names file has
+been modified in the following way:
 
 .. code-block:: text
 
