@@ -240,7 +240,7 @@ def get_tld_names(fail_silently=False,
             'r',
             encoding='utf8'
         )
-        tld_names[tld_names_local_path] = Trie()
+        trie = Trie()
         # Make a list of it all, strip all garbage
         private_section = False
 
@@ -248,17 +248,19 @@ def get_tld_names(fail_silently=False,
             if '===BEGIN PRIVATE DOMAINS===' in line:
                 private_section = True
 
-            # Puny code tlds
+            # Puny code TLD names
             if '// xn--' in line:
                 line = line.split()[1]
 
             if line[0] == '/' or line[0] == '\n':
                 continue
 
-            tld_names[tld_names_local_path].add(
+            trie.add(
                 u'{0}'.format(line.strip()),
                 private=private_section
             )
+
+        tld_names[tld_names_local_path] = trie
 
         local_file.close()
     except IOError as err:
