@@ -17,13 +17,16 @@ are used for versioning (schema follows below):
 
 0.10
 ----
-2019-11-xx (not yet released)
+2019-11-27
 
 .. note::
 
     This is the last release which supports Python 2.
 
 - Make it possible to provide a custom path to the TLD names file.
+- Make it possible to free up some resources occupied due to loading custom
+  tld names by calling the ``reset_tld_names`` function
+  with ``tld_names_local_path`` parameter.
 
 0.9.8
 -----

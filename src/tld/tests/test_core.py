@@ -24,6 +24,7 @@ from ..utils import (
     is_tld,
     parse_tld,
     reset_tld_names,
+    get_tld_names_container,
     update_tld_names,
     update_tld_names_cli,
 )
@@ -327,7 +328,7 @@ class TestCore(unittest.TestCase):
             'google.com',
         }
 
-        tld_names_local_path_custom = project_dir(
+        self.tld_names_local_path_custom = project_dir(
             os.path.join(
                 'tests',
                 'res',
@@ -344,7 +345,7 @@ class TestCore(unittest.TestCase):
                 'tld': 'foreverchild',
                 'kwargs': {
                     'fail_silently': True,
-                    'tld_names_local_path': tld_names_local_path_custom,
+                    'tld_names_local_path': self.tld_names_local_path_custom,
                 },
             },
             {
@@ -356,7 +357,7 @@ class TestCore(unittest.TestCase):
                 'tld': 'foreverchild',
                 'kwargs': {
                     'fail_silently': True,
-                    'tld_names_local_path': tld_names_local_path_custom,
+                    'tld_names_local_path': self.tld_names_local_path_custom,
                 },
             },
         ]
@@ -660,6 +661,48 @@ class TestCore(unittest.TestCase):
             )
 
             res.append(_res)
+        return res
+
+    @log_info
+    def test_21_reset_tld_names_for_tld_names_local_path(self):
+        """Test `reset_tld_names` for `tld_names_local_path`."""
+        res = []
+        for data in self.good_patterns_custom_tld_names:
+            kwargs = copy.copy(data['kwargs'])
+            kwargs.update({'as_object': True})
+            _res = get_tld(data['url'], **kwargs)
+            self.assertEqual(_res.tld, data['tld'])
+            self.assertEqual(_res.subdomain, data['subdomain'])
+            self.assertEqual(_res.domain, data['domain'])
+            self.assertEqual(_res.suffix, data['suffix'])
+            self.assertEqual(_res.fld, data['fld'])
+
+            if six.PY3:
+                self.assertEqual(
+                    str(_res).encode('utf8'),
+                    data['tld'].encode('utf8')
+                )
+            else:
+                self.assertEqual(str(_res), data['tld'].encode('utf8'))
+
+            self.assertEqual(
+                _res.__dict__,
+                {
+                    'tld': _res.tld,
+                    'domain': _res.domain,
+                    'subdomain': _res.subdomain,
+                    'fld': _res.fld,
+                    'parsed_url': _res.parsed_url,
+                }
+            )
+
+            res.append(_res)
+
+        tld_names = get_tld_names_container()
+        self.assertIn(self.tld_names_local_path_custom, tld_names)
+        reset_tld_names(self.tld_names_local_path_custom)
+        self.assertNotIn(self.tld_names_local_path_custom, tld_names)
+
         return res
 
 

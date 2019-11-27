@@ -22,6 +22,7 @@ __all__ = (
     'get_fld',
     'get_tld',
     'get_tld_names',
+    'get_tld_names_container',
     'is_tld',
     'parse_tld',
     'process_url',
@@ -605,10 +606,28 @@ def is_tld(value,
     return value == _tld
 
 
-def reset_tld_names():
+def get_tld_names_container():
+    """Get container of all tld names.
+
+    :return:
+    :rtype dict:
+    """
+    global tld_names
+    return tld_names
+
+
+def reset_tld_names(tld_names_local_path=None):
     """Reset the ``tld_names`` to empty value.
 
+    If ``tld_names_local_path`` is given, removes specified
+    entry from ``tld_names`` instead.
+
+    :param tld_names_local_path:
+    :type tld_names_local_path: str
     :return:
     """
     global tld_names
-    tld_names = {}
+    if tld_names_local_path:
+        tld_names.pop(tld_names_local_path, None)
+    else:
+        tld_names = {}
