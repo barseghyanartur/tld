@@ -216,8 +216,8 @@ been modified in the following way:
     foreverchild
     ...
 
-Free resources
-==============
+Free up resources
+=================
 To free up memory occupied by loading of custom TLD names, use
 ``reset_tld_names`` function with ``tld_names_local_path`` parameter.
 
