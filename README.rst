@@ -216,6 +216,24 @@ been modified in the following way:
     foreverchild
     ...
 
+Free resources
+==============
+To free up memory occupied by loading of custom TLD names, use
+``reset_tld_names`` function with ``tld_names_local_path`` parameter.
+
+.. code-block:: python
+
+    from tld import get_tld, reset_tld_names
+
+    # Get TLD from a custom TLD names list
+    get_tld(
+        "http://www.foreverchild",
+        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+    )
+
+    # Free resources occupied by the custom TLD names list
+    reset_tld_names("tests/res/effective_tld_names_custom.dat.txt")
+
 Troubleshooting
 ===============
 If somehow domain names listed `here
