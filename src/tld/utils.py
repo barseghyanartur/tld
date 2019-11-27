@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-
 import codecs
 
 from six import PY3, text_type
@@ -23,6 +22,7 @@ __all__ = (
     'get_fld',
     'get_tld',
     'get_tld_names',
+    'get_tld_names_container',
     'is_tld',
     'parse_tld',
     'process_url',
@@ -32,7 +32,7 @@ __all__ = (
     'update_tld_names_cli',
 )
 
-tld_names = None
+tld_names = {}
 
 
 class Result(object):
@@ -150,17 +150,27 @@ class Trie(object):
         self.__nodes += 1
 
 
-def update_tld_names(fail_silently=False):
+def update_tld_names(fail_silently=False,
+                     tld_names_source_url=None,
+                     tld_names_local_path=None):
     """Update the local copy of TLDs file.
 
     :param fail_silently: If set to True, no exceptions is raised on
         failure but boolean False returned.
+    :param tld_names_source_url:
+    :param tld_names_local_path:
     :type fail_silently: bool
+    :type tld_names_source_url: str
+    :type tld_names_local_path: str
     :return: True on success, False on failure.
     :rtype: bool
     """
-    tld_names_source_url = get_setting('NAMES_SOURCE_URL')
-    tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
+    if not tld_names_source_url:
+        tld_names_source_url = get_setting('NAMES_SOURCE_URL')
+
+    if not tld_names_local_path:
+        tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
+
     try:
         remote_file = urlopen(tld_names_source_url)
         local_file = codecs.open(
@@ -188,19 +198,24 @@ def update_tld_names_cli():
     return int(not update_tld_names())
 
 
-def get_tld_names(fail_silently=False, retry_count=0):
+def get_tld_names(fail_silently=False,
+                  retry_count=0,
+                  tld_names_local_path=None):
     """Build the ``tlds`` list if empty. Recursive.
 
     :param fail_silently: If set to True, no exceptions are raised and None
         is returned on failure.
     :param retry_count: If greater than 1, we raise an exception in order
         to avoid infinite loops.
+    :param tld_names_local_path:
     :type fail_silently: bool
     :type retry_count: int
+    :type tld_names_local_path: str
     :return: List of TLD names
     :rtype: obj:`tld.utils.Trie`
     """
-    tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
+    if not tld_names_local_path:
+        tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
 
     if retry_count > 1:
         if fail_silently:
@@ -211,16 +226,21 @@ def get_tld_names(fail_silently=False, retry_count=0):
     global tld_names
 
     # If already loaded, return
-    if tld_names is not None:
+    if (
+        tld_names_local_path in tld_names
+        and tld_names[tld_names_local_path] is not None
+    ):
         return tld_names
 
     local_file = None
     try:
         # Load the TLD names file
-        local_file = codecs.open(project_dir(tld_names_local_path),
-                                 'r',
-                                 encoding='utf8')
-        tld_names = Trie()
+        local_file = codecs.open(
+            project_dir(tld_names_local_path),
+            'r',
+            encoding='utf8'
+        )
+        trie = Trie()
         # Make a list of it all, strip all garbage
         private_section = False
 
@@ -228,21 +248,35 @@ def get_tld_names(fail_silently=False, retry_count=0):
             if '===BEGIN PRIVATE DOMAINS===' in line:
                 private_section = True
 
-            # Puny code tlds
+            # Puny code TLD names
             if '// xn--' in line:
                 line = line.split()[1]
 
             if line[0] == '/' or line[0] == '\n':
                 continue
 
-            tld_names.add(u'{0}'.format(line.strip()), private=private_section)
+            trie.add(
+                u'{0}'.format(line.strip()),
+                private=private_section
+            )
+
+        tld_names[tld_names_local_path] = trie
 
         local_file.close()
     except IOError as err:
-        update_tld_names(fail_silently=fail_silently)  # Grab the file
+        # Grab the file
+        update_tld_names(
+            fail_silently=fail_silently,
+            tld_names_local_path=tld_names_local_path
+        )
         # Increment ``retry_count`` in order to avoid infinite loops
         retry_count += 1
-        return get_tld_names(fail_silently, retry_count)  # Run again
+        # Run again
+        return get_tld_names(
+            fail_silently,
+            retry_count,
+            tld_names_local_path=tld_names_local_path
+        )
     except Exception as err:
         if fail_silently:
             return None
@@ -261,7 +295,8 @@ def process_url(url,
                 fail_silently=False,
                 fix_protocol=False,
                 search_public=True,
-                search_private=True):
+                search_private=True,
+                tld_names_local_path=None):
     """Process URL.
 
     :param url:
@@ -269,6 +304,7 @@ def process_url(url,
     :param fix_protocol:
     :param search_public:
     :param search_private:
+    :param tld_names_local_path:
     :return:
     """
     if not (search_public or search_private):
@@ -277,7 +313,14 @@ def process_url(url,
             "set to True."
         )
 
-    tld_names = get_tld_names(fail_silently=fail_silently)  # Init
+    if not tld_names_local_path:
+        tld_names_local_path = get_setting('NAMES_LOCAL_PATH')
+
+    # Init
+    tld_names = get_tld_names(
+        fail_silently=fail_silently,
+        tld_names_local_path=tld_names_local_path
+    )
 
     if not isinstance(url, SplitResult):
         url = url.lower()
@@ -285,7 +328,9 @@ def process_url(url,
         if fix_protocol:
             if (
                 not url.startswith('//')
-                and not (url.startswith('http://') or url.startswith('https://'))
+                and not (
+                    url.startswith('http://') or url.startswith('https://')
+                )
             ):
                 url = 'https://{}'.format(url)
 
@@ -306,7 +351,7 @@ def process_url(url,
     domain_parts = domain_name.split('.')
 
     # Now we query our Trie iterating on the domain parts in reverse order
-    node = tld_names.root
+    node = tld_names[tld_names_local_path].root
     current_length = 0
     tld_length = 0
     match = None
@@ -364,6 +409,7 @@ def get_fld(url,
             fix_protocol=False,
             search_public=True,
             search_private=True,
+            tld_names_local_path=None,
             **kwargs):
     """Extract the first level domain.
 
@@ -379,11 +425,13 @@ def get_fld(url,
         ignored (https is appended instead).
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
+    :param tld_names_local_path:
     :type url: str
     :type fail_silently: bool
     :type fix_protocol: bool
     :type search_public: bool
     :type search_private: bool
+    :type tld_names_local_path: str
     :return: String with top level domain (if ``as_object`` argument
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
@@ -400,7 +448,8 @@ def get_fld(url,
         fail_silently=fail_silently,
         fix_protocol=fix_protocol,
         search_public=search_public,
-        search_private=search_private
+        search_private=search_private,
+        tld_names_local_path=tld_names_local_path
     )
 
     if domain_parts is None:
@@ -418,7 +467,8 @@ def get_tld(url,
             as_object=False,
             fix_protocol=False,
             search_public=True,
-            search_private=True):
+            search_private=True,
+            tld_names_local_path=None,):
     """Extract the top level domain.
 
     Extract the top level domain based on the mozilla's effective TLD names
@@ -435,12 +485,14 @@ def get_tld(url,
         ignored (https is appended instead).
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
+    :param tld_names_local_path:
     :type url: str
     :type fail_silently: bool
     :type as_object: bool
     :type fix_protocol: bool
     :type search_public: bool
     :type search_private: bool
+    :type tld_names_local_path: str
     :return: String with top level domain (if ``as_object`` argument
         is set to False) or a ``tld.utils.Result`` object (if ``as_object``
         argument is set to True); returns None on failure.
@@ -451,7 +503,8 @@ def get_tld(url,
         fail_silently=fail_silently,
         fix_protocol=fix_protocol,
         search_public=search_public,
-        search_private=search_private
+        search_private=search_private,
+        tld_names_local_path=tld_names_local_path
     )
 
     if domain_parts is None:
@@ -487,7 +540,8 @@ def parse_tld(url,
               fail_silently=False,
               fix_protocol=False,
               search_public=True,
-              search_private=True):
+              search_private=True,
+              tld_names_local_path=None):
     """Parse TLD into parts.
 
     :param url:
@@ -495,6 +549,7 @@ def parse_tld(url,
     :param fix_protocol:
     :param search_public:
     :param search_private:
+    :param tld_names_local_path:
     :return:
     :rtype: tuple
     """
@@ -505,7 +560,8 @@ def parse_tld(url,
             as_object=True,
             fix_protocol=fix_protocol,
             search_public=search_public,
-            search_private=search_private
+            search_private=search_private,
+            tld_names_local_path=tld_names_local_path
         )
         _tld = obj.tld
         domain = obj.domain
@@ -526,15 +582,18 @@ def parse_tld(url,
 
 def is_tld(value,
            search_public=True,
-           search_private=True):
+           search_private=True,
+           tld_names_local_path=None):
     """Check if given URL is tld.
 
     :param value: URL to get top level domain from.
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
+    :param tld_names_local_path:
     :type value: str
     :type search_public: bool
     :type search_private: bool
+    :type tld_names_local_path: str
     :return:
     :rtype: bool
     """
@@ -544,14 +603,33 @@ def is_tld(value,
         fix_protocol=True,
         search_public=search_public,
         search_private=search_private,
+        tld_names_local_path=tld_names_local_path
     )
     return value == _tld
 
 
-def reset_tld_names():
+def get_tld_names_container():
+    """Get container of all tld names.
+
+    :return:
+    :rtype dict:
+    """
+    global tld_names
+    return tld_names
+
+
+def reset_tld_names(tld_names_local_path=None):
     """Reset the ``tld_names`` to empty value.
 
+    If ``tld_names_local_path`` is given, removes specified
+    entry from ``tld_names`` instead.
+
+    :param tld_names_local_path:
+    :type tld_names_local_path: str
     :return:
     """
     global tld_names
-    tld_names = None
+    if tld_names_local_path:
+        tld_names.pop(tld_names_local_path, None)
+    else:
+        tld_names = {}

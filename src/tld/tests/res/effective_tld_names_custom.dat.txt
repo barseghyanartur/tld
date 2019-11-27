@@ -9,6 +9,9 @@
 
 // ===BEGIN ICANN DOMAINS===
 
+// This one actually does not exist, added for testing purposes
+foreverchild
+
 // ac : https://en.wikipedia.org/wiki/.ac
 ac
 com.ac
@@ -10657,6 +10660,9 @@ zuerich
 // ===END ICANN DOMAINS===
 // ===BEGIN PRIVATE DOMAINS===
 // (Note: these are in alphabetical order by company name)
+
+// This one actually does not exist, added for testing purposes
+delusionalinsanity.am
 
 // 1GB LLC : https://www.1gb.ua/
 // Submitted by 1GB LLC <noc@1gb.com.ua>

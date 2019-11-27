@@ -175,6 +175,65 @@ Or simply do:
 
     update_tld_names()
 
+Custom list of TLD names
+========================
+You could maintain your own custom version of the TLD names list (even multiple
+ones) and use them simultaneously with built in TLD names list.
+
+You would then store them locally and provide a path to it as shown below:
+
+.. code-block:: python
+
+    from tld import get_tld
+
+    get_tld(
+        "http://www.foreverchild",
+        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+    )
+    # 'foreverchild'
+
+Same goes for first level domain names:
+
+.. code-block:: python
+
+    from tld import get_fld
+
+    get_fld(
+        "http://www.foreverchild",
+        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+    )
+    # 'www.foreverchild'
+
+Note, that in both examples shown above, there the original TLD names file has
+been modified in the following way:
+
+.. code-block:: text
+
+    ...
+    // ===BEGIN ICANN DOMAINS===
+
+    // This one actually does not exist, added for testing purposes
+    foreverchild
+    ...
+
+Free resources
+==============
+To free up memory occupied by loading of custom TLD names, use
+``reset_tld_names`` function with ``tld_names_local_path`` parameter.
+
+.. code-block:: python
+
+    from tld import get_tld, reset_tld_names
+
+    # Get TLD from a custom TLD names list
+    get_tld(
+        "http://www.foreverchild",
+        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+    )
+
+    # Free resources occupied by the custom TLD names list
+    reset_tld_names("tests/res/effective_tld_names_custom.dat.txt")
+
 Troubleshooting
 ===============
 If somehow domain names listed `here
