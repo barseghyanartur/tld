@@ -14,7 +14,7 @@ from .exceptions import (
     TldIOError,
 )
 from .helpers import project_dir
-from .trie import Trie  #, TrieNode
+from .trie import Trie
 from .registry import REGISTRY
 from .result import Result
 
@@ -237,7 +237,7 @@ def process_url(
         tld_names_local_path = get_setting('NAMES_LOCAL_PATH', None)
 
     # Init
-    tld_names = get_tld_names(
+    _tld_names = get_tld_names(
         fail_silently=fail_silently,
         tld_names_source_url=tld_names_source_url,
         tld_names_local_path=tld_names_local_path,
@@ -273,7 +273,7 @@ def process_url(
     domain_parts = domain_name.split('.')
 
     # Now we query our Trie iterating on the domain parts in reverse order
-    node = tld_names[tld_names_local_path].root
+    node = _tld_names[tld_names_local_path].root
     current_length = 0
     tld_length = 0
     match = None
