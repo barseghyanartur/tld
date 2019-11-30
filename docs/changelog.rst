@@ -15,13 +15,21 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.11
+----
+2019-12-01 (not yet released)
+
+- Dropped support for Python versions prior to 3.6.
+- Introduced parsers.
+- Speed-up tests.
+
 0.10
 ----
 2019-11-27
 
 .. note::
 
-    This is the last release which supports Python 2.
+    This is the last release to support Python 2.
 
 - Make it possible to provide a custom path to the TLD names file.
 - Make it possible to free up some resources occupied due to loading custom

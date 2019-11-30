@@ -4,11 +4,14 @@ import copy
 import logging
 import os
 import unittest
+import tempfile
 
-import six
-from six.moves.urllib.parse import urlsplit
+from urllib.parse import urlsplit
+
+from faker import Faker
 
 from .. import defaults
+from ..base import BaseTLDSourceParser
 from ..conf import get_setting, reset_settings, set_setting
 from ..exceptions import (
     TldBadUrl,
@@ -17,14 +20,16 @@ from ..exceptions import (
     TldIOError,
 )
 from ..helpers import project_dir
+from ..registry import Registry, REGISTRY
 from ..utils import (
     get_fld,
     get_tld,
     get_tld_names,
+    get_tld_names_container,
     is_tld,
+    MozillaTLDSourceParser,
     parse_tld,
     reset_tld_names,
-    get_tld_names_container,
     update_tld_names,
     update_tld_names_cli,
 )
@@ -42,6 +47,11 @@ LOGGER = logging.getLogger(__name__)
 
 class TestCore(unittest.TestCase):
     """Core tld functionality tests."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.faker = Faker()
+        cls.temp_dir = tempfile.gettempdir()
 
     def setUp(self):
         """Set up."""
@@ -441,13 +451,10 @@ class TestCore(unittest.TestCase):
             self.assertEqual(_res.suffix, data['suffix'])
             self.assertEqual(_res.fld, data['fld'])
 
-            if six.PY3:
-                self.assertEqual(
-                    str(_res).encode('utf8'),
-                    data['tld'].encode('utf8')
-                )
-            else:
-                self.assertEqual(str(_res), data['tld'].encode('utf8'))
+            self.assertEqual(
+                str(_res).encode('utf8'),
+                data['tld'].encode('utf8')
+            )
 
             self.assertEqual(
                 _res.__dict__,
@@ -570,10 +577,12 @@ class TestCore(unittest.TestCase):
         set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
         # Assert raise TldIOError on wrong NAMES_SOURCE_URL
         with self.assertRaises(TldIOError):
-            update_tld_names(fail_silently=False)
+            update_tld_names(fail_silently=False, parser_uid='mozilla')
 
         # Assert return False on wrong NAMES_SOURCE_URL
-        self.assertFalse(update_tld_names(fail_silently=True))
+        self.assertFalse(
+            update_tld_names(fail_silently=True, parser_uid='mozilla')
+        )
 
     @log_info
     def test_15_fail_get_fld_wrong_kwargs(self):
@@ -597,15 +606,31 @@ class TestCore(unittest.TestCase):
     @log_info
     def test_17_get_tld_names_and_reset_tld_names(self):
         """Test fail `get_tld_names` and repair using `reset_tld_names`."""
-        set_setting('NAMES_LOCAL_PATH', 'i-do-not-exist')
+        tmp_filename = os.path.join(
+            tempfile.gettempdir(),
+            f'{self.faker.uuid4()}.dat.txt'
+        )
+        set_setting('NAMES_LOCAL_PATH', tmp_filename)
         set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
         reset_tld_names()
-        # Assert raise TldIOError on wrong NAMES_SOURCE_URL for `get_tld_names`
-        with self.assertRaises(TldIOError):
-            get_tld_names(fail_silently=False)
 
-        # Assert get None on wrong `NAMES_SOURCE_URL` for `get_tld_names`
-        self.assertIsNone(get_tld_names(fail_silently=True))
+        with self.subTest('Assert raise TldIOError'):
+            # Assert raise TldIOError on wrong NAMES_SOURCE_URL for
+            # `get_tld_names`
+            with self.assertRaises(TldIOError):
+                get_tld_names(fail_silently=False, retry_count=0)
+
+        tmp_filename = os.path.join(
+            tempfile.gettempdir(),
+            f'{self.faker.uuid4()}.dat.txt'
+        )
+        set_setting('NAMES_LOCAL_PATH', tmp_filename)
+        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist-2')
+        reset_tld_names()
+
+        with self.subTest('Assert get None'):
+            # Assert get None on wrong `NAMES_SOURCE_URL` for `get_tld_names`
+            self.assertIsNone(get_tld_names(fail_silently=True, retry_count=0))
 
     @internet_available_only
     @log_info
@@ -641,13 +666,10 @@ class TestCore(unittest.TestCase):
             self.assertEqual(_res.suffix, data['suffix'])
             self.assertEqual(_res.fld, data['fld'])
 
-            if six.PY3:
-                self.assertEqual(
-                    str(_res).encode('utf8'),
-                    data['tld'].encode('utf8')
-                )
-            else:
-                self.assertEqual(str(_res), data['tld'].encode('utf8'))
+            self.assertEqual(
+                str(_res).encode('utf8'),
+                data['tld'].encode('utf8')
+            )
 
             self.assertEqual(
                 _res.__dict__,
@@ -677,13 +699,10 @@ class TestCore(unittest.TestCase):
             self.assertEqual(_res.suffix, data['suffix'])
             self.assertEqual(_res.fld, data['fld'])
 
-            if six.PY3:
-                self.assertEqual(
-                    str(_res).encode('utf8'),
-                    data['tld'].encode('utf8')
-                )
-            else:
-                self.assertEqual(str(_res), data['tld'].encode('utf8'))
+            self.assertEqual(
+                str(_res).encode('utf8'),
+                data['tld'].encode('utf8')
+            )
 
             self.assertEqual(
                 _res.__dict__,
@@ -702,6 +721,65 @@ class TestCore(unittest.TestCase):
         self.assertIn(self.tld_names_local_path_custom, tld_names)
         reset_tld_names(self.tld_names_local_path_custom)
         self.assertNotIn(self.tld_names_local_path_custom, tld_names)
+
+        return res
+
+    @log_info
+    def test_22_tld_parser_class(self):
+        """Test `get_tld` good URL patterns for custom tld names."""
+        with self.subTest("Testing registry before custom parsers"):
+            self.assertEqual(len(REGISTRY), 1)
+            self.assertIn(MozillaTLDSourceParser.uid, REGISTRY)
+
+        # Define a custom TLD source parser class
+        class CustomMozillaTLDSourceParser(BaseTLDSourceParser):
+
+            uid = 'custom_mozilla'
+            local_path = 'res/effective_tld_names_custom.dat.txt'
+
+            get_tld_names = MozillaTLDSourceParser.get_tld_names
+
+        # Go on with tests
+        res = []
+        for data in self.good_patterns_custom_tld_names:
+            kwargs = copy.copy(data['kwargs'])
+            kwargs.update({
+                'as_object': True,
+                'parser_class': CustomMozillaTLDSourceParser
+            })
+            _res = get_tld(data['url'], **kwargs)
+            with self.subTest(f"get_tld for {data['url']}"):
+                self.assertEqual(_res.tld, data['tld'])
+                self.assertEqual(_res.subdomain, data['subdomain'])
+                self.assertEqual(_res.domain, data['domain'])
+                self.assertEqual(_res.suffix, data['suffix'])
+                self.assertEqual(_res.fld, data['fld'])
+
+                self.assertEqual(
+                    str(_res).encode('utf8'),
+                    data['tld'].encode('utf8')
+                )
+
+                self.assertEqual(
+                    _res.__dict__,
+                    {
+                        'tld': _res.tld,
+                        'domain': _res.domain,
+                        'subdomain': _res.subdomain,
+                        'fld': _res.fld,
+                        'parsed_url': _res.parsed_url,
+                    }
+                )
+
+            res.append(_res)
+
+        with self.subTest("Testing registry"):
+            self.assertEqual(len(REGISTRY), 2)
+            self.assertIn(MozillaTLDSourceParser.uid, REGISTRY)
+            self.assertIn(CustomMozillaTLDSourceParser.uid, REGISTRY)
+
+        with self.subTest("Testing get_registry"):
+            self.assertEqual(Registry.get_registry(), REGISTRY)
 
         return res
 
