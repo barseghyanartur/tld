@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
+import argparse
 import codecs
+import sys
 from typing import Dict, Type, Union, Tuple
-
 from urllib.parse import urlsplit, SplitResult
-# from urllib.request import urlopen
 
 from .conf import get_setting
 from .base import BaseTLDSourceParser
@@ -157,7 +157,16 @@ def update_tld_names_cli() -> int:
     Since update_tld_names returns True on success, we need to negate the
     result to match CLI semantics.
     """
-    return int(not update_tld_names())
+    parser = argparse.ArgumentParser(description='Update TLD names')
+    parser.add_argument(
+        'parser_uid',
+        nargs='?',
+        default=None,
+        help="UID of the parser to update TLD names for.",
+    )
+    args = parser.parse_args(sys.argv[1:])
+    parser_uid = args.parser_uid
+    return int(not update_tld_names(parser_uid=parser_uid))
 
 
 def get_tld_names(

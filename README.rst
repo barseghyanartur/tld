@@ -176,12 +176,12 @@ Or simply do:
     update_tld_names()
 
 Note, that this will update all registered TLD source parsers (not only the
-list of TLD names taken from Mozilla). In order to update a run the update
-for a single parser, specify the ``--parser-uid`` argument.
+list of TLD names taken from Mozilla). In order to run the update for a single
+parser, append ``uid`` of that parser as argument.
 
 .. code-block:: sh
 
-    update-tld-names --parser-uid=mozilla
+    update-tld-names mozilla
 
 Custom list of TLD names
 ========================
