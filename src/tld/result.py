@@ -18,7 +18,7 @@ class Result(object):
         self.parsed_url = parsed_url
 
         if domain:
-            self.__fld = "{0}.{1}".format(self.domain, self.tld)
+            self.__fld = f"{self.domain}.{self.tld}"
         else:
             self.__fld = self.tld
 

@@ -1,4 +1,4 @@
-import codecs
+from codecs import open as codecs_open
 
 from urllib.request import urlopen
 
@@ -60,7 +60,7 @@ class BaseTLDSourceParser(metaclass=Registry):
         """
         try:
             remote_file = urlopen(self.source_url)
-            local_file = codecs.open(
+            local_file = codecs_open(
                 project_dir(self.local_path),
                 'wb',
                 encoding='utf8'

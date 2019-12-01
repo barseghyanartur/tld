@@ -19,6 +19,12 @@ are used for versioning (schema follows below):
 ----
 2019-12-01 (not yet released)
 
+.. note::
+
+    Since introduction of parser classes, next release will be dropping
+    usage of ``NAMES_SOURCE_URL`` and ``NAMES_LOCAL_PATH`` of the ``tld.conf``
+    module.
+
 - Dropped support for Python versions prior to 3.6.
 - Introduced parsers.
 - Speed-up tests.

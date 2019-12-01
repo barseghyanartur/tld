@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import argparse
-import codecs
+from codecs import open as codecs_open
+# codecs_open = open
 import sys
 from typing import Dict, Type, Union, Tuple
 from urllib.parse import urlsplit, SplitResult
@@ -26,15 +27,16 @@ __all__ = (
     'get_tld',
     'get_tld_names',
     'get_tld_names_container',
-    'update_tld_names_container',
-    'pop_tld_names_container',
     'is_tld',
+    'MozillaTLDSourceParser',
     'parse_tld',
+    'pop_tld_names_container',
     'process_url',
     'reset_tld_names',
     'Result',
     'update_tld_names',
     'update_tld_names_cli',
+    'update_tld_names_container',
 )
 
 tld_names: Dict[str, Trie] = {}
@@ -96,7 +98,7 @@ def pop_tld_names_container(tld_names_local_path: str) -> Type[None]:
 #
 #     try:
 #         remote_file = urlopen(tld_names_source_url)
-#         local_file = codecs.open(
+#         local_file = codecs_open(
 #             project_dir(tld_names_local_path),
 #             'wb',
 #             encoding='utf8'
@@ -211,6 +213,115 @@ def get_tld_names(
     )
 
 
+# **************************************************************************
+# **************************** Parser classes ******************************
+# **************************************************************************
+
+class MozillaTLDSourceParser(BaseTLDSourceParser):
+    """Mozilla TLD source."""
+
+    uid: str = 'mozilla'
+    source_url: str = 'http://mxr.mozilla.org/mozilla/source/netwerk/' \
+                      'dns/src/effective_tld_names.dat?raw=1'
+    local_path: str = 'res/effective_tld_names.dat.txt'
+
+    def get_tld_names(
+        self,
+        fail_silently: bool = False,
+        retry_count: int = 0
+    ) -> Union[Dict[str, Trie], Type[None]]:
+        """Parse.
+
+        :param fail_silently:
+        :param retry_count:
+        :return:
+        """
+        if retry_count > 1:
+            if fail_silently:
+                return None
+            else:
+                raise TldIOError
+
+        # global tld_names
+        _tld_names = get_tld_names_container()
+
+        # # If already loaded, return
+        # if (
+        #         self.local_path in tld_names
+        #         and tld_names[self.local_path] is not None
+        # ):
+        #     return tld_names
+
+        # If already loaded, return
+        if (
+            self.local_path in _tld_names
+            and _tld_names[self.local_path] is not None
+        ):
+            return _tld_names
+
+        local_file = None
+        try:
+            # Load the TLD names file
+            local_file = codecs_open(
+                project_dir(self.local_path),
+                'r',
+                encoding='utf8'
+            )
+            trie = Trie()
+            trie_add = trie.add  # Performance opt
+            # Make a list of it all, strip all garbage
+            private_section = False
+
+            for line in local_file:
+                if '===BEGIN PRIVATE DOMAINS===' in line:
+                    private_section = True
+
+                # Puny code TLD names
+                if '// xn--' in line:
+                    line = line.split()[1]
+
+                if line[0] == '/' or line[0] == '\n':
+                    continue
+
+                trie_add(
+                    f'{line.strip()}',
+                    private=private_section
+                )
+
+            # tld_names[self.local_path] = trie
+            update_tld_names_container(self.local_path, trie)
+
+            local_file.close()
+        except IOError as err:
+            # Grab the file
+            self.update_tld_names(
+                fail_silently=fail_silently
+            )
+            # Increment ``retry_count`` in order to avoid infinite loops
+            retry_count += 1
+            # Run again
+            return self.get_tld_names(
+                fail_silently=fail_silently,
+                retry_count=retry_count
+            )
+        except Exception as err:
+            if fail_silently:
+                return None
+            else:
+                raise err
+        finally:
+            try:
+                local_file.close()
+            except Exception:
+                pass
+
+        # return tld_names
+        return _tld_names
+
+# **************************************************************************
+# **************************** Core functions ******************************
+# **************************************************************************
+
 def process_url(
     url: str,
     fail_silently: bool = False,
@@ -219,7 +330,7 @@ def process_url(
     search_private: bool = True,
     tld_names_source_url: str = None,
     tld_names_local_path: str = None,
-    parser_class: BaseTLDSourceParser = None
+    parser_class: BaseTLDSourceParser = MozillaTLDSourceParser
 ):
     """Process URL.
 
@@ -263,7 +374,7 @@ def process_url(
                     url.startswith('http://') or url.startswith('https://')
                 )
             ):
-                url = 'https://{}'.format(url)
+                url = f'https://{url}'
 
         # Get parsed URL as we might need it later
         parsed_url = urlsplit(url)
@@ -286,7 +397,8 @@ def process_url(
     current_length = 0
     tld_length = 0
     match = None
-    for i in reversed(range(len(domain_parts))):
+    len_domain_parts = len(domain_parts)
+    for i in reversed(range(len_domain_parts)):
         part = domain_parts[i]
 
         # Cannot go deeper
@@ -327,10 +439,10 @@ def process_url(
         else:
             raise TldDomainNotFound(domain_name=domain_name)
 
-    if len(domain_parts) == tld_length:
+    if len_domain_parts == tld_length:
         non_zero_i = -1  # hostname = tld
     else:
-        non_zero_i = max(1, len(domain_parts) - tld_length)
+        non_zero_i = max(1, len_domain_parts - tld_length)
 
     return domain_parts, non_zero_i, parsed_url
 
@@ -343,7 +455,7 @@ def get_fld(
     search_private: bool = True,
     tld_names_source_url: str = None,
     tld_names_local_path: str = None,
-    parser_class: BaseTLDSourceParser = None,
+    parser_class: BaseTLDSourceParser = MozillaTLDSourceParser,
     **kwargs
 ) -> Union[str, Type[None]]:
     """Extract the first level domain.
@@ -396,9 +508,9 @@ def get_fld(
 
     if non_zero_i < 0:
         # hostname = tld
-        return str(parsed_url.hostname)
+        return parsed_url.hostname
 
-    return str(".").join(domain_parts[non_zero_i-1:])
+    return ".".join(domain_parts[non_zero_i-1:])
 
 
 def get_tld(
@@ -410,7 +522,7 @@ def get_tld(
     search_private: bool = True,
     tld_names_source_url: str = None,
     tld_names_local_path: str = None,
-    parser_class: BaseTLDSourceParser = None
+    parser_class: BaseTLDSourceParser = MozillaTLDSourceParser
 ) -> Union[Type[None], str, Result]:
     """Extract the top level domain.
 
@@ -460,20 +572,20 @@ def get_tld(
     if not as_object:
         if non_zero_i < 0:
             # hostname = tld
-            return str(parsed_url.hostname)
-        return str(".").join(domain_parts[non_zero_i:])
+            return parsed_url.hostname
+        return ".".join(domain_parts[non_zero_i:])
 
     if non_zero_i < 0:
         # hostname = tld
-        subdomain = str("")
-        domain = str("")
-        _tld = str(parsed_url.hostname)
+        subdomain = ""
+        domain = ""
+        _tld = parsed_url.hostname
     else:
-        subdomain = str(".").join(domain_parts[:non_zero_i-1])
-        domain = str(".").join(
+        subdomain = ".".join(domain_parts[:non_zero_i-1])
+        domain = ".".join(
             domain_parts[non_zero_i-1:non_zero_i]
         )
-        _tld = str(".").join(domain_parts[non_zero_i:])
+        _tld = ".".join(domain_parts[non_zero_i:])
 
     return Result(
         subdomain=subdomain,
@@ -485,13 +597,13 @@ def get_tld(
 
 def parse_tld(
     url: str,
-    fail_silently=False,
-    fix_protocol=False,
-    search_public=True,
-    search_private=True,
+    fail_silently: bool = False,
+    fix_protocol: bool = False,
+    search_public: bool = True,
+    search_private: bool = True,
     tld_names_source_url: str = None,
     tld_names_local_path: str = None,
-    parser_class: BaseTLDSourceParser = None
+    parser_class: BaseTLDSourceParser = MozillaTLDSourceParser
 ) -> Union[Tuple[Type[None], Type[None], Type[None]], Tuple[str, str, str]]:
     """Parse TLD into parts.
 
@@ -541,7 +653,7 @@ def is_tld(
     search_private: bool = True,
     tld_names_source_url: str = None,
     tld_names_local_path: str = None,
-    parser_class: BaseTLDSourceParser = None
+    parser_class: BaseTLDSourceParser = MozillaTLDSourceParser
 ) -> bool:
     """Check if given URL is tld.
 
@@ -587,106 +699,3 @@ def reset_tld_names(tld_names_local_path: str = None) -> Type[None]:
     else:
         global tld_names
         tld_names = {}
-
-
-# **************************************************************************
-# **************************** Parser classes ******************************
-# **************************************************************************
-
-class MozillaTLDSourceParser(BaseTLDSourceParser):
-    """Mozilla TLD source."""
-
-    uid = 'mozilla'
-    source_url = 'http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/' \
-                 'effective_tld_names.dat?raw=1'
-    local_path = 'res/effective_tld_names.dat.txt'
-
-    def get_tld_names(self,
-                      fail_silently: bool = False,
-                      retry_count: int = 0) -> Dict[str, Trie]:
-        """Parse.
-
-        :param fail_silently:
-        :param retry_count:
-        :return:
-        """
-        if retry_count > 1:
-            if fail_silently:
-                return None
-            else:
-                raise TldIOError
-
-        # global tld_names
-        _tld_names = get_tld_names_container()
-
-        # # If already loaded, return
-        # if (
-        #         self.local_path in tld_names
-        #         and tld_names[self.local_path] is not None
-        # ):
-        #     return tld_names
-
-        # If already loaded, return
-        if (
-            self.local_path in _tld_names
-            and _tld_names[self.local_path] is not None
-        ):
-            return _tld_names
-
-        local_file = None
-        try:
-            # Load the TLD names file
-            local_file = codecs.open(
-                project_dir(self.local_path),
-                'r',
-                encoding='utf8'
-            )
-            trie = Trie()
-            # Make a list of it all, strip all garbage
-            private_section = False
-
-            for line in local_file:
-                if '===BEGIN PRIVATE DOMAINS===' in line:
-                    private_section = True
-
-                # Puny code TLD names
-                if '// xn--' in line:
-                    line = line.split()[1]
-
-                if line[0] == '/' or line[0] == '\n':
-                    continue
-
-                trie.add(
-                    u'{0}'.format(line.strip()),
-                    private=private_section
-                )
-
-            # tld_names[self.local_path] = trie
-            update_tld_names_container(self.local_path, trie)
-
-            local_file.close()
-        except IOError as err:
-            # Grab the file
-            self.update_tld_names(
-                fail_silently=fail_silently
-            )
-            # Increment ``retry_count`` in order to avoid infinite loops
-            retry_count += 1
-            # Run again
-            return self.get_tld_names(
-                fail_silently=fail_silently,
-                retry_count=retry_count
-            )
-        except Exception as err:
-            if fail_silently:
-                return None
-            else:
-                raise err
-        finally:
-            try:
-                local_file.close()
-            except Exception:
-                pass
-
-        # return tld_names
-        return _tld_names

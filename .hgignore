@@ -25,3 +25,6 @@ syntax: regexp
 ^builddocs/
 ^builddocs\.zip
 ^src/tld/res/old/
+^prof/
+^runtests.cprof
+\.cprof$

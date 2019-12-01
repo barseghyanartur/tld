@@ -1,3 +1,4 @@
+from functools import lru_cache
 from . import defaults
 
 __author__ = 'Artur Barseghyan'
@@ -16,6 +17,7 @@ class Settings(object):
 
     def __init__(self):
         self._settings = {}
+        self._settings_get = self._settings.get
 
     def set(self, name, value):
         """
@@ -35,7 +37,7 @@ class Settings(object):
         :return mixed:
         """
         if name in self._settings:
-            return self._settings.get(name, default)
+            return self._settings_get(name, default)
         elif hasattr(defaults, name):
             return getattr(defaults, name, default)
 

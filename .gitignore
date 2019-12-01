@@ -15,7 +15,7 @@
 .idea/
 .ipynb_checkpoints/
 /deb_dist/
-#/debian/
+/codebin/
 
 /example/tmp/
 /forks/
@@ -29,3 +29,5 @@
 /MANIFEST.in~
 /src/tld/res/old/
 /src/tld/parsers/
+/prof/
+*.cprof
