@@ -31,3 +31,4 @@
 /src/tld/parsers/
 /prof/
 *.cprof
+*.lprof

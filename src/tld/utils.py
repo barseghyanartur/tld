@@ -280,7 +280,8 @@ class MozillaTLDSourceParser(BaseTLDSourceParser):
                 if '// xn--' in line:
                     line = line.split()[1]
 
-                if line[0] == '/' or line[0] == '\n':
+                # if line[0] == '/' or line[0] == '\n':
+                if line[0] in ('/', '\n'):
                     continue
 
                 trie_add(
@@ -349,6 +350,9 @@ def process_url(
             "Either `search_public` or `search_private` (or both) shall be "
             "set to True."
         )
+
+    # if not tld_names_local_path:
+    #     tld_names_local_path = parser_class.local_path
 
     if not tld_names_local_path:
         tld_names_source_url = get_setting('NAMES_SOURCE_URL', None)
