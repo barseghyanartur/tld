@@ -259,10 +259,10 @@ To free up memory occupied by loading of custom TLD names, use
 
     from tld import get_tld, reset_tld_names
 
-    # Get TLD from a custom TLD names list
+    # Get TLD from a custom TLD names parser
     get_tld(
         "http://www.foreverchild",
-        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+        parser_class=CustomBaseMozillaTLDSourceParser
     )
 
     # Free resources occupied by the custom TLD names list
