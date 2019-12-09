@@ -5,6 +5,7 @@ import logging
 import os
 import unittest
 import tempfile
+from typing import Type
 
 from urllib.parse import urlsplit
 
@@ -20,7 +21,7 @@ from ..exceptions import (
     TldIOError,
 )
 from ..helpers import project_dir
-from ..registry import Registry, REGISTRY
+from ..registry import Registry
 from ..utils import (
     get_fld,
     get_tld,
@@ -28,6 +29,7 @@ from ..utils import (
     get_tld_names_container,
     is_tld,
     MozillaTLDSourceParser,
+    BaseMozillaTLDSourceParser,
     parse_tld,
     reset_tld_names,
     update_tld_names,
@@ -345,7 +347,7 @@ class TestCore(unittest.TestCase):
                 'effective_tld_names_custom.dat.txt'
             )
         )
-        self.good_patterns_custom_tld_names = [
+        self.good_patterns_custom_parser = [
             {
                 'url': 'http://www.foreverchild',
                 'fld': 'www.foreverchild',
@@ -355,7 +357,7 @@ class TestCore(unittest.TestCase):
                 'tld': 'foreverchild',
                 'kwargs': {
                     'fail_silently': True,
-                    'tld_names_local_path': self.tld_names_local_path_custom,
+                    # 'parser_class': self.get_custom_parser_class(),
                 },
             },
             {
@@ -367,7 +369,7 @@ class TestCore(unittest.TestCase):
                 'tld': 'foreverchild',
                 'kwargs': {
                     'fail_silently': True,
-                    'tld_names_local_path': self.tld_names_local_path_custom,
+                    # 'parser_class': self.get_custom_parser_class(),
                 },
             },
         ]
@@ -376,6 +378,7 @@ class TestCore(unittest.TestCase):
     def tearDown(self):
         """Tear down."""
         reset_settings()
+        Registry.reset()
 
     @property
     def good_url(self):
@@ -384,6 +387,24 @@ class TestCore(unittest.TestCase):
     @property
     def bad_url(self):
         return list(self.bad_patterns.keys())[0]
+
+    def get_custom_parser_class(
+        self,
+        uid: str = 'custom_mozilla',
+        source_url: str = None,
+        local_path: str = 'tests/res/effective_tld_names_custom.dat.txt'
+    ) -> Type[BaseTLDSourceParser]:
+        # Define a custom TLD source parser class
+        parser_class = type(
+            'CustomMozillaTLDSourceParser',
+            (BaseMozillaTLDSourceParser,),
+            {
+                'uid': uid,
+                'source_url': source_url,
+                'local_path': local_path,
+            }
+        )
+        return parser_class
 
     @log_info
     def test_0_tld_names_loaded(self):
@@ -398,7 +419,7 @@ class TestCore(unittest.TestCase):
     @log_info
     def test_1_update_tld_names(self):
         """Test updating the tld names (re-fetch mozilla source)."""
-        res = update_tld_names(fail_silently=True)
+        res = update_tld_names(fail_silently=False)
         self.assertTrue(res)
         return res
 
@@ -574,14 +595,17 @@ class TestCore(unittest.TestCase):
     @log_info
     def test_14_fail_update_tld_names(self):
         """Test fail `update_tld_names`."""
-        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
+        parser_class = self.get_custom_parser_class(
+            uid='custom_mozilla_2',
+            source_url='i-do-not-exist'
+        )
         # Assert raise TldIOError on wrong NAMES_SOURCE_URL
         with self.assertRaises(TldIOError):
-            update_tld_names(fail_silently=False, parser_uid='mozilla')
+            update_tld_names(fail_silently=False, parser_uid=parser_class.uid)
 
         # Assert return False on wrong NAMES_SOURCE_URL
         self.assertFalse(
-            update_tld_names(fail_silently=True, parser_uid='mozilla')
+            update_tld_names(fail_silently=True, parser_uid=parser_class.uid)
         )
 
     @log_info
@@ -596,10 +620,13 @@ class TestCore(unittest.TestCase):
 
         Assert raise TldIOError on wrong `NAMES_SOURCE_URL` for `parse_tld`.
         """
-        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
+        parser_class = self.get_custom_parser_class(
+            source_url='i-do-not-exist'
+        )
         parsed_tld = parse_tld(
             self.bad_url,
-            fail_silently=False
+            fail_silently=False,
+            parser_class=parser_class
         )
         self.assertEqual(parsed_tld, (None, None, None))
 
@@ -610,32 +637,45 @@ class TestCore(unittest.TestCase):
             tempfile.gettempdir(),
             f'{self.faker.uuid4()}.dat.txt'
         )
-        set_setting('NAMES_LOCAL_PATH', tmp_filename)
-        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist')
+        parser_class = self.get_custom_parser_class(
+            source_url='i-do-not-exist',
+            local_path=tmp_filename
+        )
         reset_tld_names()
 
         with self.subTest('Assert raise TldIOError'):
             # Assert raise TldIOError on wrong NAMES_SOURCE_URL for
             # `get_tld_names`
             with self.assertRaises(TldIOError):
-                get_tld_names(fail_silently=False, retry_count=0)
+                get_tld_names(
+                    fail_silently=False,
+                    parser_class=parser_class
+                )
 
         tmp_filename = os.path.join(
             tempfile.gettempdir(),
             f'{self.faker.uuid4()}.dat.txt'
         )
-        set_setting('NAMES_LOCAL_PATH', tmp_filename)
-        set_setting('NAMES_SOURCE_URL', 'i-do-not-exist-2')
+        parser_class_2 = self.get_custom_parser_class(
+            source_url='i-do-not-exist-2',
+            local_path=tmp_filename
+        )
         reset_tld_names()
 
         with self.subTest('Assert get None'):
             # Assert get None on wrong `NAMES_SOURCE_URL` for `get_tld_names`
-            self.assertIsNone(get_tld_names(fail_silently=True, retry_count=0))
+            self.assertIsNone(
+                get_tld_names(
+                    fail_silently=True,
+                    parser_class=parser_class_2
+                )
+            )
 
     @internet_available_only
     @log_info
     def test_18_update_tld_names_cli(self):
         """Test the return code of the CLI version of `update_tld_names`."""
+        reset_tld_names()
         res = update_tld_names_cli()
         self.assertEqual(res, 0)
 
@@ -643,8 +683,13 @@ class TestCore(unittest.TestCase):
     def test_19_parse_tld_custom_tld_names_good_patterns(self):
         """Test `parse_tld` good URL patterns for custom tld names."""
         res = []
-        for data in self.good_patterns_custom_tld_names:
-            _res = parse_tld(data['url'], **data['kwargs'])
+
+        for data in self.good_patterns_custom_parser:
+            kwargs = copy.copy(data['kwargs'])
+            kwargs.update({
+                'parser_class': self.get_custom_parser_class(),
+            })
+            _res = parse_tld(data['url'], **kwargs)
             self.assertEqual(
                 _res,
                 (data['tld'], data['domain'], data['subdomain'])
@@ -656,9 +701,12 @@ class TestCore(unittest.TestCase):
     def test_20_tld_custom_tld_names_good_patterns_pass_parsed_object(self):
         """Test `get_tld` good URL patterns for custom tld names."""
         res = []
-        for data in self.good_patterns_custom_tld_names:
+        for data in self.good_patterns_custom_parser:
             kwargs = copy.copy(data['kwargs'])
-            kwargs.update({'as_object': True})
+            kwargs.update({
+                'as_object': True,
+                'parser_class': self.get_custom_parser_class(),
+            })
             _res = get_tld(data['url'], **kwargs)
             self.assertEqual(_res.tld, data['tld'])
             self.assertEqual(_res.subdomain, data['subdomain'])
@@ -686,12 +734,16 @@ class TestCore(unittest.TestCase):
         return res
 
     @log_info
-    def test_21_reset_tld_names_for_tld_names_local_path(self):
+    def test_21_reset_tld_names_for_custom_parser(self):
         """Test `reset_tld_names` for `tld_names_local_path`."""
         res = []
-        for data in self.good_patterns_custom_tld_names:
+        parser_class = self.get_custom_parser_class()
+        for data in self.good_patterns_custom_parser:
             kwargs = copy.copy(data['kwargs'])
-            kwargs.update({'as_object': True})
+            kwargs.update({
+                'as_object': True,
+                'parser_class': self.get_custom_parser_class(),
+            })
             _res = get_tld(data['url'], **kwargs)
             self.assertEqual(_res.tld, data['tld'])
             self.assertEqual(_res.subdomain, data['subdomain'])
@@ -718,70 +770,67 @@ class TestCore(unittest.TestCase):
             res.append(_res)
 
         tld_names = get_tld_names_container()
-        self.assertIn(self.tld_names_local_path_custom, tld_names)
-        reset_tld_names(self.tld_names_local_path_custom)
-        self.assertNotIn(self.tld_names_local_path_custom, tld_names)
+        self.assertIn(parser_class.local_path, tld_names)
+        reset_tld_names(parser_class.local_path)
+        self.assertNotIn(parser_class.local_path, tld_names)
 
         return res
 
-    @log_info
-    def test_22_tld_parser_class(self):
-        """Test `get_tld` good URL patterns for custom tld names."""
-        with self.subTest("Testing registry before custom parsers"):
-            self.assertEqual(len(REGISTRY), 1)
-            self.assertIn(MozillaTLDSourceParser.uid, REGISTRY)
-
-        # Define a custom TLD source parser class
-        class CustomMozillaTLDSourceParser(BaseTLDSourceParser):
-
-            uid = 'custom_mozilla'
-            local_path = 'res/effective_tld_names_custom.dat.txt'
-
-            get_tld_names = MozillaTLDSourceParser.get_tld_names
-
-        # Go on with tests
-        res = []
-        for data in self.good_patterns_custom_tld_names:
-            kwargs = copy.copy(data['kwargs'])
-            kwargs.update({
-                'as_object': True,
-                'parser_class': CustomMozillaTLDSourceParser
-            })
-            _res = get_tld(data['url'], **kwargs)
-            with self.subTest(f"get_tld for {data['url']}"):
-                self.assertEqual(_res.tld, data['tld'])
-                self.assertEqual(_res.subdomain, data['subdomain'])
-                self.assertEqual(_res.domain, data['domain'])
-                self.assertEqual(_res.suffix, data['suffix'])
-                self.assertEqual(_res.fld, data['fld'])
-
-                self.assertEqual(
-                    str(_res).encode('utf8'),
-                    data['tld'].encode('utf8')
-                )
-
-                self.assertEqual(
-                    _res.__dict__,
-                    {
-                        'tld': _res.tld,
-                        'domain': _res.domain,
-                        'subdomain': _res.subdomain,
-                        'fld': _res.fld,
-                        'parsed_url': _res.parsed_url,
-                    }
-                )
-
-            res.append(_res)
-
-        with self.subTest("Testing registry"):
-            self.assertEqual(len(REGISTRY), 2)
-            self.assertIn(MozillaTLDSourceParser.uid, REGISTRY)
-            self.assertIn(CustomMozillaTLDSourceParser.uid, REGISTRY)
-
-        with self.subTest("Testing get_registry"):
-            self.assertEqual(Registry.get_registry(), REGISTRY)
-
-        return res
+    # @log_info
+    # def test_22_tld_parser_class(self):
+    #     """Test `get_tld` good URL patterns for custom tld names."""
+    #     get_tld('http://www.foreverchild.info')
+    #
+    #     with self.subTest("Testing registry before custom parsers"):
+    #         self.assertEqual(len(Registry.registry), 1)
+    #         self.assertIn(MozillaTLDSourceParser.uid, Registry.registry)
+    #
+    #     parser_class = self.get_custom_parser_class()
+    #     # Go on with tests
+    #     res = []
+    #     for data in self.good_patterns_custom_parser:
+    #         kwargs = copy.copy(data['kwargs'])
+    #         kwargs.update({
+    #             'as_object': True,
+    #             'parser_class': parser_class
+    #         })
+    #         _res = get_tld(data['url'], **kwargs)
+    #         with self.subTest(f"get_tld for {data['url']}"):
+    #             self.assertEqual(_res.tld, data['tld'])
+    #             self.assertEqual(_res.subdomain, data['subdomain'])
+    #             self.assertEqual(_res.domain, data['domain'])
+    #             self.assertEqual(_res.suffix, data['suffix'])
+    #             self.assertEqual(_res.fld, data['fld'])
+    #
+    #             self.assertEqual(
+    #                 str(_res).encode('utf8'),
+    #                 data['tld'].encode('utf8')
+    #             )
+    #
+    #             self.assertEqual(
+    #                 _res.__dict__,
+    #                 {
+    #                     'tld': _res.tld,
+    #                     'domain': _res.domain,
+    #                     'subdomain': _res.subdomain,
+    #                     'fld': _res.fld,
+    #                     'parsed_url': _res.parsed_url,
+    #                 }
+    #             )
+    #
+    #         res.append(_res)
+    #
+    #     with self.subTest("Testing registry after the custom parser"):
+    #         import ipdb; ipdb.set_trace()
+    #         self.assertEqual(len(Registry.registry), 2)
+    #         self.assertIn(MozillaTLDSourceParser.uid, Registry.registry)
+    #         self.assertIn(parser_class.uid, Registry.registry)
+    #
+    #     with self.subTest("Testing get_registry"):
+    #         import ipdb; ipdb.set_trace()
+    #         self.assertEqual(Registry.get_registry(), Registry.registry)
+    #
+    #     return res
 
 
 if __name__ == '__main__':

@@ -17,18 +17,23 @@ are used for versioning (schema follows below):
 
 0.11
 ----
-2019-12-01 (not yet released)
+2019-12-09
 
 .. note::
 
     Since introduction of parser classes, usage of
     ``NAMES_SOURCE_URL`` and ``NAMES_LOCAL_PATH`` of the ``tld.conf``
-    module is deprecated. Provide ``tld_names_local_path``
-    and ``tld_names_source_url`` instead.
+    module is deprecated. Also, ``tld_names_local_path``
+    and ``tld_names_source_url`` arguments are deprecated as well.
+    If you want to customise things, implement your own parser (inherit from
+    ``BaseTLDSourceParser``).
 
-- Dropped support for Python versions prior to 3.6.
-- Introduced parsers.
-- Speed-up tests.
+- Drop support for Python versions prior to 3.6.
+- Clean-up dependencies.
+- Introduce parsers.
+- Drop ``tld_names_source_url`` and ``tld_names_local_path`` introduced
+  in the previous release.
+- Minor speed-ups (including tests).
 
 0.10
 ----

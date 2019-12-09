@@ -183,47 +183,6 @@ parser, append ``uid`` of that parser as argument.
 
     update-tld-names mozilla
 
-Custom list of TLD names
-========================
-You could maintain your own custom version of the TLD names list (even multiple
-ones) and use them simultaneously with built in TLD names list.
-
-You would then store them locally and provide a path to it as shown below:
-
-.. code-block:: python
-
-    from tld import get_tld
-
-    get_tld(
-        "http://www.foreverchild",
-        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
-    )
-    # 'foreverchild'
-
-Same goes for first level domain names:
-
-.. code-block:: python
-
-    from tld import get_fld
-
-    get_fld(
-        "http://www.foreverchild",
-        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
-    )
-    # 'www.foreverchild'
-
-Note, that in both examples shown above, there the original TLD names file has
-been modified in the following way:
-
-.. code-block:: text
-
-    ...
-    // ===BEGIN ICANN DOMAINS===
-
-    // This one actually does not exist, added for testing purposes
-    foreverchild
-    ...
-
 Custom TLD parsers
 ==================
 By default list of TLD names is taken from Mozilla. Parsing implemented in
@@ -243,6 +202,53 @@ module functions) as shown below:
         "http://www.google.co.uk",
         parser_class=CustomTLDSourceParser
     )
+
+Custom list of TLD names
+========================
+You could maintain your own custom version of the TLD names list (even multiple
+ones) and use them simultaneously with built in TLD names list.
+
+You would then store them locally and provide a path to it as shown below:
+
+.. code-block:: python
+
+    from tld import get_tld
+    from tld.utils import BaseMozillaTLDSourceParser
+
+    class CustomBaseMozillaTLDSourceParser(BaseMozillaTLDSourceParser):
+
+        uid: str = 'custom_mozilla'
+        local_path: str = 'tests/res/effective_tld_names_custom.dat.txt'
+
+    get_tld(
+        "http://www.foreverchild",
+        parser_class=CustomBaseMozillaTLDSourceParser
+    )
+    # 'foreverchild'
+
+Same goes for first level domain names:
+
+.. code-block:: python
+
+    from tld import get_fld
+
+    get_fld(
+        "http://www.foreverchild",
+        parser_class=CustomBaseMozillaTLDSourceParser
+    )
+    # 'www.foreverchild'
+
+Note, that in both examples shown above, there the original TLD names file has
+been modified in the following way:
+
+.. code-block:: text
+
+    ...
+    // ===BEGIN ICANN DOMAINS===
+
+    // This one actually does not exist, added for testing purposes
+    foreverchild
+    ...
 
 Free up resources
 =================
@@ -272,6 +278,12 @@ your virtual environment:
 .. code-block:: sh
 
     update-tld-names
+
+To update TLD names list for a single parser, specify it as an argument:
+
+.. code-block:: sh
+
+    update-tld-names mozilla
 
 Testing
 =======
