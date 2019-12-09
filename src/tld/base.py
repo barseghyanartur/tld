@@ -22,20 +22,8 @@ class BaseTLDSourceParser(metaclass=Registry):
     source_url: str = None
     local_path: str = None
 
-    def __init__(self,
-                 source_url: str = None,
-                 local_path: str = None):
-        """Constructor.
-
-        :param source_url:
-        :param local_path:
-        """
-        if source_url:
-            self.source_url = source_url
-
-        if local_path:
-            self.local_path = local_path
-
+    def __init__(self):
+        """Constructor."""
         if not self.uid:
             raise TldImproperlyConfigured(
                 "The `uid` property of the TLD source parser shall be defined."
