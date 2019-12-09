@@ -30,7 +30,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
 
 Prerequisites
 =============
-- Python 2.7, 3.4, 3.5, 3.6, 3.7, 3.8 and PyPy
+- Python 3.6, 3.7 and 3.8
 
 Documentation
 =============
@@ -160,7 +160,7 @@ Check if some tld is a valid tld
 
 Update the list of TLD names
 ============================
-To update/sync the tld names with the most recent version run the following
+To update/sync the tld names with the most recent versions run the following
 from your terminal:
 
 .. code-block:: sh
@@ -175,6 +175,34 @@ Or simply do:
 
     update_tld_names()
 
+Note, that this will update all registered TLD source parsers (not only the
+list of TLD names taken from Mozilla). In order to run the update for a single
+parser, append ``uid`` of that parser as argument.
+
+.. code-block:: sh
+
+    update-tld-names mozilla
+
+Custom TLD parsers
+==================
+By default list of TLD names is taken from Mozilla. Parsing implemented in
+the ``tld.utils.MozillaTLDSourceParser`` class. If you want to use another
+parser, subclass the ``tld.base.BaseTLDSourceParser``, provide ``uid``,
+``source_url``, ``local_path`` and implement the ``get_tld_names`` method.
+Take the ``tld.utils.MozillaTLDSourceParser`` as a good example of such
+implementation. You could then use ``get_tld`` (as well as other ``tld``
+module functions) as shown below:
+
+.. code-block:: python
+
+    from tld import get_tld
+    from some.module import CustomTLDSourceParser
+
+    get_tld(
+        "http://www.google.co.uk",
+        parser_class=CustomTLDSourceParser
+    )
+
 Custom list of TLD names
 ========================
 You could maintain your own custom version of the TLD names list (even multiple
@@ -185,10 +213,16 @@ You would then store them locally and provide a path to it as shown below:
 .. code-block:: python
 
     from tld import get_tld
+    from tld.utils import BaseMozillaTLDSourceParser
+
+    class CustomBaseMozillaTLDSourceParser(BaseMozillaTLDSourceParser):
+
+        uid: str = 'custom_mozilla'
+        local_path: str = 'tests/res/effective_tld_names_custom.dat.txt'
 
     get_tld(
         "http://www.foreverchild",
-        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+        parser_class=CustomBaseMozillaTLDSourceParser
     )
     # 'foreverchild'
 
@@ -200,7 +234,7 @@ Same goes for first level domain names:
 
     get_fld(
         "http://www.foreverchild",
-        tld_names_local_path="tests/res/effective_tld_names_custom.dat.txt"
+        parser_class=CustomBaseMozillaTLDSourceParser
     )
     # 'www.foreverchild'
 
@@ -244,6 +278,12 @@ your virtual environment:
 .. code-block:: sh
 
     update-tld-names
+
+To update TLD names list for a single parser, specify it as an argument:
+
+.. code-block:: sh
+
+    update-tld-names mozilla
 
 Testing
 =======

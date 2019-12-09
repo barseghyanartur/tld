@@ -2,6 +2,5 @@
 omit =
     src/tld/bench.py
     src/tld/tests/*
-    src/tld/base.py
-    src/tld/sources/*
+    src/tld/parsers/*
     .tox/*

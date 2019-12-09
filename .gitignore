@@ -15,7 +15,7 @@
 .idea/
 .ipynb_checkpoints/
 /deb_dist/
-#/debian/
+/codebin/
 
 /example/tmp/
 /forks/
@@ -28,5 +28,7 @@
 /hotfixes/
 /MANIFEST.in~
 /src/tld/res/old/
-/src/tld/base.py
-/src/tld/sources/
+/src/tld/parsers/
+/prof/
+*.cprof
+*.lprof

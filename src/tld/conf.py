@@ -1,6 +1,6 @@
+from functools import lru_cache
 from . import defaults
 
-__title__ = 'tld.conf'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later'
@@ -17,6 +17,7 @@ class Settings(object):
 
     def __init__(self):
         self._settings = {}
+        self._settings_get = self._settings.get
 
     def set(self, name, value):
         """
@@ -36,7 +37,7 @@ class Settings(object):
         :return mixed:
         """
         if name in self._settings:
-            return self._settings.get(name, default)
+            return self._settings_get(name, default)
         elif hasattr(defaults, name):
             return getattr(defaults, name, default)
 
