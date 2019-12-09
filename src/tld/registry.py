@@ -25,10 +25,6 @@ class Registry(type):
         return getattr(cls, 'uid', cls.__name__)
 
     @classmethod
-    def get_registry(cls) -> Dict[str, Type]:
-        return dict(cls.REGISTRY)
-
-    @classmethod
     def reset(cls) -> None:
         cls.REGISTRY = {}
 
@@ -40,6 +36,10 @@ class Registry(type):
     def items(cls):
         return cls.REGISTRY.items()
 
-    @classmethod
-    def pop(cls, uid) -> None:
-        cls.REGISTRY.pop(uid)
+    # @classmethod
+    # def get_registry(cls) -> Dict[str, Type]:
+    #     return dict(cls.REGISTRY)
+    #
+    # @classmethod
+    # def pop(cls, uid) -> None:
+    #     cls.REGISTRY.pop(uid)

@@ -776,6 +776,44 @@ class TestCore(unittest.TestCase):
 
         return res
 
+    @log_info
+    def test_22_fail_define_custom_parser_class_without_uid(self):
+        """Test fail define custom parser class without `uid`."""
+        class CustomParser(BaseTLDSourceParser):
+            pass
+
+        class AnotherCustomParser(BaseTLDSourceParser):
+
+            uid = 'another-custom-parser'
+
+        # Assert raise TldImproperlyConfigured
+        with self.assertRaises(TldImproperlyConfigured):
+            custom_parser = CustomParser()
+
+        # Assert raise NotImplementedError
+        with self.assertRaises(NotImplementedError):
+            custom_parser = AnotherCustomParser()
+            custom_parser.get_tld_names()
+
+    @log_info
+    def test_23_len_trie_nodes(self):
+        """Test len of the trie nodes."""
+        get_tld('http://delusionalinsanity.com')
+        tld_names = get_tld_names_container()
+        self.assertGreater(
+            len(tld_names[MozillaTLDSourceParser.local_path]),
+            0
+        )
+
+    @log_info
+    def test_24_get_tld_names_no_arguments(self):
+        """Test len of the trie nodes."""
+        tld_names = get_tld_names()
+        self.assertGreater(
+            len(tld_names),
+            0
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
