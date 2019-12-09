@@ -776,62 +776,6 @@ class TestCore(unittest.TestCase):
 
         return res
 
-    # @log_info
-    # def test_22_tld_parser_class(self):
-    #     """Test `get_tld` good URL patterns for custom tld names."""
-    #     get_tld('http://www.foreverchild.info')
-    #
-    #     with self.subTest("Testing registry before custom parsers"):
-    #         self.assertEqual(len(Registry.registry), 1)
-    #         self.assertIn(MozillaTLDSourceParser.uid, Registry.registry)
-    #
-    #     parser_class = self.get_custom_parser_class()
-    #     # Go on with tests
-    #     res = []
-    #     for data in self.good_patterns_custom_parser:
-    #         kwargs = copy.copy(data['kwargs'])
-    #         kwargs.update({
-    #             'as_object': True,
-    #             'parser_class': parser_class
-    #         })
-    #         _res = get_tld(data['url'], **kwargs)
-    #         with self.subTest(f"get_tld for {data['url']}"):
-    #             self.assertEqual(_res.tld, data['tld'])
-    #             self.assertEqual(_res.subdomain, data['subdomain'])
-    #             self.assertEqual(_res.domain, data['domain'])
-    #             self.assertEqual(_res.suffix, data['suffix'])
-    #             self.assertEqual(_res.fld, data['fld'])
-    #
-    #             self.assertEqual(
-    #                 str(_res).encode('utf8'),
-    #                 data['tld'].encode('utf8')
-    #             )
-    #
-    #             self.assertEqual(
-    #                 _res.__dict__,
-    #                 {
-    #                     'tld': _res.tld,
-    #                     'domain': _res.domain,
-    #                     'subdomain': _res.subdomain,
-    #                     'fld': _res.fld,
-    #                     'parsed_url': _res.parsed_url,
-    #                 }
-    #             )
-    #
-    #         res.append(_res)
-    #
-    #     with self.subTest("Testing registry after the custom parser"):
-    #         import ipdb; ipdb.set_trace()
-    #         self.assertEqual(len(Registry.registry), 2)
-    #         self.assertIn(MozillaTLDSourceParser.uid, Registry.registry)
-    #         self.assertIn(parser_class.uid, Registry.registry)
-    #
-    #     with self.subTest("Testing get_registry"):
-    #         import ipdb; ipdb.set_trace()
-    #         self.assertEqual(Registry.get_registry(), Registry.registry)
-    #
-    #     return res
-
 
 if __name__ == '__main__':
     unittest.main()
