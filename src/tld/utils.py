@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import argparse
 from codecs import open as codecs_open
+from functools import lru_cache
 # codecs_open = open
 import os
 import sys
@@ -75,6 +76,7 @@ def pop_tld_names_container(tld_names_local_path: str) -> None:
     tld_names.pop(tld_names_local_path, None)
 
 
+@lru_cache(maxsize=128, typed=True)
 def update_tld_names(
     fail_silently: bool = False,
     parser_uid: str = None
@@ -89,16 +91,14 @@ def update_tld_names(
     if parser_uid:
         parser_cls = Registry.get(parser_uid, None)
         if parser_cls and parser_cls.source_url:
-            parser = parser_cls()
             results.append(
-                parser.update_tld_names(fail_silently=fail_silently)
+                parser_cls.update_tld_names(fail_silently=fail_silently)
             )
     else:
         for parser_uid, parser_cls in Registry.items():
             if parser_cls and parser_cls.source_url:
-                parser = parser_cls()
                 results.append(
-                    parser.update_tld_names(fail_silently=fail_silently)
+                    parser_cls.update_tld_names(fail_silently=fail_silently)
                 )
 
     return all(results)
@@ -156,8 +156,7 @@ def get_tld_names(
     if not parser_class:
         parser_class = MozillaTLDSourceParser
 
-    parser = parser_class()
-    return parser.get_tld_names(
+    return parser_class.get_tld_names(
         fail_silently=fail_silently,
         retry_count=retry_count
     )
@@ -169,8 +168,9 @@ def get_tld_names(
 
 class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
+    @classmethod
     def get_tld_names(
-        self,
+        cls,
         fail_silently: bool = False,
         retry_count: int = 0
     ) -> Union[Dict[str, Trie], None]:
@@ -190,18 +190,18 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
         # If already loaded, return
         if (
-            self.local_path in _tld_names
-            and _tld_names[self.local_path] is not None
+            cls.local_path in _tld_names
+            and _tld_names[cls.local_path] is not None
         ):
             return _tld_names
 
         local_file = None
         try:
             # Load the TLD names file
-            if os.path.isabs(self.local_path):
-                local_path = self.local_path
+            if os.path.isabs(cls.local_path):
+                local_path = cls.local_path
             else:
-                local_path = project_dir(self.local_path)
+                local_path = project_dir(cls.local_path)
             local_file = codecs_open(
                 local_path,
                 'r',
@@ -228,18 +228,18 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
                     private=private_section
                 )
 
-            update_tld_names_container(self.local_path, trie)
+            update_tld_names_container(cls.local_path, trie)
 
             local_file.close()
         except IOError as err:
             # Grab the file
-            self.update_tld_names(
+            cls.update_tld_names(
                 fail_silently=fail_silently
             )
             # Increment ``retry_count`` in order to avoid infinite loops
             retry_count += 1
             # Run again
-            return self.get_tld_names(
+            return cls.get_tld_names(
                 fail_silently=fail_silently,
                 retry_count=retry_count
             )

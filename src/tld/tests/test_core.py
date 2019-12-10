@@ -788,12 +788,11 @@ class TestCore(unittest.TestCase):
 
         # Assert raise TldImproperlyConfigured
         with self.assertRaises(TldImproperlyConfigured):
-            custom_parser = CustomParser()
+            CustomParser.get_tld_names()
 
         # Assert raise NotImplementedError
         with self.assertRaises(NotImplementedError):
-            custom_parser = AnotherCustomParser()
-            custom_parser.get_tld_names()
+            AnotherCustomParser.get_tld_names()
 
     @log_info
     def test_23_len_trie_nodes(self):

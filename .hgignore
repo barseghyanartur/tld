@@ -29,3 +29,4 @@ syntax: regexp
 ^runtests.cprof
 \.cprof$
 \.lprof$
+pycallgraph\.png
