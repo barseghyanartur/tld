@@ -2,9 +2,9 @@
 
 import copy
 import logging
-import os
+from os.path import abspath, join
 import unittest
-import tempfile
+from tempfile import gettempdir
 from typing import Type
 
 from urllib.parse import urlsplit
@@ -53,7 +53,7 @@ class TestCore(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.faker = Faker()
-        cls.temp_dir = tempfile.gettempdir()
+        cls.temp_dir = gettempdir()
 
     def setUp(self):
         """Set up."""
@@ -341,7 +341,7 @@ class TestCore(unittest.TestCase):
         }
 
         self.tld_names_local_path_custom = project_dir(
-            os.path.join(
+            join(
                 'tests',
                 'res',
                 'effective_tld_names_custom.dat.txt'
@@ -498,7 +498,7 @@ class TestCore(unittest.TestCase):
         set_setting('NAMES_LOCAL_PATH_PARENT', override_base)
         modified = project_dir('dummy.txt')
         self.assertNotEqual(default, modified)
-        self.assertEqual(modified, os.path.abspath('/tmp/test/dummy.txt'))
+        self.assertEqual(modified, abspath('/tmp/test/dummy.txt'))
 
     @log_info
     def test_7_public_private(self):
@@ -633,8 +633,8 @@ class TestCore(unittest.TestCase):
     @log_info
     def test_17_get_tld_names_and_reset_tld_names(self):
         """Test fail `get_tld_names` and repair using `reset_tld_names`."""
-        tmp_filename = os.path.join(
-            tempfile.gettempdir(),
+        tmp_filename = join(
+            gettempdir(),
             f'{self.faker.uuid4()}.dat.txt'
         )
         parser_class = self.get_custom_parser_class(
@@ -652,8 +652,8 @@ class TestCore(unittest.TestCase):
                     parser_class=parser_class
                 )
 
-        tmp_filename = os.path.join(
-            tempfile.gettempdir(),
+        tmp_filename = join(
+            gettempdir(),
             f'{self.faker.uuid4()}.dat.txt'
         )
         parser_class_2 = self.get_custom_parser_class(

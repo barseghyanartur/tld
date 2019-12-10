@@ -3,7 +3,7 @@ import argparse
 from codecs import open as codecs_open
 from functools import lru_cache
 # codecs_open = open
-import os
+from os.path import isabs
 import sys
 from typing import Dict, Type, Union, Tuple, List
 from urllib.parse import urlsplit, SplitResult
@@ -88,16 +88,17 @@ def update_tld_names(
     :return:
     """
     results = []
+    results_append = results.append
     if parser_uid:
         parser_cls = Registry.get(parser_uid, None)
         if parser_cls and parser_cls.source_url:
-            results.append(
+            results_append(
                 parser_cls.update_tld_names(fail_silently=fail_silently)
             )
     else:
         for parser_uid, parser_cls in Registry.items():
             if parser_cls and parser_cls.source_url:
-                results.append(
+                results_append(
                     parser_cls.update_tld_names(fail_silently=fail_silently)
                 )
 
@@ -198,7 +199,7 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
         local_file = None
         try:
             # Load the TLD names file
-            if os.path.isabs(cls.local_path):
+            if isabs(cls.local_path):
                 local_path = cls.local_path
             else:
                 local_path = project_dir(cls.local_path)

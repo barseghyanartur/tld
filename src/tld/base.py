@@ -8,6 +8,7 @@ from .exceptions import (
 )
 from .helpers import project_dir
 from .registry import Registry
+from .trie import Trie
 
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'

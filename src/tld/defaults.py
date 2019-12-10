@@ -1,4 +1,4 @@
-import os
+from os.path import dirname
 
 __title__ = 'tld.defaults'
 __author__ = 'Artur Barseghyan'
@@ -19,6 +19,6 @@ __all__ = (
 # NAMES_LOCAL_PATH = 'res/effective_tld_names.dat.txt'
 
 # Absolute base path that is prepended to NAMES_LOCAL_PATH
-NAMES_LOCAL_PATH_PARENT = os.path.dirname(__file__)
+NAMES_LOCAL_PATH_PARENT = dirname(__file__)
 
 DEBUG = False

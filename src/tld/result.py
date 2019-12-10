@@ -1,3 +1,6 @@
+from typing import Dict
+from urllib.parse import SplitResult
+
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later'
@@ -11,7 +14,11 @@ class Result(object):
 
     __slots__ = ('subdomain', 'domain', 'tld', '__fld', 'parsed_url')
 
-    def __init__(self, tld: str, domain: str, subdomain: str, parsed_url):
+    def __init__(self,
+                 tld: str,
+                 domain: str,
+                 subdomain: str,
+                 parsed_url: SplitResult):
         self.tld = tld
         self.domain = domain if domain != '' else tld
         self.subdomain = subdomain
@@ -23,7 +30,7 @@ class Result(object):
             self.__fld = self.tld
 
     @property
-    def extension(self):
+    def extension(self) -> str:
         """Alias of ``tld``.
 
         :return str:
@@ -32,7 +39,7 @@ class Result(object):
     suffix = extension
 
     @property
-    def fld(self):
+    def fld(self) -> str:
         """First level domain.
 
         :return:
@@ -40,13 +47,12 @@ class Result(object):
         """
         return self.__fld
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.tld
     __repr__ = __str__
-    __unicode__ = __str__
 
     @property
-    def __dict__(self):
+    def __dict__(self) -> Dict[str, str]:
         """Mimic __dict__ functionality.
 
         :return:
