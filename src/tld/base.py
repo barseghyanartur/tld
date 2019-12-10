@@ -8,6 +8,7 @@ from .exceptions import (
 )
 from .helpers import project_dir
 from .registry import Registry
+from .trie import Trie
 
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
@@ -22,34 +23,38 @@ class BaseTLDSourceParser(metaclass=Registry):
     source_url: str = None
     local_path: str = None
 
-    def __init__(self):
+    @classmethod
+    def validate(cls):
         """Constructor."""
-        if not self.uid:
+        if not cls.uid:
             raise TldImproperlyConfigured(
                 "The `uid` property of the TLD source parser shall be defined."
             )
 
-    def get_tld_names(self, fail_silently: bool = False, retry_count: int = 0):
+    @classmethod
+    def get_tld_names(cls, fail_silently: bool = False, retry_count: int = 0):
         """Get tld names.
 
         :param fail_silently:
         :param retry_count:
         :return:
         """
+        cls.validate()
         raise NotImplementedError(
             "Your TLD source parser shall implement `get_tld_names` method."
         )
 
-    def update_tld_names(self, fail_silently: bool = False) -> bool:
+    @classmethod
+    def update_tld_names(cls, fail_silently: bool = False) -> bool:
         """Update the local copy of the TLD file.
 
         :param fail_silently:
         :return:
         """
         try:
-            remote_file = urlopen(self.source_url)
+            remote_file = urlopen(cls.source_url)
             local_file = codecs_open(
-                project_dir(self.local_path),
+                project_dir(cls.local_path),
                 'wb',
                 encoding='utf8'
             )

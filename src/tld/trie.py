@@ -43,11 +43,11 @@ class Trie(object):
             # when strictly necessary
             if node.children is None:
                 node.children = {}
-
-            child = node.children.get(part)
-
-            if child is None:
                 child = TrieNode()
+            else:
+                child = node.children.get(part)
+                if child is None:
+                    child = TrieNode()
 
             node.children[part] = child
 

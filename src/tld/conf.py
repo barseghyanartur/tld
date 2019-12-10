@@ -1,4 +1,4 @@
-from functools import lru_cache
+from typing import Any
 from . import defaults
 
 __author__ = 'Artur Barseghyan'
@@ -19,7 +19,7 @@ class Settings(object):
         self._settings = {}
         self._settings_get = self._settings.get
 
-    def set(self, name, value):
+    def set(self, name: str, value: Any) -> None:
         """
         Override default settings.
 
@@ -28,7 +28,7 @@ class Settings(object):
         """
         self._settings[name] = value
 
-    def get(self, name, default=None):
+    def get(self, name: str, default: Any = None) -> Any:
         """
         Gets a variable from local settings.
 
@@ -43,7 +43,7 @@ class Settings(object):
 
         return default
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset settings."""
         for name in defaults.__all__:
             self.set(name, getattr(defaults, name))

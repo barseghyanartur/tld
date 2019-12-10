@@ -1,4 +1,4 @@
-import os
+from os.path import abspath, join
 
 from .conf import get_setting
 
@@ -12,11 +12,11 @@ __all__ = (
 )
 
 
-def project_dir(base):
+def project_dir(base: str) -> str:
     """Project dir."""
     tld_names_local_path_parent = get_setting('NAMES_LOCAL_PATH_PARENT')
-    return os.path.abspath(
-        os.path.join(tld_names_local_path_parent, base).replace('\\', '/')
+    return abspath(
+        join(tld_names_local_path_parent, base).replace('\\', '/')
     )
 
 
