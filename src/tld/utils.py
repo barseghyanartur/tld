@@ -303,14 +303,14 @@ def process_url(
     if not isinstance(url, SplitResult):
         url = url.lower()
 
-        if fix_protocol:
-            if (
-                not url.startswith('//')
-                and not (
-                    url.startswith('http://') or url.startswith('https://')
-                )
-            ):
-                url = f'https://{url}'
+        if (
+            fix_protocol
+            and not url.startswith('//')
+            and not (
+                url.startswith('http://') or url.startswith('https://')
+            )
+        ):
+            url = f'https://{url}'
 
         # Get parsed URL as we might need it later
         parsed_url = urlsplit(url)
