@@ -1,4 +1,5 @@
 recursive-include  src/tld/res *
+recursive-include  src_py35/tld/res *
 include README.rst
 include CHANGELOG.rst
 include CREDITS.rst

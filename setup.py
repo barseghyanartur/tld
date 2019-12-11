@@ -7,7 +7,7 @@ try:
 except:
     readme = ''
 
-version = '0.11.2'
+version = '0.11.3'
 
 py_requires = ">=3.6, <4"
 py_classifiers = [
