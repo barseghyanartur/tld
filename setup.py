@@ -18,13 +18,16 @@ py_classifiers = [
 py_where = './src'
 py_package_dir = 'src'
 try:
-    if sys.argv[-1] == 'py35':
+    if sys.argv[-2] == '--python-tag' and sys.argv[-1] == 'py35':
         py_requires = ">=3.5, <3.6"
         py_classifiers = [
             "Programming Language :: Python :: 3.5",
         ]
         py_where = './src_py25'
         py_package_dir = 'src_py35'
+        if sys.argv[1] == 'develop':
+            sys.argv.pop(-1)
+            sys.argv.pop(-1)
 except Exception as err:
     pass
 

@@ -24,6 +24,8 @@
 /builddocs.zip
 /build/
 /dist/
+/dist_py35/
+/src_py35/
 /src/tld.egg-info
 /hotfixes/
 /MANIFEST.in~

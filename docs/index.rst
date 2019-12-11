@@ -268,6 +268,29 @@ To free up memory occupied by loading of custom TLD names, use
     # Free resources occupied by the custom TLD names list
     reset_tld_names("tests/res/effective_tld_names_custom.dat.txt")
 
+Python 3.5 support
+==================
+As you might have noticed, this typing (Python 3.6+) is extensively used.
+However, Python 3.5 will be supported until it's EOL.
+
+**Install locally in development mode**
+
+.. code-block:: sh
+
+    python setup.py develop --python-tag py35
+
+**Prepare dist**
+
+.. code-block:: sh
+
+    ./scripts/prepare_build_py35.sh
+
+**Run tests**
+
+.. code-block:: sh
+
+    ./runtests.py src_py35/ --python-tag py35
+
 Troubleshooting
 ===============
 If somehow domain names listed `here
