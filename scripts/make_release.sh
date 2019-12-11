@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-./scripts/uninstall.sh
-./scripts/clean_up.sh
+./scripts/prepare_build.sh
 python setup.py register
-python setup.py sdist bdist_wheel
-twine upload dist/*
+twine upload dist/* dist_py35/*
