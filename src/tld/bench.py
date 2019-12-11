@@ -2,7 +2,6 @@
 # from faker import Faker
 from tld import get_tld
 
-
 # fake = Faker()
 # fake.seed(1234)
 
@@ -15,10 +14,10 @@ URLS = [
     'http://www.me.cloudfront.net',
     'http://www.v2.forum.tech.google.co.uk:8001/lorem-ipsum/',
     'https://pantheon.io/',
-    'jophy.com',
+    'delusionalinsanity.com',
     'www.baidu.com.cn',
-    'jo.noexist',
-    'http://jophy.com',
+    'i.dont.exist',
+    'http://delusionalinsanity.com',
 ]
 TIMES = 10_000
 

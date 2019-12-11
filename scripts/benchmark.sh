@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python src/tld/bench.py
+pycallgraph graphviz -- src/tld/bench.py

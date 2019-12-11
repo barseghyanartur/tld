@@ -2,3 +2,4 @@ Faker==0.8.15
 pyprof2calltree==1.4.4
 py-spy==0.3.0
 pytest-profiling==1.7.0
+pycallgraph==1.0.1
