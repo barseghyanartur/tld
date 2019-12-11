@@ -32,6 +32,8 @@ Prerequisites
 =============
 - Python 3.6, 3.7 and 3.8
 
+`Python 3.5 support`_ is available as well.
+
 Documentation
 =============
 Documentation is available on `Read the Docs
