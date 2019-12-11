@@ -15,6 +15,13 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.11.4
+------
+2019-12-12
+
+- Changed order of the releases (Python 3.6 and up come first, then Python 3.5).
+- Make all distributions except Python 3.5 universal.
+
 0.11.3
 ------
 2019-12-12
