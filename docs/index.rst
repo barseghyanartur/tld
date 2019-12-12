@@ -32,7 +32,7 @@ Prerequisites
 =============
 - Python 3.6, 3.7 and 3.8
 
-`Python 3.5 support`_ is available as well.
+`Support for Python 2.7 and 3.5`_ is available as well.
 
 Documentation
 =============
@@ -270,12 +270,35 @@ To free up memory occupied by loading of custom TLD names, use
     # Free resources occupied by the custom TLD names list
     reset_tld_names("tests/res/effective_tld_names_custom.dat.txt")
 
-Python 3.5 support
-==================
+Support for Python 2.7 and 3.5
+==============================
 As you might have noticed, typing (Python 3.6+) is extensively used in the code.
-However, Python 3.5 will be supported until it's EOL. All modern recent versions
-(starting from tld==0.11.6) are fully compatible with Python 3.5.
+However, Python 3.5 will likely be supported until it's EOL. All modern recent
+versions (starting from tld==0.11.7) are fully compatible with Python 2.7 and
+3.5.
 
+Python 2.7
+----------
+**Install locally in development mode**
+
+.. code-block:: sh
+
+    python setup.py develop --python-tag py27
+
+**Prepare dist**
+
+.. code-block:: sh
+
+    ./scripts/prepare_build_py27.sh
+
+**Run tests**
+
+.. code-block:: sh
+
+    ./runtests.py src_py27/ --python-tag py27
+
+Python 3.5
+----------
 **Install locally in development mode**
 
 .. code-block:: sh

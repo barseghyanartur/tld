@@ -7,7 +7,7 @@ try:
 except:
     readme = ''
 
-version = '0.11.6'
+version = '0.11.7'
 
 py_where = './src'
 py_package_dir = 'src'
@@ -24,7 +24,7 @@ try:
             py_package_dir = 'src_py27'
 
         # For development mode
-        if sys.argv[1] == 'develop':
+        if sys.argv[1] in ('develop', 'install',):
             sys.argv.pop(-1)
             sys.argv.pop(-1)
 except Exception as err:
@@ -37,8 +37,8 @@ setup(
     long_description=readme,
     classifiers=[
         "Programming Language :: Python",
-        # "Programming Language :: Python :: 2",
-        # "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
@@ -54,7 +54,7 @@ setup(
         "License :: OSI Approved :: GNU Lesser General Public License v2 or "
         "later (LGPLv2+)",
     ],
-    python_requires=">=3.5, <4",
+    python_requires=">=2.7, <4",
     keywords='tld, top-level domain names, python',
     author='Artur Barseghyan',
     author_email='artur.barseghyan@gmail.com',
@@ -78,5 +78,6 @@ setup(
         'pytest',
         'tox',
         'six',  # Python 3.6 dist does not use it, but 2.7 and 3.5 do.
+        'backports.functools-lru-cache',  # For Python 2.7.
     ]
 )

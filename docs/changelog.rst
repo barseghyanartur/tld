@@ -15,6 +15,17 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.11.7
+------
+2019-12-13
+
+.. note::
+
+    There have been no code changes since 0.11.2. The only change is that
+    support for Python 2.7 and 3.5 has been added.
+
+- Added support for Python 2.7.
+
 0.11.6
 ------
 2019-12-12
