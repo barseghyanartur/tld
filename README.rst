@@ -272,8 +272,9 @@ To free up memory occupied by loading of custom TLD names, use
 
 Python 3.5 support
 ==================
-As you might have noticed, this typing (Python 3.6+) is extensively used.
-However, Python 3.5 will be supported until it's EOL.
+As you might have noticed, typing (Python 3.6+) is extensively used in the code.
+However, Python 3.5 will be supported until it's EOL. All modern recent (starting 
+from tld==0.11.3) are fully compatible with Python 3.5.
 
 **Install locally in development mode**
 
