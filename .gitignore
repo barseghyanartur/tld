@@ -24,6 +24,8 @@
 /builddocs.zip
 /build/
 /dist/
+/dist_py27/
+/src_py27/
 /dist_py35/
 /src_py35/
 /src/tld.egg-info

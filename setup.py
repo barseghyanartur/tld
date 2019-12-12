@@ -7,50 +7,54 @@ try:
 except:
     readme = ''
 
-version = '0.11.5'
+version = '0.11.6'
 
-py_requires = ">=3.6, <4"
-py_classifiers = [
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-]
 py_where = './src'
 py_package_dir = 'src'
 try:
-    if sys.argv[-2] == '--python-tag' and sys.argv[-1] == 'py35':
-        py_requires = ">=3.5, <3.6"
-        py_classifiers = [
-            "Programming Language :: Python :: 3.5",
-        ]
-        py_where = './src_py35'
-        py_package_dir = 'src_py35'
+    if sys.argv[-2] == '--python-tag':
+        # For Python 3.5
+        if sys.argv[-1] == 'py35':
+            py_where = './src_py35'
+            py_package_dir = 'src_py35'
+
+        # For Python 2.7
+        elif sys.argv[-1] == 'py27':
+            py_where = './src_py27'
+            py_package_dir = 'src_py27'
+
+        # For development mode
         if sys.argv[1] == 'develop':
             sys.argv.pop(-1)
             sys.argv.pop(-1)
 except Exception as err:
     pass
 
-py_classifiers.extend([
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Environment :: Web Environment",
-    "Intended Audience :: Developers",
-    "Operating System :: OS Independent",
-    "Development Status :: 5 - Production/Stable",
-    "Topic :: Internet",
-    "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
-    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-    "License :: OSI Approved :: GNU Lesser General Public License v2 or "
-    "later (LGPLv2+)",
-])
 setup(
     name='tld',
     version=version,
     description="Extract the top-level domain (TLD) from the URL given.",
     long_description=readme,
-    classifiers=py_classifiers,
-    python_requires=py_requires,
+    classifiers=[
+        "Programming Language :: Python",
+        # "Programming Language :: Python :: 2",
+        # "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Environment :: Web Environment",
+        "Intended Audience :: Developers",
+        "Operating System :: OS Independent",
+        "Development Status :: 5 - Production/Stable",
+        "Topic :: Internet",
+        "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        "License :: OSI Approved :: GNU Lesser General Public License v2 or "
+        "later (LGPLv2+)",
+    ],
+    python_requires=">=3.5, <4",
     keywords='tld, top-level domain names, python',
     author='Artur Barseghyan',
     author_email='artur.barseghyan@gmail.com',
@@ -73,5 +77,6 @@ setup(
         'pytest-cov',
         'pytest',
         'tox',
+        'six',  # Python 3.6 dist does not use it, but 2.7 and 3.5 do.
     ]
 )
