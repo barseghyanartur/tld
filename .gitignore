@@ -36,4 +36,4 @@
 /prof/
 *.cprof
 *.lprof
-pycallgraph.png
+pycallgraph.*
