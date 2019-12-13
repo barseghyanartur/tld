@@ -22,6 +22,8 @@ syntax: regexp
 ^bugs/
 ^build/
 ^dist/
+^dist_py27/
+^dist_py35/
 ^builddocs/
 ^builddocs\.zip
 ^src/tld/res/old/
@@ -29,4 +31,6 @@ syntax: regexp
 ^runtests.cprof
 \.cprof$
 \.lprof$
-pycallgraph\.png
+pycallgraph\.
+^src_py27/
+^src_py35/
