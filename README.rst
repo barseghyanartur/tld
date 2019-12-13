@@ -281,6 +281,12 @@ Development tips follow:
 
 Python 2.7
 ----------
+**Install from pip**
+
+.. code-block:: sh
+
+    pip install tld[py27]
+
 **Install locally in development mode**
 
 .. code-block:: sh
@@ -301,6 +307,12 @@ Python 2.7
 
 Python 3.5
 ----------
+**Install from pip**
+
+.. code-block:: sh
+
+    pip install tld[py35]
+
 **Install locally in development mode**
 
 .. code-block:: sh

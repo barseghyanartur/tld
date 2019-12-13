@@ -7,7 +7,7 @@ try:
 except:
     readme = ''
 
-version = '0.11.7'
+version = '0.11.8'
 
 py_where = './src'
 py_package_dir = 'src'
@@ -68,7 +68,10 @@ setup(
     },
     include_package_data=True,
     license='MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later',
-    install_requires=[],
+    install_requires=[
+        'six;python_version<="3.5"',  # Used in Python 2.7 and 3.5 dist
+        'backports.functools-lru-cache;python_version<"3.5"',  # For Python 2.7
+    ],
     test_suite='tld.tests',
     tests_require=[
         'coverage',
@@ -77,7 +80,5 @@ setup(
         'pytest-cov',
         'pytest',
         'tox',
-        'six',  # Python 3.6 dist does not use it, but 2.7 and 3.5 do.
-        'backports.functools-lru-cache',  # For Python 2.7.
     ]
 )

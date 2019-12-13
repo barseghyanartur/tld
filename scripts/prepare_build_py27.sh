@@ -4,6 +4,7 @@
 rm -rf src_py27/
 cp -R src/ src_py27/
 py-backwards -i src/ -o src_py27/ -t 2.7 -d
+cp -R src/tld/res/ src_py27/tld/
 sed -i '' -e 's/from functools import lru_cache/from backports.functools_lru_cache import lru_cache/g' $(find src_py27 -type f)
 sed -i '' -e "s/= type(u'/= type('/g" $(find src_py27 -type f)
 sed -i '' -e "s/=u'/='/g" $(find src_py27 -type f)
