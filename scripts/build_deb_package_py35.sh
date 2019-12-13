@@ -15,5 +15,5 @@ fi
 if [[ $version ]]
 then
 #    python setup.py sdist bdist_wheel
-    py2dsc-deb "dist/tld-$version.tar.gz"
+    py2dsc-deb "dist_py35/tld-$version.tar.gz"
 fi

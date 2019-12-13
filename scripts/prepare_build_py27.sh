@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 ./scripts/uninstall.sh
 ./scripts/clean_up.sh
 rm -rf src_py27/
@@ -19,4 +20,10 @@ sed -i '' -e "s/with self.subTest(.*):/if True:/g" $(find src_py27 -type f)
 python setup.py sdist bdist_wheel --python-tag py27
 rm -rf dist_py27/
 mv dist/ dist_py27/
-rm dist_py27/*.tar.gz
+
+if [[ $1 == "--keep-tar-gz" ]]
+then
+  shift
+else
+  rm dist_py27/*.tar.gz
+fi

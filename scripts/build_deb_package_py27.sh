@@ -14,6 +14,6 @@ fi
 
 if [[ $version ]]
 then
-#    python setup.py sdist bdist_wheel
-    py2dsc-deb "dist/tld-$version.tar.gz"
+    ./scripts/prepare_build_py27.sh --keep-tar-gz
+    py2dsc-deb "dist_py27/tld-$version.tar.gz"
 fi
