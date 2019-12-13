@@ -274,8 +274,10 @@ Support for Python 2.7 and 3.5
 ==============================
 As you might have noticed, typing (Python 3.6+) is extensively used in the code.
 However, Python 3.5 will likely be supported until it's EOL. All modern recent
-versions (starting from tld==0.11.7) are fully compatible with Python 2.7 and
-3.5.
+versions (starting from ``tld``==0.11.7) are fully compatible with
+Python 2.7 and 3.5 (just works with ``pip install tld``).
+
+Development tips follow:
 
 Python 2.7
 ----------
