@@ -7,7 +7,6 @@ import subprocess
 
 from .base import log_info, internet_available_only
 
-__title__ = 'tld.tests.test_commands'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
@@ -37,6 +36,7 @@ class TestCommands(unittest.TestCase):
         res = subprocess.check_output(['update-tld-names', 'mozilla']).strip()
         self.assertEqual(res, b'')
         return res
+
 
 if __name__ == '__main__':
     unittest.main()

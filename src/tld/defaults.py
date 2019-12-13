@@ -1,6 +1,5 @@
 from os.path import dirname
 
-__title__ = 'tld.defaults'
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2019 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later'
