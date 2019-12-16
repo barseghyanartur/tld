@@ -28,5 +28,5 @@ if __name__ == '__main__':
     try:
         main = profile(main)
         sys.exit(main())
-    except Exception:
+    except (NameError, Exception):
         sys.exit(main())
