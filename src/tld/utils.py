@@ -307,11 +307,7 @@ def process_url(
         url = url.lower()
 
         if (
-            fix_protocol
-            and not url.startswith('//')
-            and not (
-                url.startswith('http://') or url.startswith('https://')
-            )
+            fix_protocol and not url.startswith(('//', 'http://', 'https://'))
         ):
             url = f'https://{url}'
 
