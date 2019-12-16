@@ -18,16 +18,23 @@ except Exception as err:
 
 sys.argv.append(py_package_dir)
 
+try:
+    profile
+except:
+    from functools import wraps
 
+    def profile(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapped
+
+
+@profile
 def main():
     sys.path.insert(0, os.path.abspath(py_package_dir))
     return pytest.main()
 
 
 if __name__ == '__main__':
-    try:
-        main = profile(main)
-    except (NameError, Exception):
-        pass
-
     sys.exit(main())
