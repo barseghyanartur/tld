@@ -26,6 +26,7 @@ def main():
 
 if __name__ == '__main__':
     try:
-        sys.exit(profile(main()))
-    except ImportError:
+        main = profile(main)
+        sys.exit(main())
+    except Exception:
         sys.exit(main())
