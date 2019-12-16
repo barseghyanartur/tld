@@ -187,7 +187,9 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
             else:
                 raise TldIOError
 
-        _tld_names = get_tld_names_container()
+        global tld_names
+        _tld_names = tld_names
+        # _tld_names = get_tld_names_container()
 
         # If already loaded, return
         if (

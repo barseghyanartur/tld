@@ -16,6 +16,8 @@ try:
 except Exception as err:
     pass
 
+sys.argv.append(py_package_dir)
+
 
 def main():
     sys.path.insert(0, os.path.abspath(py_package_dir))
@@ -23,4 +25,7 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    try:
+        sys.exit(profile(main()))
+    except ImportError:
+        sys.exit(main())

@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.11.9
+------
+2019-12-16
+
+- Adding test TLDs list to the package.
+
 0.11.8
 ------
 2019-12-13

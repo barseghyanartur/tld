@@ -37,3 +37,6 @@
 *.cprof
 *.lprof
 pycallgraph.*
+mprof.svg
+mprofile_*.dat
+profiler.py.prof

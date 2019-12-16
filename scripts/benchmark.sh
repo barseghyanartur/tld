@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pycallgraph graphviz -- src/tld/bench.py
+pycallgraph graphviz -- benchmarks/profile.py

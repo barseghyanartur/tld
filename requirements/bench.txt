@@ -3,3 +3,6 @@ pyprof2calltree==1.4.4
 py-spy==0.3.0
 pytest-profiling==1.7.0
 pycallgraph==1.0.1
+matplotlib
+memory_profiler
+line_profiler

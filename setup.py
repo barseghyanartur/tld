@@ -7,7 +7,7 @@ try:
 except:
     readme = ''
 
-version = '0.11.8'
+version = '0.11.9'
 
 py_where = './src'
 py_package_dir = 'src'
