@@ -67,7 +67,7 @@ setup(
         ]
     },
     include_package_data=True,
-    license='MPL-1.1 OR GPL-2.0-only OR LGPL-2.0-or-later',
+    license='MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later',
     install_requires=[
         'six;python_version<="3.5"',  # Used in Python 2.7 and 3.5 dist
         'backports.functools-lru-cache;python_version<"3.5"',  # For Python 2.7
