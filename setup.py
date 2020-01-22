@@ -54,6 +54,12 @@ setup(
         "License :: OSI Approved :: GNU Lesser General Public License v2 or "
         "later (LGPLv2+)",
     ],
+    project_urls={
+        "Bug Tracker": "https://github.com/barseghyanartur/tld/",
+        "Documentation": "https://tld.readthedocs.io/",
+        "Source Code": "https://github.com/barseghyanartur/tld/",
+        "Changelog": "https://tld.readthedocs.io/en/latest/changelog.html",
+    },
     python_requires=">=2.7, <4",
     keywords='tld, top-level domain names, python',
     author='Artur Barseghyan',
