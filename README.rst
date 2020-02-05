@@ -53,12 +53,6 @@ Or latest stable version from GitHub:
 
     pip install https://github.com/barseghyanartur/tld/archive/stable.tar.gz
 
-Or latest stable version from BitBucket:
-
-.. code-block:: sh
-
-    pip install https://bitbucket.org/barseghyanartur/tld/get/stable.tar.gz
-
 Usage examples
 ==============
 In addition to examples below, see the `jupyter notebook <jupyter/>`_
