@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.11.10
+------
+2020-02-05
+
+- Python 2.7 and 3.5 fixes.
+
 0.11.9
 ------
 2019-12-16
