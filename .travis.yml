@@ -4,6 +4,9 @@ language: python
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - python: 2.7
+    - python: 3.5
   include:
   - env: TOX_ENV=py27
     python: 2.7
