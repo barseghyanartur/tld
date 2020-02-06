@@ -20,7 +20,7 @@ matrix:
     python: 3.8
 #  - env: TOX_ENV=pypy
 #    python: pypy
-install: pip install -r requirements/testing.txt
+install: pip install -r requirements/testing.txt -r requirements/release.txt
 
 before_script:
   - sleep 10
