@@ -297,7 +297,7 @@ Python 2.7
 
 .. code-block:: sh
 
-    ./runtests.py src_py27/ --python-tag py27
+    tox -e py27
 
 Python 3.5
 ----------
@@ -317,7 +317,7 @@ Python 3.5
 
 .. code-block:: sh
 
-    ./runtests.py src_py35/ --python-tag py35
+    tox -e py35
 
 Troubleshooting
 ===============
@@ -354,7 +354,7 @@ Or use tox to check specific env:
 
 .. code-block:: sh
 
-    tox -e py36
+    tox -e py38
 
 Writing documentation
 =====================
