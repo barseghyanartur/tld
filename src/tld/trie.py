@@ -33,7 +33,10 @@ class Trie(object):
         node = self.root
 
         # Iterating over the tld parts in reverse order
-        for part in reversed(tld.split('.')):
+        # for part in reversed(tld.split('.')):
+        tld_split = tld.split('.')
+        tld_split.reverse()
+        for part in tld_split:
 
             if part.startswith('!'):
                 node.exception = part[1:]

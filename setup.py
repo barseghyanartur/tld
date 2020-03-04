@@ -55,7 +55,7 @@ setup(
         "later (LGPLv2+)",
     ],
     project_urls={
-        "Bug Tracker": "https://github.com/barseghyanartur/tld/",
+        "Bug Tracker": "https://github.com/barseghyanartur/tld/issues",
         "Documentation": "https://tld.readthedocs.io/",
         "Source Code": "https://github.com/barseghyanartur/tld/",
         "Changelog": "https://tld.readthedocs.io/en/latest/changelog.html",

@@ -463,7 +463,7 @@ class TestCore(unittest.TestCase):
         res = []
         for data in self.good_patterns:
             kwargs = copy.copy(data['kwargs'])
-            kwargs.update({'as_object': True})
+            kwargs['as_object'] = True
             _res = get_tld(data['url'], **kwargs)
             self.assertEqual(_res.tld, data['tld'])
             self.assertEqual(_res.subdomain, data['subdomain'])
@@ -540,7 +540,7 @@ class TestCore(unittest.TestCase):
         res = []
         for url, params in self.bad_patterns.items():
             kwargs = params['kwargs'] if 'kwargs' in params else {}
-            kwargs.update({'fail_silently': False})
+            kwargs['fail_silently'] = False
             with self.assertRaises(params['exception']):
                 _res = get_fld(url, **kwargs)
                 res.append(_res)
@@ -685,9 +685,7 @@ class TestCore(unittest.TestCase):
 
         for data in self.good_patterns_custom_parser:
             kwargs = copy.copy(data['kwargs'])
-            kwargs.update({
-                'parser_class': self.get_custom_parser_class(),
-            })
+            kwargs['parser_class'] = self.get_custom_parser_class()
             _res = parse_tld(data['url'], **kwargs)
             self.assertEqual(
                 _res,

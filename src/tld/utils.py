@@ -36,6 +36,7 @@ __all__ = (
     'process_url',
     'reset_tld_names',
     'Result',
+    'tld_names',
     'update_tld_names',
     'update_tld_names_cli',
     'update_tld_names_container',
@@ -63,7 +64,8 @@ def update_tld_names_container(tld_names_local_path: str,
     :return:
     """
     global tld_names
-    tld_names.update({tld_names_local_path: trie_obj})
+    # tld_names.update({tld_names_local_path: trie_obj})
+    tld_names[tld_names_local_path] = trie_obj
 
 
 def pop_tld_names_container(tld_names_local_path: str) -> None:
@@ -334,7 +336,7 @@ def process_url(
     tld_length = 0
     match = None
     len_domain_parts = len(domain_parts)
-    for i in reversed(range(len_domain_parts)):
+    for i in range(len_domain_parts-1, -1, -1):
         part = domain_parts[i]
 
         # Cannot go deeper
