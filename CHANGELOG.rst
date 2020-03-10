@@ -17,7 +17,7 @@ are used for versioning (schema follows below):
 
 0.11.11
 ------
-(not yet released)
+2020-03-10
 
 - Minor speed-ups, reduce memory usage.
 
