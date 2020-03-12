@@ -29,7 +29,7 @@ class Trie(object):
     def __len__(self):
         return self.__nodes
 
-    def add(self, tld, private=False):
+    def add(self, tld: str, private: bool = False) -> None:
         node = self.root
 
         # Iterating over the tld parts in reverse order
