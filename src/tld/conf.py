@@ -2,7 +2,7 @@ from typing import Any
 from . import defaults
 
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2019 Artur Barseghyan'
+__copyright__ = '2013-2020 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later'
 __all__ = (
     'get_setting',

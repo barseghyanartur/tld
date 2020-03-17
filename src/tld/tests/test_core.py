@@ -39,7 +39,7 @@ from ..utils import (
 from .base import internet_available_only, log_info
 
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2019 Artur Barseghyan'
+__copyright__ = '2013-2020 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later'
 __all__ = ('TestCore',)
 
@@ -606,6 +606,24 @@ class TestCore(unittest.TestCase):
         self.assertFalse(
             update_tld_names(fail_silently=True, parser_uid=parser_class.uid)
         )
+
+    @log_info
+    def test_15_fail_get_tld_names(self):
+        """Test fail `update_tld_names`."""
+        parser_class = self.get_custom_parser_class(
+            uid='custom_mozilla_3',
+            source_url='i-do-not-exist',
+            local_path='/srv/tests/res/effective_tld_names_custom_3.dat.txt'
+        )
+        reset_tld_names()
+        # Assert raise TldIOError on wrong NAMES_SOURCE_URL
+        for params in self.good_patterns:
+            kwargs = {'url': params['url']}
+            kwargs.update(params['kwargs'])
+            kwargs['fail_silently'] = False
+            kwargs['parser_class'] = parser_class
+            with self.assertRaises(TldIOError):
+                get_tld(**kwargs)
 
     @log_info
     def test_15_fail_get_fld_wrong_kwargs(self):
