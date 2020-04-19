@@ -15,6 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.12
+----
+2020-04-19
+
+- Use Public Suffix list instead of deprecated Mozilla's MXR.
+
 0.11.11
 ------
 2020-03-10

@@ -2,8 +2,7 @@
 tld
 ===
 Extract the top level domain (TLD) from the URL given. List of TLD names is
-taken from `Mozilla
-<http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1>`_.
+taken from `Public Suffix <https://publicsuffix.org/list/public_suffix_list.dat>`_.
 
 Optionally raises exceptions on non-existing TLDs or silently fails (if
 ``fail_silently`` argument is set to True).
@@ -321,8 +320,7 @@ Python 3.5
 
 Troubleshooting
 ===============
-If somehow domain names listed `here
-<http://mxr.mozilla.org/mozilla/source/netwerk/dns/src/effective_tld_names.dat?raw=1>`_
+If somehow domain names listed `here <https://publicsuffix.org/list/public_suffix_list.dat>`_
 are not recognised, make sure you have the most recent version of TLD names in
 your virtual environment:
 
