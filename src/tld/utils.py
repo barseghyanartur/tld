@@ -266,8 +266,7 @@ class MozillaTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
     uid: str = 'mozilla'
-    source_url: str = 'http://mxr.mozilla.org/mozilla/source/netwerk/' \
-                      'dns/src/effective_tld_names.dat?raw=1'
+    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat'
     local_path: str = 'res/effective_tld_names.dat.txt'
 
 # **************************************************************************
