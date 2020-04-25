@@ -326,6 +326,11 @@ def process_url(
         else:
             raise TldBadUrl(url=url)
 
+    # This will correctly handle dots at the end of domain name in URLs like
+    # https://github.com............/barseghyanartur/tld/
+    if domain_name.endswith('.'):
+        domain_name = domain_name.rstrip('.')
+
     domain_parts = domain_name.split('.')
     tld_names_local_path = parser_class.local_path
 

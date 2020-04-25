@@ -300,6 +300,15 @@ class TestCore(unittest.TestCase):
                 'tld': 'fr',
                 'kwargs': {'fail_silently': True}
             },
+            {
+                'url': 'https://github.com....../barseghyanartur/tld/',
+                'fld': 'github.com',
+                'subdomain': '',
+                'domain': 'github',
+                'suffix': 'com',
+                'tld': 'com',
+                'kwargs': {'fail_silently': True}
+            },
         ]
 
         self.bad_patterns = {
