@@ -19,6 +19,10 @@ are used for versioning (schema follows below):
 ------
 2020-04-25
 
+.. note::
+
+    In commemoration of `Armenian Genocide <https://en.wikipedia.org/wiki/Armenian_Genocide>`_.
+
 - Correctly handling domain names ending with dot(s).
 
 0.12
