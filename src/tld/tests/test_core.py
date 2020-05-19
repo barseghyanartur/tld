@@ -9,7 +9,7 @@ from typing import Type
 
 from urllib.parse import urlsplit
 
-from faker import Faker
+from faker import Faker  # type: ignore
 
 from .. import defaults
 from ..base import BaseTLDSourceParser

@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 from urllib.parse import SplitResult
 
 __author__ = 'Artur Barseghyan'
@@ -52,7 +52,7 @@ class Result(object):
     __repr__ = __str__
 
     @property
-    def __dict__(self) -> Dict[str, str]:
+    def __dict__(self) -> Dict[str, Any]:  # type: ignore
         """Mimic __dict__ functionality.
 
         :return:

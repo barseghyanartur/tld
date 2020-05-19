@@ -40,3 +40,4 @@ pycallgraph.*
 mprof.svg
 mprofile_*.dat
 profiler.py.prof
+.mypy_cache/
