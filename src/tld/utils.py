@@ -200,7 +200,6 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
         ):
             return _tld_names
 
-        local_file = None
         try:
             # Load the TLD names file
             if isabs(cls.local_path):
@@ -441,6 +440,9 @@ def get_fld(
     if domain_parts is None:
         return None
 
+    # This should be None when domain_parts is None
+    # but mypy isn't quite smart enough to figure that out yet
+    assert non_zero_i is not None
     if non_zero_i < 0:
         # hostname = tld
         return parsed_url.hostname
@@ -497,6 +499,10 @@ def get_tld(
     if domain_parts is None:
         return None
 
+    # This should be None when domain_parts is None
+    # but mypy isn't quite smart enough to figure that out yet
+    assert non_zero_i is not None
+
     if not as_object:
         if non_zero_i < 0:
             # hostname = tld
@@ -507,6 +513,9 @@ def get_tld(
         # hostname = tld
         subdomain = ""
         domain = ""
+        # This is checked in process_url but the type is ambiguous (Optional[str])
+        # so this assertion is just to satisfy mypy
+        assert parsed_url.hostname is not None, "No hostname in URL"
         _tld = parsed_url.hostname
     else:
         subdomain = ".".join(domain_parts[:non_zero_i-1])
