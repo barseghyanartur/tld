@@ -1,5 +1,6 @@
 from codecs import open as codecs_open
 from urllib.request import urlopen
+from typing import Optional
 
 from .exceptions import (
     TldIOError,
@@ -17,9 +18,9 @@ __all__ = ('BaseTLDSourceParser',)
 class BaseTLDSourceParser(metaclass=Registry):
     """Base TLD source parser."""
 
-    uid: str = None
-    source_url: str = None
-    local_path: str = None
+    uid: Optional[str] = None
+    source_url: str
+    local_path: str
 
     @classmethod
     def validate(cls):
