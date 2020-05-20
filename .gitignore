@@ -36,7 +36,8 @@
 /prof/
 *.cprof
 *.lprof
-pycallgraph.*
+pycallgraph_*.*
+pycallgraph*.*
 mprof.svg
 mprofile_*.dat
 profiler.py.prof
