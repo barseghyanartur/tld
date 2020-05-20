@@ -5,7 +5,7 @@ from functools import lru_cache
 # codecs_open = open
 from os.path import isabs
 import sys
-from typing import Dict, Type, Union, Tuple, List
+from typing import Dict, Type, Union, Tuple, List, Optional
 from urllib.parse import urlsplit, SplitResult
 
 from .base import BaseTLDSourceParser
@@ -89,7 +89,7 @@ def update_tld_names(
     :param parser_uid:
     :return:
     """
-    results = []
+    results: List[bool] = []
     results_append = results.append
     if parser_uid:
         parser_cls = Registry.get(parser_uid, None)
@@ -176,7 +176,7 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
         cls,
         fail_silently: bool = False,
         retry_count: int = 0
-    ) -> Union[Dict[str, Trie], None]:
+    ) -> Optional[Dict[str, Trie]]:
         """Parse.
 
         :param fail_silently:
@@ -200,7 +200,6 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
         ):
             return _tld_names
 
-        local_file = None
         try:
             # Load the TLD names file
             if isabs(cls.local_path):
@@ -397,7 +396,7 @@ def get_fld(
     search_private: bool = True,
     parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser,
     **kwargs
-) -> Union[str, None]:
+) -> Optional[str]:
     """Extract the first level domain.
 
     Extract the top level domain based on the mozilla's effective TLD names
@@ -441,6 +440,9 @@ def get_fld(
     if domain_parts is None:
         return None
 
+    # This should be None when domain_parts is None
+    # but mypy isn't quite smart enough to figure that out yet
+    assert non_zero_i is not None
     if non_zero_i < 0:
         # hostname = tld
         return parsed_url.hostname
@@ -456,7 +458,7 @@ def get_tld(
     search_public: bool = True,
     search_private: bool = True,
     parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
-) -> Union[None, str, Result]:
+) -> Optional[Union[str, Result]]:
     """Extract the top level domain.
 
     Extract the top level domain based on the mozilla's effective TLD names
@@ -497,6 +499,10 @@ def get_tld(
     if domain_parts is None:
         return None
 
+    # This should be None when domain_parts is None
+    # but mypy isn't quite smart enough to figure that out yet
+    assert non_zero_i is not None
+
     if not as_object:
         if non_zero_i < 0:
             # hostname = tld
@@ -507,6 +513,9 @@ def get_tld(
         # hostname = tld
         subdomain = ""
         domain = ""
+        # This is checked in process_url but the type is ambiguous (Optional[str])
+        # so this assertion is just to satisfy mypy
+        assert parsed_url.hostname is not None, "No hostname in URL"
         _tld = parsed_url.hostname
     else:
         subdomain = ".".join(domain_parts[:non_zero_i-1])
@@ -539,7 +548,7 @@ def parse_tld(
     :param search_public:
     :param search_private:
     :param parser_class:
-    :return:
+    :return: Tuple (tld, domain, subdomain)
     :rtype: tuple
     """
     try:
@@ -552,9 +561,10 @@ def parse_tld(
             search_private=search_private,
             parser_class=parser_class
         )
-        _tld = obj.tld
-        domain = obj.domain
-        subdomain = obj.subdomain
+        if obj is None:
+            return None, None, None
+
+        return obj.tld, obj.domain, obj.subdomain  # type: ignore
 
     except (
         TldBadUrl,
@@ -562,11 +572,9 @@ def parse_tld(
         TldImproperlyConfigured,
         TldIOError
     ):
-        _tld = None
-        domain = None
-        subdomain = None
+        pass
 
-    return _tld, domain, subdomain
+    return None, None, None
 
 
 def is_tld(

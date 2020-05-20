@@ -1,4 +1,4 @@
-from typing import Type, Dict
+from typing import Dict
 
 __author__ = 'Artur Barseghyan'
 __copyright__ = '2013-2020 Artur Barseghyan'
@@ -10,14 +10,14 @@ __all__ = (
 
 class Registry(type):
 
-    REGISTRY = {}
+    REGISTRY = {}  # type: Dict[str, Registry]
 
-    def __new__(cls, name, bases, attrs):
-        new_cls = type.__new__(cls, name, bases, attrs)
+    def __new__(mcs, name, bases, attrs):
+        new_cls = type.__new__(mcs, name, bases, attrs)
         # Here the name of the class is used as key but it could be any class
         # parameter.
         if getattr(new_cls, '_uid', None):
-            cls.REGISTRY[new_cls._uid] = new_cls
+            mcs.REGISTRY[new_cls._uid] = new_cls
         return new_cls
 
     @property
@@ -25,21 +25,21 @@ class Registry(type):
         return getattr(cls, 'uid', cls.__name__)
 
     @classmethod
-    def reset(cls) -> None:
-        cls.REGISTRY = {}
+    def reset(mcs) -> None:
+        mcs.REGISTRY = {}
 
     @classmethod
-    def get(cls, key, default=None):
-        return cls.REGISTRY.get(key, default)
+    def get(mcs, key, default=None):
+        return mcs.REGISTRY.get(key, default)
 
     @classmethod
-    def items(cls):
-        return cls.REGISTRY.items()
+    def items(mcs):
+        return mcs.REGISTRY.items()
 
     # @classmethod
-    # def get_registry(cls) -> Dict[str, Type]:
-    #     return dict(cls.REGISTRY)
+    # def get_registry(mcs) -> Dict[str, Type]:
+    #     return dict(mcs.REGISTRY)
     #
     # @classmethod
-    # def pop(cls, uid) -> None:
-    #     cls.REGISTRY.pop(uid)
+    # def pop(mcs, uid) -> None:
+    #     mcs.REGISTRY.pop(uid)
