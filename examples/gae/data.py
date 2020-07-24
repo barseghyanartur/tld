@@ -444,8 +444,20 @@ tksat.bo
 transporte.bo
 wiki.bo
 
-// br : http://registro.br/dominio/categoria.html
+// br : http://registro.br/dominio/categorias
 // Submitted by registry <fneves@registro.br>
+app.br
+dev.br
+log.br
+seg.br
+tec.br
+bib.br
+coz.br
+des.br
+det.br
+enf.br
+geo.br
+rep.br
 br
 9guacu.br
 abc.br
