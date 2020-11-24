@@ -409,7 +409,7 @@ def get_fld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser,
+    parser_class: Type[BaseTLDSourceParser] = None,
     **kwargs
 ) -> Optional[str]:
     """Extract the first level domain.
@@ -443,6 +443,11 @@ def get_fld(
             "instead."
         )
 
+    if not parser_class:
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
+
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
         fail_silently=fail_silently,
@@ -472,7 +477,7 @@ def get_tld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = None
 ) -> Optional[Union[str, Result]]:
     """Extract the top level domain.
 
@@ -502,6 +507,11 @@ def get_tld(
         argument is set to True); returns None on failure.
     :rtype: str
     """
+    if not parser_class:
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
+
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
         fail_silently=fail_silently,
