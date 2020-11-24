@@ -31,6 +31,7 @@ __all__ = (
     'get_tld_names_container',
     'is_tld',
     'MozillaTLDSourceParser',
+    'MozillaPublicOnlyTLDSourceParser',
     'parse_tld',
     'pop_tld_names_container',
     'process_url',
@@ -215,10 +216,14 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
             trie_add = trie.add  # Performance opt
             # Make a list of it all, strip all garbage
             private_section = False
+            include_private = cls.include_private
 
             for line in local_file:
                 if '===BEGIN PRIVATE DOMAINS===' in line:
                     private_section = True
+
+                if private_section and not include_private:
+                    break
 
                 # Puny code TLD names
                 if '// xn--' in line:
@@ -267,6 +272,16 @@ class MozillaTLDSourceParser(BaseMozillaTLDSourceParser):
     uid: str = 'mozilla'
     source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat'
     local_path: str = 'res/effective_tld_names.dat.txt'
+
+
+class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
+    """Mozilla TLD source."""
+
+    uid: str = 'mozilla_public_only'
+    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat?publiconly'
+    local_path: str = 'res/effective_tld_names_public_only.dat.txt'
+    include_private: bool = False
+
 
 # **************************************************************************
 # **************************** Core functions ******************************
