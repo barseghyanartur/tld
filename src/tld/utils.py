@@ -288,16 +288,6 @@ class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
 # **************************** Core functions ******************************
 # **************************************************************************
 
-def get_parser_class(search_private: bool):
-    """Get parser class.
-
-    :param search_private:
-    :return:
-    """
-    return MozillaTLDSourceParser \
-        if search_private \
-        else MozillaPublicOnlyTLDSourceParser
-
 
 def process_url(
     url: str,
@@ -455,7 +445,9 @@ def get_fld(
         )
 
     if not parser_class:
-        parser_class = get_parser_class(search_private)
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
 
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
@@ -517,7 +509,9 @@ def get_tld(
     :rtype: str
     """
     if not parser_class:
-        parser_class = get_parser_class(search_private)
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
 
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
@@ -584,7 +578,9 @@ def parse_tld(
     :rtype: tuple
     """
     if not parser_class:
-        parser_class = get_parser_class(search_private)
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
 
     try:
         obj = get_tld(
@@ -631,7 +627,9 @@ def is_tld(
     :rtype: bool
     """
     if not parser_class:
-        parser_class = get_parser_class(search_private)
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
 
     _tld = get_tld(
         url=value,
