@@ -278,7 +278,8 @@ class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
     uid: str = 'mozilla_public_only'
-    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat?publiconly'
+    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat' \
+                      '?publiconly'
     local_path: str = 'res/effective_tld_names_public_only.dat.txt'
     include_private: bool = False
 
@@ -286,6 +287,16 @@ class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
 # **************************************************************************
 # **************************** Core functions ******************************
 # **************************************************************************
+
+def get_parser_class(search_private: bool):
+    """Get parser class.
+
+    :param search_private:
+    :return:
+    """
+    return MozillaTLDSourceParser \
+        if search_private \
+        else MozillaPublicOnlyTLDSourceParser
 
 
 def process_url(
@@ -444,9 +455,7 @@ def get_fld(
         )
 
     if not parser_class:
-        parser_class = MozillaTLDSourceParser \
-            if search_private \
-            else MozillaPublicOnlyTLDSourceParser
+        parser_class = get_parser_class(search_private)
 
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
@@ -508,9 +517,7 @@ def get_tld(
     :rtype: str
     """
     if not parser_class:
-        parser_class = MozillaTLDSourceParser \
-            if search_private \
-            else MozillaPublicOnlyTLDSourceParser
+        parser_class = get_parser_class(search_private)
 
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
@@ -538,8 +545,8 @@ def get_tld(
         # hostname = tld
         subdomain = ""
         domain = ""
-        # This is checked in process_url but the type is ambiguous (Optional[str])
-        # so this assertion is just to satisfy mypy
+        # This is checked in `process_url`, but the type is
+        # ambiguous (Optional[str]) so this assertion is just to satisfy mypy
         assert parsed_url.hostname is not None, "No hostname in URL"
         _tld = parsed_url.hostname
     else:
@@ -563,7 +570,7 @@ def parse_tld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = None
 ) -> Union[Tuple[None, None, None], Tuple[str, str, str]]:
     """Parse TLD into parts.
 
@@ -576,6 +583,9 @@ def parse_tld(
     :return: Tuple (tld, domain, subdomain)
     :rtype: tuple
     """
+    if not parser_class:
+        parser_class = get_parser_class(search_private)
+
     try:
         obj = get_tld(
             url,
@@ -606,7 +616,7 @@ def is_tld(
     value: str,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = None
 ) -> bool:
     """Check if given URL is tld.
 
@@ -620,6 +630,9 @@ def is_tld(
     :return:
     :rtype: bool
     """
+    if not parser_class:
+        parser_class = get_parser_class(search_private)
+
     _tld = get_tld(
         url=value,
         fail_silently=True,
