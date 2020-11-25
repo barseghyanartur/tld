@@ -21,6 +21,7 @@ class BaseTLDSourceParser(metaclass=Registry):
     uid: Optional[str] = None
     source_url: str
     local_path: str
+    include_private: bool = True
 
     @classmethod
     def validate(cls):

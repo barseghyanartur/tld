@@ -31,6 +31,7 @@ __all__ = (
     'get_tld_names_container',
     'is_tld',
     'MozillaTLDSourceParser',
+    'MozillaPublicOnlyTLDSourceParser',
     'parse_tld',
     'pop_tld_names_container',
     'process_url',
@@ -215,10 +216,14 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
             trie_add = trie.add  # Performance opt
             # Make a list of it all, strip all garbage
             private_section = False
+            include_private = cls.include_private
 
             for line in local_file:
                 if '===BEGIN PRIVATE DOMAINS===' in line:
                     private_section = True
+
+                if private_section and not include_private:
+                    break
 
                 # Puny code TLD names
                 if '// xn--' in line:
@@ -267,6 +272,17 @@ class MozillaTLDSourceParser(BaseMozillaTLDSourceParser):
     uid: str = 'mozilla'
     source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat'
     local_path: str = 'res/effective_tld_names.dat.txt'
+
+
+class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
+    """Mozilla TLD source."""
+
+    uid: str = 'mozilla_public_only'
+    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat' \
+                      '?publiconly'
+    local_path: str = 'res/effective_tld_names_public_only.dat.txt'
+    include_private: bool = False
+
 
 # **************************************************************************
 # **************************** Core functions ******************************
@@ -394,7 +410,7 @@ def get_fld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser,
+    parser_class: Type[BaseTLDSourceParser] = None,
     **kwargs
 ) -> Optional[str]:
     """Extract the first level domain.
@@ -428,6 +444,11 @@ def get_fld(
             "instead."
         )
 
+    if not parser_class:
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
+
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
         fail_silently=fail_silently,
@@ -457,7 +478,7 @@ def get_tld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = None
 ) -> Optional[Union[str, Result]]:
     """Extract the top level domain.
 
@@ -487,6 +508,11 @@ def get_tld(
         argument is set to True); returns None on failure.
     :rtype: str
     """
+    if not parser_class:
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
+
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
         fail_silently=fail_silently,
@@ -513,8 +539,8 @@ def get_tld(
         # hostname = tld
         subdomain = ""
         domain = ""
-        # This is checked in process_url but the type is ambiguous (Optional[str])
-        # so this assertion is just to satisfy mypy
+        # This is checked in `process_url`, but the type is
+        # ambiguous (Optional[str]) so this assertion is just to satisfy mypy
         assert parsed_url.hostname is not None, "No hostname in URL"
         _tld = parsed_url.hostname
     else:
@@ -538,7 +564,7 @@ def parse_tld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = None
 ) -> Union[Tuple[None, None, None], Tuple[str, str, str]]:
     """Parse TLD into parts.
 
@@ -551,6 +577,11 @@ def parse_tld(
     :return: Tuple (tld, domain, subdomain)
     :rtype: tuple
     """
+    if not parser_class:
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
+
     try:
         obj = get_tld(
             url,
@@ -581,7 +612,7 @@ def is_tld(
     value: str,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = None
 ) -> bool:
     """Check if given URL is tld.
 
@@ -595,6 +626,11 @@ def is_tld(
     :return:
     :rtype: bool
     """
+    if not parser_class:
+        parser_class = MozillaTLDSourceParser \
+            if search_private \
+            else MozillaPublicOnlyTLDSourceParser
+
     _tld = get_tld(
         url=value,
         fail_silently=True,

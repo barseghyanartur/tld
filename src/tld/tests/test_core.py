@@ -513,18 +513,33 @@ class TestCore(unittest.TestCase):
         res = get_fld(
             'http://silly.cc.ua',
             fail_silently=True,
+            search_private=False,
+            parser_class=MozillaTLDSourceParser
+        )
+        self.assertEqual(res, None)
+
+        res = get_fld(
+            'http://silly.cc.ua',
+            fail_silently=True,
             search_private=False
         )
-
-        self.assertEqual(res, None)
+        self.assertEqual(res, 'cc.ua')
 
         res = get_fld(
             'http://silly.cc.ua',
             fail_silently=True,
             search_private=True
         )
-
         self.assertEqual(res, 'silly.cc.ua')
+
+        res = get_fld(
+            'mercy.compute.amazonaws.com',
+            fail_silently=True,
+            search_private=False,
+            fix_protocol=True,
+            parser_class=MozillaTLDSourceParser
+        )
+        self.assertEqual(res, None)
 
         res = get_fld(
             'mercy.compute.amazonaws.com',
@@ -532,15 +547,13 @@ class TestCore(unittest.TestCase):
             search_private=False,
             fix_protocol=True
         )
-
-        self.assertEqual(res, None)
+        self.assertEqual(res, 'amazonaws.com')
 
         res = get_fld(
             'http://whatever.com',
             fail_silently=True,
             search_public=False
         )
-
         self.assertEqual(res, None)
 
     @log_info
