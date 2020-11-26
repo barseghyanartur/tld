@@ -4,7 +4,7 @@ Release history and notes
 <http://en.wikipedia.org/wiki/Software_versioning#Sequence-based_identifiers>`_
 are used for versioning (schema follows below):
 
-.. code-block:: none
+.. code-block:: text
 
     major.minor[.revision]
 
@@ -14,6 +14,48 @@ are used for versioning (schema follows below):
   release notes carefully before upgrading (for example, when upgrading from
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
+
+0.12.3
+------
+2020-11-26
+
+- Separate parsers for (a) public and private and (b) public only domains. This
+  fixes a bug. If you want an old behaviour:
+
+  The following code would raise exception in past.
+
+  .. code-block:: python
+
+    from tld import get_tld
+
+    get_tld(
+        'http://silly.cc.ua',
+        search_private=False
+    )
+
+  Now it would return `ua`.
+
+  .. code-block:: python
+
+    get_tld(
+        'http://silly.cc.ua',
+        search_private=False
+    )
+
+  If you want old behavior, do as follows:
+
+  .. code-block:: python
+
+    from tld.utils import MozillaTLDSourceParser
+
+    get_tld(
+        'http://silly.cc.ua',
+        search_private=False,
+        parser_class=MozillaTLDSourceParser
+    )
+
+  Same goes for ``get_fld``, ``process_url``, ``parse_tld`` and ``is_tld``
+  functions.
 
 0.12.2
 ------
