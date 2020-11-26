@@ -4,4 +4,5 @@ pylint
 flake8
 isort
 pre-commit
-mypy
+mypy<=0.256; python_version <= '2.7'
+mypy; python_version >= '2.7'
