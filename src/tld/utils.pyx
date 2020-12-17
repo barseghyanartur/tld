@@ -43,7 +43,7 @@ __all__ = (
 )
 
 tld_names: Dict[str, Trie] = {}
-cdef public dict tld_names
+cpdef public dict tld_names
 
 
 def get_tld_names_container() -> Dict[str, Trie]:
@@ -56,8 +56,8 @@ def get_tld_names_container() -> Dict[str, Trie]:
     return tld_names
 
 
-cdef void update_tld_names_container(str tld_names_local_path,
-                                     Trie trie_obj):
+cpdef void update_tld_names_container(str tld_names_local_path,
+                                      Trie trie_obj):
     """Update TLD Names container item.
 
     :param tld_names_local_path:
@@ -69,7 +69,7 @@ cdef void update_tld_names_container(str tld_names_local_path,
     tld_names[tld_names_local_path] = trie_obj
 
 
-cdef void pop_tld_names_container(str tld_names_local_path):
+cpdef void pop_tld_names_container(str tld_names_local_path):
     """Remove TLD names container item.
 
     :param tld_names_local_path:
@@ -80,7 +80,7 @@ cdef void pop_tld_names_container(str tld_names_local_path):
 
 
 @lru_cache(maxsize=128, typed=True)
-cdef update_tld_names(
+cpdef update_tld_names(
     bint fail_silently = False,
     str parser_uid = None
 ) -> bool:
@@ -108,7 +108,7 @@ cdef update_tld_names(
     return all(results)
 
 
-cdef int update_tld_names_cli():
+cpdef int update_tld_names_cli():
     """CLI wrapper for update_tld_names.
 
     Since update_tld_names returns True on success, we need to negate the
@@ -139,7 +139,7 @@ cdef int update_tld_names_cli():
     )
 
 
-cdef dict get_tld_names(
+cpdef dict get_tld_names(
     bint fail_silently = False,
     int retry_count = 0,
     BaseTLDSourceParser parser_class = None
@@ -173,7 +173,7 @@ cdef dict get_tld_names(
 cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
     @classmethod
-    cdef dict get_tld_names(
+    cpdef dict get_tld_names(
         cls,
         bint fail_silently = False,
         int retry_count = 0
@@ -269,19 +269,19 @@ cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 cdef class MozillaTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
-    cdef public str uid = 'mozilla'
-    cdef public str source_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
-    cdef public str local_path = 'res/effective_tld_names.dat.txt'
+    cpdef public str uid = 'mozilla'
+    cpdef public str source_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
+    cpdef public str local_path = 'res/effective_tld_names.dat.txt'
 
 
 cdef class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
-    cdef public str uid = 'mozilla_public_only'
-    cdef public str source_url = 'https://publicsuffix.org/list/public_suffix_list.dat' \
+    cpdef public str uid = 'mozilla_public_only'
+    cpdef public str source_url = 'https://publicsuffix.org/list/public_suffix_list.dat' \
                       '?publiconly'
-    cdef public str local_path = 'res/effective_tld_names_public_only.dat.txt'
-    cdef public bint include_private = False
+    cpdef public str local_path = 'res/effective_tld_names_public_only.dat.txt'
+    cpdef public bint include_private = False
 
 
 # **************************************************************************
@@ -289,7 +289,7 @@ cdef class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
 # **************************************************************************
 
 
-cdef tuple process_url(
+cpdef tuple process_url(
     str url,
     bint fail_silently = False,
     bint fix_protocol = False,
@@ -404,7 +404,7 @@ cdef tuple process_url(
     return domain_parts, non_zero_i, parsed_url
 
 
-cdef get_fld(
+cpdef get_fld(
     str url,
     bint fail_silently = False,
     bint fix_protocol = False,

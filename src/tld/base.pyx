@@ -22,10 +22,10 @@ cdef class BaseTLDSourceParser:
     def __getmetaclass__(_):
         return Registry
 
-    cdef public str uid
-    cdef public str source_url
-    cdef public str local_path
-    cdef public bint include_private
+    cpdef public str uid
+    cpdef public str source_url
+    cpdef public str local_path
+    cpdef public bint include_private
 
     def __cinit__(self):
         self.uid = None

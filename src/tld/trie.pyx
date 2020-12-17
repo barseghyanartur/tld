@@ -10,13 +10,13 @@ __all__ = (
 cdef class TrieNode(object):
     """Class representing a single Trie node."""
 
-    cdef public dict children
-    cdef public list exception
-    cdef public bint leaf, private
+    cpdef public dict children
+    cpdef public list exception
+    cpdef public bint leaf, private
 
     __slots__ = ('children', 'exception', 'leaf', 'private')
 
-    cdef __cinit__(self):
+    def __cinit__(self):
         self.children = None
         self.exception = None
         self.leaf = False
@@ -26,10 +26,10 @@ cdef class TrieNode(object):
 cdef class Trie(object):
     """An adhoc Trie data structure to store tlds in reverse notation order."""
 
-    cdef public TrieNode root
-    cdef int __nodes
+    cpdef public TrieNode root
+    cpdef int __nodes
 
-    def __init__(self):
+    def __cinit__(self):
         self.root = TrieNode()
         self.__nodes = 0
 
@@ -37,8 +37,8 @@ cdef class Trie(object):
         return self.__nodes
 
     cpdef void add(self, str tld, bint private = False):
-        cdef TrieNode node
-        cdef list tld_split
+        cpdef TrieNode node
+        cpdef list tld_split
         node = self.root
 
         # Iterating over the tld parts in reverse order
