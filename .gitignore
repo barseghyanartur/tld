@@ -1,4 +1,6 @@
 *.py[cod]
+*.c
+*.so
 *.orig
 /.hgignore~
 /.gitignore~

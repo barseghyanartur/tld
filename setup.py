@@ -1,6 +1,7 @@
 import os
 import sys
 from setuptools import setup, find_packages
+from Cython.Build import cythonize
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
@@ -29,7 +30,6 @@ try:
             sys.argv.pop(-1)
 except Exception as err:
     pass
-
 setup(
     name='tld',
     version=version,
@@ -79,6 +79,11 @@ setup(
         'typing;python_version<"3.5"',  # Used in Python < 3.5 dist
         'backports.functools-lru-cache;python_version<"3.5"',  # For Python 2.7
     ],
+    ext_modules=cythonize(
+        "src/tld/base.pyx",
+        "src/tld/trie.pyx",
+        "src/tld/utils.pyx",
+    ),
     test_suite='tld.tests',
     tests_require=[
         'coverage',
@@ -89,3 +94,4 @@ setup(
         'tox',
     ]
 )
+
