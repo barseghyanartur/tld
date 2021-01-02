@@ -79,11 +79,11 @@ setup(
         'typing;python_version<"3.5"',  # Used in Python < 3.5 dist
         'backports.functools-lru-cache;python_version<"3.5"',  # For Python 2.7
     ],
-    ext_modules=cythonize(
-        "src/tld/base.pyx",
-        "src/tld/trie.pyx",
-        "src/tld/utils.pyx",
-    ),
+    ext_modules=cythonize([
+        # "src/tld/utils.pyx",
+        # "src/tld/base.pyx",
+        # "src/tld/trie.pyx",
+    ]),
     test_suite='tld.tests',
     tests_require=[
         'coverage',

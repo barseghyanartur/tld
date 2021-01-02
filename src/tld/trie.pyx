@@ -12,7 +12,8 @@ cdef class TrieNode(object):
 
     cpdef public dict children
     cpdef public list exception
-    cpdef public bint leaf, private
+    cpdef public bint leaf
+    cpdef public bint private
 
     __slots__ = ('children', 'exception', 'leaf', 'private')
 

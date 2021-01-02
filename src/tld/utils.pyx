@@ -7,7 +7,7 @@ import sys
 from typing import Dict, Type, Union, Tuple, List, Optional
 from urllib.parse import urlsplit, SplitResult
 
-from .base import BaseTLDSourceParser
+from .base_cy import BaseTLDSourceParser
 from .exceptions import (
     TldBadUrl,
     TldDomainNotFound,
@@ -15,7 +15,7 @@ from .exceptions import (
     TldIOError,
 )
 from .helpers import project_dir
-from .trie import Trie
+from .trie_cy import Trie
 from .registry import Registry
 from .result import Result
 
@@ -79,11 +79,11 @@ cpdef void pop_tld_names_container(str tld_names_local_path):
     tld_names.pop(tld_names_local_path, None)
 
 
-@lru_cache(maxsize=128, typed=True)
-cpdef update_tld_names(
+# @lru_cache(maxsize=128, typed=True)
+cpdef bint update_tld_names(
     bint fail_silently = False,
     str parser_uid = None
-) -> bool:
+):
     """Update TLD names.
 
     :param fail_silently:
@@ -172,9 +172,8 @@ cpdef dict get_tld_names(
 
 cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
-    @classmethod
-    cpdef dict get_tld_names(
-        cls,
+    cpdef dict _get_tld_names(
+        self,
         bint fail_silently = False,
         int retry_count = 0
     ):
@@ -184,6 +183,11 @@ cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
         :param retry_count:
         :return:
         """
+        cdef str local_path
+        cdef Trie trie
+        cdef bint private_section
+        cdef bint include_private
+
         if retry_count > 1:
             if fail_silently:
                 return None
@@ -196,27 +200,27 @@ cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
         # If already loaded, return
         if (
-            cls.local_path in _tld_names
-            and _tld_names[cls.local_path] is not None
+            self.local_path in _tld_names
+            and _tld_names[self.local_path] is not None
         ):
             return _tld_names
 
         try:
             # Load the TLD names file
-            if isabs(cls.local_path):
-                cdef str local_path = cls.local_path
+            if isabs(self.local_path):
+                local_path = self.local_path
             else:
-                cdef str local_path = project_dir(cls.local_path)
+                local_path = project_dir(self.local_path)
             local_file = codecs_open(
                 local_path,
                 'r',
                 encoding='utf8'
             )
-            cdef Trie trie = Trie()
+            trie = Trie()
             trie_add = trie.add  # Performance opt
             # Make a list of it all, strip all garbage
-            cdef bint private_section = False
-            cdef bint include_private = cls.include_private
+            private_section = False
+            include_private = self.include_private
 
             for line in local_file:
                 if '===BEGIN PRIVATE DOMAINS===' in line:
@@ -237,18 +241,18 @@ cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
                     private=private_section
                 )
 
-            update_tld_names_container(cls.local_path, trie)
+            update_tld_names_container(self.local_path, trie)
 
             local_file.close()
         except IOError as err:
             # Grab the file
-            cls.update_tld_names(
+            self.update_tld_names(
                 fail_silently=fail_silently
             )
             # Increment ``retry_count`` in order to avoid infinite loops
             retry_count += 1
             # Run again
-            return cls.get_tld_names(
+            return self.get_tld_names(
                 fail_silently=fail_silently,
                 retry_count=retry_count
             )
@@ -265,23 +269,47 @@ cdef class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
         return _tld_names
 
+    @classmethod
+    def get_tld_names(
+        cls,
+        fail_silently: bool = False,
+        retry_count: int = 0
+    ):
+        cdef BaseMozillaTLDSourceParser instance = cls()
+        return instance._get_tld_names(
+            fail_silently=fail_silently,
+            retry_count=retry_count
+        )
+
+
 
 cdef class MozillaTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
-    cpdef public str uid = 'mozilla'
-    cpdef public str source_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
-    cpdef public str local_path = 'res/effective_tld_names.dat.txt'
+    cpdef public str uid
+    cpdef public str source_url
+    cpdef public str local_path
+
+    def __cinit__(self):
+        self.uid = 'mozilla'
+        self.source_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
+        self.local_path = 'res/effective_tld_names.dat.txt'
 
 
 cdef class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
-    cpdef public str uid = 'mozilla_public_only'
-    cpdef public str source_url = 'https://publicsuffix.org/list/public_suffix_list.dat' \
-                      '?publiconly'
-    cpdef public str local_path = 'res/effective_tld_names_public_only.dat.txt'
-    cpdef public bint include_private = False
+    cpdef public str uid
+    cpdef public str source_url
+    cpdef public str local_path
+    cpdef public bint include_private
+
+    def __cinit__(self):
+        self.uid = 'mozilla_public_only'
+        self.source_url = 'https://publicsuffix.org/list/public_suffix_list.dat' \
+                          '?publiconly'
+        self.local_path = 'res/effective_tld_names_public_only.dat.txt'
+        self.include_private = False
 
 
 # **************************************************************************
@@ -404,15 +432,15 @@ cpdef tuple process_url(
     return domain_parts, non_zero_i, parsed_url
 
 
-cpdef get_fld(
+cpdef str get_fld(
     str url,
     bint fail_silently = False,
     bint fix_protocol = False,
     bint search_public = True,
     bint search_private = True,
     BaseTLDSourceParser parser_class = None,
-    **kwargs
-) -> Optional[str]:
+    kwargs
+):
     """Extract the first level domain.
 
     Extract the top level domain based on the mozilla's effective TLD names

@@ -1,8 +1,6 @@
 from codecs import open as codecs_open
 from urllib.request import urlopen
 
-# cimport sage.cpython.cython_metaclass
-
 from .exceptions import (
     TldIOError,
     TldImproperlyConfigured,
@@ -19,7 +17,7 @@ __all__ = ('BaseTLDSourceParser',)
 cdef class BaseTLDSourceParser:
     """Base TLD source parser."""
 
-    def __getmetaclass__(_):
+    def __getmetaclass__(self):
         return Registry
 
     cpdef public str uid
