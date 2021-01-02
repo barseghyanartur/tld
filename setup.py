@@ -7,7 +7,7 @@ try:
 except:
     readme = ''
 
-version = '0.12.3'
+version = '0.12.4'
 
 py_where = './src'
 py_package_dir = 'src'
@@ -44,6 +44,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
