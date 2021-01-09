@@ -290,7 +290,7 @@ class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
 
 
 def process_url(
-    url: str,
+    url: Union[str, SplitResult],
     fail_silently: bool = False,
     fix_protocol: bool = False,
     search_public: bool = True,
@@ -405,7 +405,7 @@ def process_url(
 
 
 def get_fld(
-    url: str,
+    url: Union[str, SplitResult],
     fail_silently: bool = False,
     fix_protocol: bool = False,
     search_public: bool = True,
@@ -428,7 +428,7 @@ def get_fld(
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
     :param parser_class:
-    :type url: str
+    :type url: str | SplitResult
     :type fail_silently: bool
     :type fix_protocol: bool
     :type search_public: bool
@@ -472,7 +472,7 @@ def get_fld(
 
 
 def get_tld(
-    url: str,
+    url: Union[str, SplitResult],
     fail_silently: bool = False,
     as_object: bool = False,
     fix_protocol: bool = False,
@@ -497,7 +497,7 @@ def get_tld(
     :param search_public: If set to True, search in public domains.
     :param search_private: If set to True, search in private domains.
     :param parser_class:
-    :type url: str
+    :type url: str | SplitResult
     :type fail_silently: bool
     :type as_object: bool
     :type fix_protocol: bool
@@ -559,7 +559,7 @@ def get_tld(
 
 
 def parse_tld(
-    url: str,
+    url: Union[str, SplitResult],
     fail_silently: bool = False,
     fix_protocol: bool = False,
     search_public: bool = True,
@@ -609,7 +609,7 @@ def parse_tld(
 
 
 def is_tld(
-    value: str,
+    value: Union[str, SplitResult],
     search_public: bool = True,
     search_private: bool = True,
     parser_class: Type[BaseTLDSourceParser] = None
