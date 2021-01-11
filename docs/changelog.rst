@@ -15,6 +15,18 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.12.5
+------
+2021-01-11
+
+.. note::
+
+    Release dedicated to defenders of Armenia and Artsakh (Nagorno Karabakh)
+    and all the victims of Turkish and Azerbaijani aggression.
+
+- Fixed lower-cased `parsed_url` attributes (`SplitResult`) when getting
+  tld as object (`as_object=True`).
+
 0.12.4
 ------
 2021-01-02

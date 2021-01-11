@@ -445,10 +445,10 @@ EXHIBIT A -Mozilla Public License.
      under the License.
 
      tld - Extract the top level domain (TLD) from the URL given.
-     Copyright (C) 2013-2020 Artur Barseghyan
+     Copyright (C) 2013-2021 Artur Barseghyan
 
      The Initial Developer of the Original Code is Artur Barseghyan,
-     copyright (C) 2013-2020. All Rights Reserved.
+     copyright (C) 2013-2021. All Rights Reserved.
 
      Alternatively, the contents of this file may be used under the terms
      of the GPL 2.0 license or LGPL 2.1 license, in which case the

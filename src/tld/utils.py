@@ -320,8 +320,6 @@ def process_url(
     )
 
     if not isinstance(url, SplitResult):
-        url = url.lower()
-
         if (
             fix_protocol and not url.startswith(('//', 'http://', 'https://'))
         ):
@@ -340,6 +338,8 @@ def process_url(
             return None, None, parsed_url
         else:
             raise TldBadUrl(url=url)
+
+    domain_name = domain_name.lower()
 
     # This will correctly handle dots at the end of domain name in URLs like
     # https://github.com............/barseghyanartur/tld/

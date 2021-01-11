@@ -7,7 +7,7 @@ import unittest
 from tempfile import gettempdir
 from typing import Type
 
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, SplitResult
 
 from faker import Faker  # type: ignore
 
@@ -648,13 +648,13 @@ class TestCore(unittest.TestCase):
                 get_tld(**kwargs)
 
     @log_info
-    def test_15_fail_get_fld_wrong_kwargs(self):
+    def test_16_fail_get_fld_wrong_kwargs(self):
         """Test fail `get_fld` with wrong kwargs."""
         with self.assertRaises(TldImproperlyConfigured):
             get_fld(self.good_url, as_object=True)
 
     @log_info
-    def test_16_fail_parse_tld(self):
+    def test_17_fail_parse_tld(self):
         """Test fail `parse_tld`.
 
         Assert raise TldIOError on wrong `NAMES_SOURCE_URL` for `parse_tld`.
@@ -670,7 +670,7 @@ class TestCore(unittest.TestCase):
         self.assertEqual(parsed_tld, (None, None, None))
 
     @log_info
-    def test_17_get_tld_names_and_reset_tld_names(self):
+    def test_18_get_tld_names_and_reset_tld_names(self):
         """Test fail `get_tld_names` and repair using `reset_tld_names`."""
         tmp_filename = join(
             gettempdir(),
@@ -712,14 +712,14 @@ class TestCore(unittest.TestCase):
 
     @internet_available_only
     @log_info
-    def test_18_update_tld_names_cli(self):
+    def test_19_update_tld_names_cli(self):
         """Test the return code of the CLI version of `update_tld_names`."""
         reset_tld_names()
         res = update_tld_names_cli()
         self.assertEqual(res, 0)
 
     @log_info
-    def test_19_parse_tld_custom_tld_names_good_patterns(self):
+    def test_20_parse_tld_custom_tld_names_good_patterns(self):
         """Test `parse_tld` good URL patterns for custom tld names."""
         res = []
 
@@ -735,7 +735,7 @@ class TestCore(unittest.TestCase):
         return res
 
     @log_info
-    def test_20_tld_custom_tld_names_good_patterns_pass_parsed_object(self):
+    def test_21_tld_custom_tld_names_good_patterns_pass_parsed_object(self):
         """Test `get_tld` good URL patterns for custom tld names."""
         res = []
         for data in self.good_patterns_custom_parser:
@@ -771,7 +771,7 @@ class TestCore(unittest.TestCase):
         return res
 
     @log_info
-    def test_21_reset_tld_names_for_custom_parser(self):
+    def test_22_reset_tld_names_for_custom_parser(self):
         """Test `reset_tld_names` for `tld_names_local_path`."""
         res = []
         parser_class = self.get_custom_parser_class()
@@ -814,7 +814,7 @@ class TestCore(unittest.TestCase):
         return res
 
     @log_info
-    def test_22_fail_define_custom_parser_class_without_uid(self):
+    def test_23_fail_define_custom_parser_class_without_uid(self):
         """Test fail define custom parser class without `uid`."""
         class CustomParser(BaseTLDSourceParser):
             pass
@@ -832,7 +832,7 @@ class TestCore(unittest.TestCase):
             AnotherCustomParser.get_tld_names()
 
     @log_info
-    def test_23_len_trie_nodes(self):
+    def test_24_len_trie_nodes(self):
         """Test len of the trie nodes."""
         get_tld('http://delusionalinsanity.com')
         tld_names = get_tld_names_container()
@@ -842,12 +842,35 @@ class TestCore(unittest.TestCase):
         )
 
     @log_info
-    def test_24_get_tld_names_no_arguments(self):
+    def test_25_get_tld_names_no_arguments(self):
         """Test len of the trie nodes."""
         tld_names = get_tld_names()
         self.assertGreater(
             len(tld_names),
             0
+        )
+
+    @log_info
+    def test_26_case(self):
+        res = get_tld(
+            'https://MyDomain.com/AsDrFt?QUeRY=12aA',
+            fail_silently=True,
+            search_private=False,
+            as_object=True
+        )
+        self.assertEqual(res.tld, 'com')
+        self.assertEqual(res.domain, 'mydomain')
+        self.assertEqual(res.subdomain, '')
+        self.assertEqual(res.fld, 'mydomain.com')
+        self.assertEqual(
+            res.parsed_url,
+            SplitResult(
+                scheme='https',
+                netloc='MyDomain.com',
+                path='/AsDrFt',
+                query='QUeRY=12aA',
+                fragment=''
+            )
         )
 
 
