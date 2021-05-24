@@ -22,12 +22,19 @@ matrix:
     python: 3.9
 #  - env: TOX_ENV=pypy
 #    python: pypy
-install: pip install -r requirements/testing.txt -r requirements/release.txt
 
 before_script:
   - sleep 10
 
-script: tox -e $TOX_ENV
+before_install:
+  - pip install pip-tools
+  - pip-compile examples/requirements/testing.in
+  - pip-compile examples/requirements/release.in
+
+install:
+  - pip install -r requirements/testing.txt -r requirements/release.txt
+
+script: travis_retry tox -e $TOX_ENV
 
 after_success:
   - pip install coveralls
