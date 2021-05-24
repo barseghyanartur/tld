@@ -872,7 +872,3 @@ class TestCore(unittest.TestCase):
                 fragment=''
             )
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

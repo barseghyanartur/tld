@@ -36,7 +36,3 @@ class TestCommands(unittest.TestCase):
         res = subprocess.check_output(['update-tld-names', 'mozilla']).strip()
         self.assertEqual(res, b'')
         return res
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+cd requirements/
+pip-compile base.in
+pip-compile bench.in
+pip-compile build.in
+pip-compile code_style.in
+pip-compile debug.in
+pip-compile docs.in
+pip-compile release.in
+pip-compile test.in
+pip-compile testing.in

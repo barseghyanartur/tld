@@ -4,3 +4,6 @@ omit =
     src/tld/tests/*
     src/tld/parsers/*
     .tox/*
+    src_*/*
+    src_py27/*
+    src_py35/*
