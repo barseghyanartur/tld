@@ -28,8 +28,8 @@ before_script:
 
 before_install:
   - pip install pip-tools
-  - pip-compile examples/requirements/testing.in
-  - pip-compile examples/requirements/release.in
+  - pip-compile requirements/testing.in
+  - pip-compile requirements/release.in
 
 install:
   - pip install -r requirements/testing.txt -r requirements/release.txt
