@@ -1,4 +1,5 @@
 from codecs import open as codecs_open
+import logging
 from urllib.request import urlopen
 from typing import Optional, Dict, Union, ItemsView
 
@@ -15,6 +16,8 @@ __all__ = (
     "BaseTLDSourceParser",
     "Registry",
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Registry(type):
@@ -94,13 +97,20 @@ class BaseTLDSourceParser(metaclass=Registry):
         """
         try:
             remote_file = urlopen(cls.source_url)
+            local_file_abs_path = project_dir(cls.local_path)
             local_file = codecs_open(
-                project_dir(cls.local_path), "wb", encoding="utf8"
+                local_file_abs_path, "wb", encoding="utf8"
             )
             local_file.write(remote_file.read().decode("utf8"))
             local_file.close()
             remote_file.close()
+            LOGGER.debug(
+                f"Fetched '{cls.source_url}' as '{local_file_abs_path}'"
+            )
         except Exception as err:
+            LOGGER.debug(
+                f"Failed fetching '{cls.source_url}'. Reason: {err.message}"
+            )
             if fail_silently:
                 return False
             raise TldIOError(err)
