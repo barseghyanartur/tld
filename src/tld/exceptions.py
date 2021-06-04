@@ -46,11 +46,3 @@ class TldImproperlyConfigured(Exception):
     is when user tries to use `get_tld` function with both `search_public` and
     `search_private` set to False.
     """
-
-    def __init__(self, msg=None):
-        if msg is None:
-            msg = "Improperly configured."
-        else:
-            msg = "Improperly configured. %s" % msg
-
-        super(TldImproperlyConfigured, self).__init__(msg)
