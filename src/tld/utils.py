@@ -8,7 +8,7 @@ import sys
 from typing import Dict, Type, Union, Tuple, List, Optional
 from urllib.parse import urlsplit, SplitResult
 
-from .base import BaseTLDSourceParser
+from .base import BaseTLDSourceParser, Registry
 from .exceptions import (
     TldBadUrl,
     TldDomainNotFound,
@@ -17,11 +17,10 @@ from .exceptions import (
 )
 from .helpers import project_dir
 from .trie import Trie
-from .registry import Registry
 from .result import Result
 
 __author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2020 Artur Barseghyan'
+__copyright__ = '2013-2021 Artur Barseghyan'
 __license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later'
 __all__ = (
     'BaseMozillaTLDSourceParser',
