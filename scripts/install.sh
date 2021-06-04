@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python setup.py develop
+pip install -e .
