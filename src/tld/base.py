@@ -109,7 +109,7 @@ class BaseTLDSourceParser(metaclass=Registry):
             )
         except Exception as err:
             LOGGER.debug(
-                f"Failed fetching '{cls.source_url}'. Reason: {err.message}"
+                f"Failed fetching '{cls.source_url}'. Reason: {str(err)}"
             )
             if fail_silently:
                 return False
