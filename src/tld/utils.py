@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 import argparse
 from codecs import open as codecs_open
 from functools import lru_cache
+
 # codecs_open = open
 from os.path import isabs
 import sys
@@ -19,27 +20,27 @@ from .helpers import project_dir
 from .trie import Trie
 from .result import Result
 
-__author__ = 'Artur Barseghyan'
-__copyright__ = '2013-2021 Artur Barseghyan'
-__license__ = 'MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later'
+__author__ = "Artur Barseghyan"
+__copyright__ = "2013-2021 Artur Barseghyan"
+__license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
 __all__ = (
-    'BaseMozillaTLDSourceParser',
-    'get_fld',
-    'get_tld',
-    'get_tld_names',
-    'get_tld_names_container',
-    'is_tld',
-    'MozillaTLDSourceParser',
-    'MozillaPublicOnlyTLDSourceParser',
-    'parse_tld',
-    'pop_tld_names_container',
-    'process_url',
-    'reset_tld_names',
-    'Result',
-    'tld_names',
-    'update_tld_names',
-    'update_tld_names_cli',
-    'update_tld_names_container',
+    "BaseMozillaTLDSourceParser",
+    "get_fld",
+    "get_tld",
+    "get_tld_names",
+    "get_tld_names_container",
+    "is_tld",
+    "MozillaTLDSourceParser",
+    "MozillaPublicOnlyTLDSourceParser",
+    "parse_tld",
+    "pop_tld_names_container",
+    "process_url",
+    "reset_tld_names",
+    "Result",
+    "tld_names",
+    "update_tld_names",
+    "update_tld_names_cli",
+    "update_tld_names_container",
 )
 
 tld_names: Dict[str, Trie] = {}
@@ -55,8 +56,9 @@ def get_tld_names_container() -> Dict[str, Trie]:
     return tld_names
 
 
-def update_tld_names_container(tld_names_local_path: str,
-                               trie_obj: Trie) -> None:
+def update_tld_names_container(
+    tld_names_local_path: str, trie_obj: Trie
+) -> None:
     """Update TLD Names container item.
 
     :param tld_names_local_path:
@@ -80,8 +82,7 @@ def pop_tld_names_container(tld_names_local_path: str) -> None:
 
 @lru_cache(maxsize=128, typed=True)
 def update_tld_names(
-    fail_silently: bool = False,
-    parser_uid: str = None
+    fail_silently: bool = False, parser_uid: str = None
 ) -> bool:
     """Update TLD names.
 
@@ -113,18 +114,18 @@ def update_tld_names_cli() -> int:
     Since update_tld_names returns True on success, we need to negate the
     result to match CLI semantics.
     """
-    parser = argparse.ArgumentParser(description='Update TLD names')
+    parser = argparse.ArgumentParser(description="Update TLD names")
     parser.add_argument(
-        'parser_uid',
-        nargs='?',
+        "parser_uid",
+        nargs="?",
         default=None,
         help="UID of the parser to update TLD names for.",
     )
     parser.add_argument(
-        '--fail-silently',
+        "--fail-silently",
         dest="fail_silently",
         default=False,
-        action='store_true',
+        action="store_true",
         help="Fail silently",
     )
     args = parser.parse_args(sys.argv[1:])
@@ -132,8 +133,7 @@ def update_tld_names_cli() -> int:
     fail_silently = args.fail_silently
     return int(
         not update_tld_names(
-            parser_uid=parser_uid,
-            fail_silently=fail_silently
+            parser_uid=parser_uid, fail_silently=fail_silently
         )
     )
 
@@ -141,7 +141,7 @@ def update_tld_names_cli() -> int:
 def get_tld_names(
     fail_silently: bool = False,
     retry_count: int = 0,
-    parser_class: Type[BaseTLDSourceParser] = None
+    parser_class: Type[BaseTLDSourceParser] = None,
 ) -> Dict[str, Trie]:
     """Build the ``tlds`` list if empty. Recursive.
 
@@ -160,8 +160,7 @@ def get_tld_names(
         parser_class = MozillaTLDSourceParser
 
     return parser_class.get_tld_names(
-        fail_silently=fail_silently,
-        retry_count=retry_count
+        fail_silently=fail_silently, retry_count=retry_count
     )
 
 
@@ -169,13 +168,11 @@ def get_tld_names(
 # **************************** Parser classes ******************************
 # **************************************************************************
 
-class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 
+class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
     @classmethod
     def get_tld_names(
-        cls,
-        fail_silently: bool = False,
-        retry_count: int = 0
+        cls, fail_silently: bool = False, retry_count: int = 0
     ) -> Optional[Dict[str, Trie]]:
         """Parse.
 
@@ -206,11 +203,7 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
                 local_path = cls.local_path
             else:
                 local_path = project_dir(cls.local_path)
-            local_file = codecs_open(
-                local_path,
-                'r',
-                encoding='utf8'
-            )
+            local_file = codecs_open(local_path, "r", encoding="utf8")
             trie = Trie()
             trie_add = trie.add  # Performance opt
             # Make a list of it all, strip all garbage
@@ -218,38 +211,32 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
             include_private = cls.include_private
 
             for line in local_file:
-                if '===BEGIN PRIVATE DOMAINS===' in line:
+                if "===BEGIN PRIVATE DOMAINS===" in line:
                     private_section = True
 
                 if private_section and not include_private:
                     break
 
                 # Puny code TLD names
-                if '// xn--' in line:
+                if "// xn--" in line:
                     line = line.split()[1]
 
-                if line[0] in ('/', '\n'):
+                if line[0] in ("/", "\n"):
                     continue
 
-                trie_add(
-                    f'{line.strip()}',
-                    private=private_section
-                )
+                trie_add(f"{line.strip()}", private=private_section)
 
             update_tld_names_container(cls.local_path, trie)
 
             local_file.close()
         except IOError as err:
             # Grab the file
-            cls.update_tld_names(
-                fail_silently=fail_silently
-            )
+            cls.update_tld_names(fail_silently=fail_silently)
             # Increment ``retry_count`` in order to avoid infinite loops
             retry_count += 1
             # Run again
             return cls.get_tld_names(
-                fail_silently=fail_silently,
-                retry_count=retry_count
+                fail_silently=fail_silently, retry_count=retry_count
             )
         except Exception as err:
             if fail_silently:
@@ -268,18 +255,19 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
 class MozillaTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
-    uid: str = 'mozilla'
-    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat'
-    local_path: str = 'res/effective_tld_names.dat.txt'
+    uid: str = "mozilla"
+    source_url: str = "https://publicsuffix.org/list/public_suffix_list.dat"
+    local_path: str = "res/effective_tld_names.dat.txt"
 
 
 class MozillaPublicOnlyTLDSourceParser(BaseMozillaTLDSourceParser):
     """Mozilla TLD source."""
 
-    uid: str = 'mozilla_public_only'
-    source_url: str = 'https://publicsuffix.org/list/public_suffix_list.dat' \
-                      '?publiconly'
-    local_path: str = 'res/effective_tld_names_public_only.dat.txt'
+    uid: str = "mozilla_public_only"
+    source_url: str = (
+        "https://publicsuffix.org/list/public_suffix_list.dat?publiconly"
+    )
+    local_path: str = "res/effective_tld_names_public_only.dat.txt"
     include_private: bool = False
 
 
@@ -294,7 +282,7 @@ def process_url(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser
+    parser_class: Type[BaseTLDSourceParser] = MozillaTLDSourceParser,
 ) -> Union[Tuple[List[str], int, SplitResult], Tuple[None, None, SplitResult]]:
     """Process URL.
 
@@ -314,15 +302,12 @@ def process_url(
 
     # Init
     _tld_names = get_tld_names(
-        fail_silently=fail_silently,
-        parser_class=parser_class
+        fail_silently=fail_silently, parser_class=parser_class
     )
 
     if not isinstance(url, SplitResult):
-        if (
-            fix_protocol and not url.startswith(('//', 'http://', 'https://'))
-        ):
-            url = f'https://{url}'
+        if fix_protocol and not url.startswith(("//", "http://", "https://")):
+            url = f"https://{url}"
 
         # Get parsed URL as we might need it later
         parsed_url = urlsplit(url)
@@ -342,10 +327,10 @@ def process_url(
 
     # This will correctly handle dots at the end of domain name in URLs like
     # https://github.com............/barseghyanartur/tld/
-    if domain_name.endswith('.'):
-        domain_name = domain_name.rstrip('.')
+    if domain_name.endswith("."):
+        domain_name = domain_name.rstrip(".")
 
-    domain_parts = domain_name.split('.')
+    domain_parts = domain_name.split(".")
     tld_names_local_path = parser_class.local_path
 
     # Now we query our Trie iterating on the domain parts in reverse order
@@ -354,7 +339,7 @@ def process_url(
     tld_length = 0
     match = None
     len_domain_parts = len(domain_parts)
-    for i in range(len_domain_parts-1, -1, -1):
+    for i in range(len_domain_parts - 1, -1, -1):
         part = domain_parts[i]
 
         # Cannot go deeper
@@ -369,7 +354,7 @@ def process_url(
 
         # Wildcards
         if child is None:
-            child = node.children.get('*')
+            child = node.children.get("*")
 
         # If the current part is not in current node's children, we can stop
         if child is None:
@@ -385,10 +370,10 @@ def process_url(
 
     # Checking the node we finished on is a leaf and is one we allow
     if (
-        (match is None) or
-        (not match.leaf) or
-        (not search_public and not match.private) or
-        (not search_private and match.private)
+        (match is None)
+        or (not match.leaf)
+        or (not search_public and not match.private)
+        or (not search_private and match.private)
     ):
         if fail_silently:
             return None, None, parsed_url
@@ -410,7 +395,7 @@ def get_fld(
     search_public: bool = True,
     search_private: bool = True,
     parser_class: Type[BaseTLDSourceParser] = None,
-    **kwargs
+    **kwargs,
 ) -> Optional[str]:
     """Extract the first level domain.
 
@@ -437,16 +422,18 @@ def get_fld(
         argument is set to True); returns None on failure.
     :rtype: str
     """
-    if 'as_object' in kwargs:
+    if "as_object" in kwargs:
         raise TldImproperlyConfigured(
             "`as_object` argument is deprecated for `get_fld`. Use `get_tld` "
             "instead."
         )
 
     if not parser_class:
-        parser_class = MozillaTLDSourceParser \
-            if search_private \
+        parser_class = (
+            MozillaTLDSourceParser
+            if search_private
             else MozillaPublicOnlyTLDSourceParser
+        )
 
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
@@ -454,7 +441,7 @@ def get_fld(
         fix_protocol=fix_protocol,
         search_public=search_public,
         search_private=search_private,
-        parser_class=parser_class
+        parser_class=parser_class,
     )
 
     if domain_parts is None:
@@ -467,7 +454,7 @@ def get_fld(
         # hostname = tld
         return parsed_url.hostname
 
-    return ".".join(domain_parts[non_zero_i-1:])
+    return ".".join(domain_parts[non_zero_i - 1 :])
 
 
 def get_tld(
@@ -477,7 +464,7 @@ def get_tld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = None
+    parser_class: Type[BaseTLDSourceParser] = None,
 ) -> Optional[Union[str, Result]]:
     """Extract the top level domain.
 
@@ -508,9 +495,11 @@ def get_tld(
     :rtype: str
     """
     if not parser_class:
-        parser_class = MozillaTLDSourceParser \
-            if search_private \
+        parser_class = (
+            MozillaTLDSourceParser
+            if search_private
             else MozillaPublicOnlyTLDSourceParser
+        )
 
     domain_parts, non_zero_i, parsed_url = process_url(
         url=url,
@@ -518,7 +507,7 @@ def get_tld(
         fix_protocol=fix_protocol,
         search_public=search_public,
         search_private=search_private,
-        parser_class=parser_class
+        parser_class=parser_class,
     )
 
     if domain_parts is None:
@@ -543,17 +532,12 @@ def get_tld(
         assert parsed_url.hostname is not None, "No hostname in URL"
         _tld = parsed_url.hostname
     else:
-        subdomain = ".".join(domain_parts[:non_zero_i-1])
-        domain = ".".join(
-            domain_parts[non_zero_i-1:non_zero_i]
-        )
+        subdomain = ".".join(domain_parts[: non_zero_i - 1])
+        domain = ".".join(domain_parts[non_zero_i - 1 : non_zero_i])
         _tld = ".".join(domain_parts[non_zero_i:])
 
     return Result(
-        subdomain=subdomain,
-        domain=domain,
-        tld=_tld,
-        parsed_url=parsed_url
+        subdomain=subdomain, domain=domain, tld=_tld, parsed_url=parsed_url
     )
 
 
@@ -563,7 +547,7 @@ def parse_tld(
     fix_protocol: bool = False,
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = None
+    parser_class: Type[BaseTLDSourceParser] = None,
 ) -> Union[Tuple[None, None, None], Tuple[str, str, str]]:
     """Parse TLD into parts.
 
@@ -577,9 +561,11 @@ def parse_tld(
     :rtype: tuple
     """
     if not parser_class:
-        parser_class = MozillaTLDSourceParser \
-            if search_private \
+        parser_class = (
+            MozillaTLDSourceParser
+            if search_private
             else MozillaPublicOnlyTLDSourceParser
+        )
 
     try:
         obj = get_tld(
@@ -589,19 +575,14 @@ def parse_tld(
             fix_protocol=fix_protocol,
             search_public=search_public,
             search_private=search_private,
-            parser_class=parser_class
+            parser_class=parser_class,
         )
         if obj is None:
             return None, None, None
 
         return obj.tld, obj.domain, obj.subdomain  # type: ignore
 
-    except (
-        TldBadUrl,
-        TldDomainNotFound,
-        TldImproperlyConfigured,
-        TldIOError
-    ):
+    except (TldBadUrl, TldDomainNotFound, TldImproperlyConfigured, TldIOError):
         pass
 
     return None, None, None
@@ -611,7 +592,7 @@ def is_tld(
     value: Union[str, SplitResult],
     search_public: bool = True,
     search_private: bool = True,
-    parser_class: Type[BaseTLDSourceParser] = None
+    parser_class: Type[BaseTLDSourceParser] = None,
 ) -> bool:
     """Check if given URL is tld.
 
@@ -626,9 +607,11 @@ def is_tld(
     :rtype: bool
     """
     if not parser_class:
-        parser_class = MozillaTLDSourceParser \
-            if search_private \
+        parser_class = (
+            MozillaTLDSourceParser
+            if search_private
             else MozillaPublicOnlyTLDSourceParser
+        )
 
     _tld = get_tld(
         url=value,
@@ -636,7 +619,7 @@ def is_tld(
         fix_protocol=True,
         search_public=search_public,
         search_private=search_private,
-        parser_class=parser_class
+        parser_class=parser_class,
     )
     return value == _tld
 
