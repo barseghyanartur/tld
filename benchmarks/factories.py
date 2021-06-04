@@ -1,9 +1,7 @@
 from faker import Faker
 from constants import URLS_COUNT
 
-__all__ = (
-    'URLS',
-)
+__all__ = ("URLS",)
 
 
 fake = Faker()

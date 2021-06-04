@@ -3,7 +3,7 @@ import sys
 
 from tld import get_tld
 
-path = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'benchmarks')
+path = os.path.join(os.path.abspath(os.path.dirname(__name__)), "benchmarks")
 
 sys.path.insert(0, path)
 
@@ -25,9 +25,9 @@ def main():
                 fix_protocol=True,
                 search_public=True,
                 search_private=True,
-                fail_silently=True
+                fail_silently=True,
             )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
