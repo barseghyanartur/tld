@@ -1,0 +1,8 @@
+-r base.in
+-r bench.in
+-r build.in
+-r code_style.in
+-r debug.in
+-r docs.in
+-r release.in
+-r test.in

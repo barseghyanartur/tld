@@ -5,6 +5,7 @@ pip-compile bench.in
 pip-compile build.in
 pip-compile code_style.in
 pip-compile debug.in
+pip-compile dev.in
 pip-compile docs.in
 pip-compile release.in
 pip-compile test.in

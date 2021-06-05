@@ -8,14 +8,13 @@ backcall==0.2.0
     # via ipython
 decorator==5.0.9
     # via
-    #   ipdb
     #   ipython
     #   traitlets
-ipdb==0.13.9
+ipdb==0.11
     # via -r debug.in
 ipython-genutils==0.2.0
     # via traitlets
-ipython==7.16.1
+ipython==7.1.0
     # via
     #   -r debug.in
     #   ipdb
@@ -27,16 +26,16 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-prompt-toolkit==3.0.18
+prompt-toolkit==2.0.10
     # via ipython
 ptyprocess==0.7.0
     # via pexpect
 pygments==2.9.0
     # via ipython
 six==1.16.0
-    # via traitlets
-toml==0.10.2
-    # via ipdb
+    # via
+    #   prompt-toolkit
+    #   traitlets
 traitlets==4.3.3
     # via ipython
 wcwidth==0.2.5

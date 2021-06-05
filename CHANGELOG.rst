@@ -15,6 +15,14 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.12.6
+------
+2021-06-05
+
+- Move ``Registry`` class from ``tld.registry`` to ``tld.base``.
+- Reformat code using ``black``.
+- Log information on updated resources of the ``update_tld_names``.
+
 0.12.5
 ------
 2021-01-11
