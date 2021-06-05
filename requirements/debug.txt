@@ -8,9 +8,10 @@ backcall==0.2.0
     # via ipython
 decorator==5.0.9
     # via
+    #   ipdb
     #   ipython
     #   traitlets
-ipdb==0.13.7
+ipdb==0.13.9
     # via -r debug.in
 ipython-genutils==0.2.0
     # via traitlets

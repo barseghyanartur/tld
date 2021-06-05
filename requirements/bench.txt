@@ -18,7 +18,7 @@ faker==0.8.15
     # via -r bench.in
 gprof2dot==2021.2.21
     # via pytest-profiling
-importlib-metadata==4.0.1
+importlib-metadata==4.5.0
     # via
     #   pluggy
     #   pytest
@@ -26,13 +26,13 @@ iniconfig==1.1.1
     # via pytest
 ipython-genutils==0.2.0
     # via traitlets
-ipython==7.7.0
+ipython==7.16.1
     # via line-profiler
 jedi==0.18.0
     # via ipython
 kiwisolver==1.3.1
     # via matplotlib
-line-profiler==3.2.6
+line-profiler==3.3.0
     # via -r bench.in
 matplotlib==3.3.4
     # via -r bench.in
@@ -52,7 +52,7 @@ pillow==8.2.0
     # via matplotlib
 pluggy==0.13.1
     # via pytest
-prompt-toolkit==2.0.10
+prompt-toolkit==3.0.18
     # via ipython
 psutil==5.8.0
     # via memory-profiler
@@ -84,7 +84,6 @@ six==1.16.0
     # via
     #   cycler
     #   faker
-    #   prompt-toolkit
     #   pytest-profiling
     #   python-dateutil
     #   traitlets
