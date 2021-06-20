@@ -30,8 +30,6 @@ importlib-metadata==4.5.0
     #   pytest
     #   tox
     #   virtualenv
-importlib-resources==5.1.4
-    # via virtualenv
 iniconfig==1.1.1
     # via pytest
 packaging==20.9
@@ -85,6 +83,4 @@ typing-extensions==3.10.0.0
 virtualenv==20.4.7
     # via tox
 zipp==3.4.1
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata
