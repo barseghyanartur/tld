@@ -16,8 +16,6 @@ cfgv==3.3.0
     # via pre-commit
 click==8.0.1
     # via black
-dataclasses==0.8
-    # via black
 distlib==0.3.2
     # via virtualenv
 filelock==3.0.12
@@ -30,10 +28,6 @@ importlib-metadata==4.5.0
     # via
     #   click
     #   flake8
-    #   pre-commit
-    #   virtualenv
-importlib-resources==5.1.4
-    # via
     #   pre-commit
     #   virtualenv
 isort==5.8.0
@@ -94,6 +88,4 @@ virtualenv==20.4.7
 wrapt==1.12.1
     # via astroid
 zipp==3.4.1
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata

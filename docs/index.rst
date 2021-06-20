@@ -15,8 +15,8 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
     :target: https://pypi.python.org/pypi/tld/
     :alt: Supported Python versions
 
-.. image:: https://img.shields.io/travis/barseghyanartur/tld/master.svg
-   :target: http://travis-ci.org/barseghyanartur/tld
+.. image:: https://github.com/barseghyanartur/tld/workflows/test/badge.svg
+   :target: https://github.com/barseghyanartur/tld/actions
    :alt: Build Status
 
 .. image:: https://readthedocs.org/projects/tld/badge/?version=latest
