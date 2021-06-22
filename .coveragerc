@@ -7,3 +7,10 @@ omit =
     src_*/*
     src_py27/*
     src_py35/*
+
+relative_files = True
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError

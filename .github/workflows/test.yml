@@ -34,26 +34,21 @@ jobs:
         pip install -r requirements/testing.txt -r requirements/release.txt
     - name: Run Tests
       run: tox -e ${{ matrix.tox_env }}
+    - name: Coveralls
+      uses: AndreMiras/coveralls-python-action@develop
+      with:
+        parallel: true
+        flag-name: Run Tests
 
-#  finish:
-#    needs: test
-#    runs-on: ubuntu-latest
-#    steps:
-#    - name: Coveralls Finished
-#      env:
-#        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-#        GITHUB_TOKEN: $COVERALLS_REPO_TOKEN
-#      run: |
-#        sudo apt-get install git -y
-#        pip install coveralls
-#        coveralls -v --service=github-actions
-
-#  finish:
-#    needs: test
-#    runs-on: ubuntu-latest
-#    steps:
-#    - name: Coveralls Finished
-#      uses: coverallsapp/github-action@master
-#      with:
-#        github-token: ${{ secrets.COVERALLS_GITHUB_TOKEN }}
-#        parallel-finished: true
+  coveralls_finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      uses: AndreMiras/coveralls-python-action@develop
+      with:
+        parallel-finished: true
+        debug: True
