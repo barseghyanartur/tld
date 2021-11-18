@@ -33,7 +33,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
 
 Prerequisites
 =============
-- Python 3.6, 3.7, 3.8 and 3.9.
+- Python 3.6, 3.7, 3.8, 3.9 and 3.10.
 
 `Support for Python 2.7 and 3.5`_ is available as well.
 

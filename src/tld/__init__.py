@@ -9,7 +9,7 @@ from .utils import (
 )
 
 __title__ = "tld"
-__version__ = "0.12.6"
+__version__ = "0.12.7"
 __author__ = "Artur Barseghyan"
 __copyright__ = "2013-2021 Artur Barseghyan"
 __license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
