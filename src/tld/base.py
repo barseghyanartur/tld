@@ -104,11 +104,11 @@ class BaseTLDSourceParser(metaclass=Registry):
             local_file.write(remote_file.read().decode("utf8"))
             local_file.close()
             remote_file.close()
-            LOGGER.debug(
+            LOGGER.info(
                 f"Fetched '{cls.source_url}' as '{local_file_abs_path}'"
             )
         except Exception as err:
-            LOGGER.debug(
+            LOGGER.error(
                 f"Failed fetching '{cls.source_url}'. Reason: {str(err)}"
             )
             if fail_silently:
