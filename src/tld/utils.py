@@ -314,20 +314,22 @@ def process_url(
             parsed_url = urlsplit(url)
         except ValueError as e:
             if fail_silently:
-                parsed_url = url
+                return None, None, url
             else:
                 raise e
     else:
         parsed_url = url
 
     # Get (sub) domain name
-    try:
-        domain_name = parsed_url.hostname
-    except AttributeError as e:
+    domain_name = parsed_url.hostname
+
+    if not domain_name:
         if fail_silently:
-            domain_name = None
+            return None, None, parsed_url
         else:
-            raise e
+            raise TldBadUrl(url=url)
+
+    domain_name = domain_name.lower()
 
     # This will correctly handle dots at the end of domain name in URLs like
     # https://github.com............/barseghyanartur/tld/
