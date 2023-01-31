@@ -12,13 +12,13 @@ chardet==5.1.0
     # via tox
 colorama==0.4.6
     # via tox
-coverage[toml]==7.1.0
+coverage[toml]==7.1.0 ; python_version >= "3.7"
     # via
     #   -r test.in
     #   pytest-cov
 distlib==0.3.6
     # via virtualenv
-factory-boy==3.2.1
+factory-boy==3.2.1 ; python_version >= "3.7"
     # via -r test.in
 faker==16.6.1 ; python_version >= "3.7"
     # via
@@ -49,15 +49,15 @@ py==1.11.0
     #   pytest
 pyproject-api==1.5.0
     # via tox
-pytest==6.2.5
+pytest==6.2.5 ; python_version >= "3.7"
     # via
     #   -r test.in
     #   pytest-cov
     #   pytest-ordering
     #   pytest-pythonpath
-pytest-cov==4.0.0
+pytest-cov==4.0.0 ; python_version >= "3.7"
     # via -r test.in
-pytest-ordering==0.6
+pytest-ordering==0.6 ; python_version >= "3.7"
     # via -r test.in
 pytest-pythonpath==0.7.4
     # via -r test.in
@@ -72,7 +72,7 @@ tomli==2.0.1
     #   coverage
     #   pyproject-api
     #   tox
-tox==4.4.4
+tox==4.4.4 ; python_version >= "3.7"
     # via -r test.in
 virtualenv==20.17.1
     # via tox

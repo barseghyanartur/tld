@@ -40,7 +40,7 @@ colorama==0.4.6
     #   tox
 contourpy==1.0.7
     # via matplotlib
-coverage[toml]==7.1.0
+coverage[toml]==7.1.0 ; python_version >= "3.7"
     # via
     #   -r test.in
     #   pytest-cov
@@ -64,7 +64,7 @@ docutils==0.19
     #   sphinx
 executing==1.2.0
     # via stack-data
-factory-boy==3.2.1
+factory-boy==3.2.1 ; python_version >= "3.7"
     # via -r test.in
 faker==16.6.1 ; python_version >= "3.7"
     # via
@@ -209,16 +209,16 @@ pyprof2calltree==1.4.5
     # via -r bench.in
 pyproject-api==1.5.0
     # via tox
-pytest==6.2.5
+pytest==6.2.5 ; python_version >= "3.7"
     # via
     #   -r test.in
     #   pytest-cov
     #   pytest-ordering
     #   pytest-profiling
     #   pytest-pythonpath
-pytest-cov==4.0.0
+pytest-cov==4.0.0 ; python_version >= "3.7"
     # via -r test.in
-pytest-ordering==0.6
+pytest-ordering==0.6 ; python_version >= "3.7"
     # via -r test.in
 pytest-profiling==1.7.0
     # via -r bench.in
@@ -292,7 +292,7 @@ tomli==2.0.1
     #   mypy
     #   pyproject-api
     #   tox
-tox==4.4.4
+tox==4.4.4 ; python_version >= "3.7"
     # via -r test.in
 traitlets==5.9.0
     # via
