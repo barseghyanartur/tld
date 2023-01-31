@@ -6,6 +6,9 @@ importlib-metadata==4.5.0; python_version < '3.7'
 keyring==23.0.1; python_version < '3.7'
 colorama==0.4.4; python_version < '3.7'
 requests==2.25.1; python_version < '3.7'
+pygments==2.9.0; python_version < '3.7'
+bleach==3.3.0; python_version < '3.7'
+docutils==0.17.1; python_version < '3.7'
 
 # >=py3.7
 twine
