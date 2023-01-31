@@ -1,2 +1,8 @@
+# py2.7, py3.5, py3.6
+twine==3.4.1; python_version < '3.7'
+
+# >=py3.7
 twine
+
+# indi
 py-backwards
