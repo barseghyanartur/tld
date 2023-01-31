@@ -66,9 +66,8 @@ executing==1.2.0
     # via stack-data
 factory-boy==3.2.1
     # via -r test.in
-faker==16.6.1
+faker==16.6.1 ; python_version >= "3.7"
     # via
-    #   -r bench.in
     #   -r test.in
     #   factory-boy
 filelock==3.9.0

@@ -12,8 +12,6 @@ cycler==0.11.0
     # via matplotlib
 exceptiongroup==1.1.0
     # via pytest
-faker==16.6.1
-    # via -r bench.in
 fonttools==4.38.0
     # via matplotlib
 gprof2dot==2022.7.29
@@ -55,9 +53,7 @@ pytest==7.2.1
 pytest-profiling==1.7.0
     # via -r bench.in
 python-dateutil==2.8.2
-    # via
-    #   faker
-    #   matplotlib
+    # via matplotlib
 six==1.16.0
     # via
     #   pytest-profiling
