@@ -2,11 +2,11 @@
 
 import copy
 import logging
-from os.path import abspath, join
 import unittest
+
+from os.path import abspath, join
 from tempfile import gettempdir
 from typing import Type
-
 from urllib.parse import urlsplit, SplitResult
 
 from faker import Faker  # type: ignore
@@ -22,13 +22,13 @@ from ..exceptions import (
 )
 from ..helpers import project_dir
 from ..utils import (
+    BaseMozillaTLDSourceParser,
+    MozillaTLDSourceParser,
     get_fld,
     get_tld,
     get_tld_names,
     get_tld_names_container,
     is_tld,
-    MozillaTLDSourceParser,
-    BaseMozillaTLDSourceParser,
     parse_tld,
     reset_tld_names,
     update_tld_names,
@@ -38,7 +38,7 @@ from ..utils import (
 from .base import internet_available_only, log_info
 
 __author__ = "Artur Barseghyan"
-__copyright__ = "2013-2021 Artur Barseghyan"
+__copyright__ = "2013-2023 Artur Barseghyan"
 __license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
 __all__ = ("TestCore",)
 

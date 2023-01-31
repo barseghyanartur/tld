@@ -9,9 +9,9 @@ from .utils import (
 )
 
 __title__ = "tld"
-__version__ = "0.12.7"
+__version__ = "0.12.8"
 __author__ = "Artur Barseghyan"
-__copyright__ = "2013-2021 Artur Barseghyan"
+__copyright__ = "2013-2023 Artur Barseghyan"
 __license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
 __all__ = (
     "get_fld",

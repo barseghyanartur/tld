@@ -1,7 +1,8 @@
-from codecs import open as codecs_open
 import logging
+
+from codecs import open as codecs_open
 from urllib.request import urlopen
-from typing import Optional, Dict, Union, ItemsView
+from typing import Dict, ItemsView, Optional, Union
 
 from .exceptions import (
     TldIOError,
@@ -10,7 +11,7 @@ from .exceptions import (
 from .helpers import project_dir
 
 __author__ = "Artur Barseghyan"
-__copyright__ = "2013-2021 Artur Barseghyan"
+__copyright__ = "2013-2023 Artur Barseghyan"
 __license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
 __all__ = (
     "BaseTLDSourceParser",

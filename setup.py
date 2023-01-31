@@ -1,13 +1,13 @@
 import os
 import sys
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), "README.rst")).read()
 except:
     readme = ""
 
-version = "0.12.7"
+version = "0.12.8"
 
 py_where = "./src"
 py_package_dir = "src"
