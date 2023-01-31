@@ -10,6 +10,8 @@ pygments==2.9.0; python_version < '3.7'
 bleach==3.3.0; python_version < '3.7'
 docutils==0.17.1; python_version < '3.7'
 zipp==3.4.1; python_version < '3.7'
+jeepney==0.6.0; python_version < '3.7'
+secretstorage==3.3.1; python_version < '3.7'
 
 # >=py3.7
 twine
