@@ -4,84 +4,89 @@
 #
 #    pip-compile release.in
 #
-autopep8==1.5.7
+autopep8==2.0.1
     # via py-backwards
-bleach==3.3.0
+bleach==6.0.0
     # via readme-renderer
-certifi==2021.5.30
+certifi==2022.12.7
     # via requests
-cffi==1.14.5
+cffi==1.15.1
     # via cryptography
-chardet==4.0.0
+charset-normalizer==3.0.1
     # via requests
-colorama==0.4.4
-    # via
-    #   py-backwards
-    #   twine
-cryptography==3.4.7
+colorama==0.4.6
+    # via py-backwards
+cryptography==39.0.0
     # via secretstorage
-docutils==0.17.1
+docutils==0.19
     # via readme-renderer
-idna==2.10
+idna==3.4
     # via requests
-importlib-metadata==4.5.0
+importlib-metadata==6.0.0
     # via
     #   keyring
     #   twine
-jeepney==0.6.0
+jaraco-classes==3.2.3
+    # via keyring
+jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-keyring==23.0.1
+keyring==23.13.1
     # via twine
-packaging==20.9
-    # via bleach
-pkginfo==1.7.0
+markdown-it-py==2.1.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
+more-itertools==9.0.0
+    # via jaraco-classes
+pkginfo==1.9.6
     # via twine
 py-backwards==0.7
     # via -r release.in
 py-backwards-astunparse==1.5.0.post3
     # via py-backwards
-pycodestyle==2.7.0
+pycodestyle==2.10.0
     # via autopep8
-pycparser==2.20
+pycparser==2.21
     # via cffi
-pygments==2.9.0
-    # via readme-renderer
-pyparsing==2.4.7
-    # via packaging
-readme-renderer==29.0
+pygments==2.14.0
+    # via
+    #   readme-renderer
+    #   rich
+readme-renderer==37.3
     # via twine
-requests==2.25.1
+requests==2.28.2
     # via
     #   requests-toolbelt
     #   twine
-requests-toolbelt==0.9.1
+requests-toolbelt==0.10.1
     # via twine
-rfc3986==1.5.0
+rfc3986==2.0.0
     # via twine
-secretstorage==3.3.1
+rich==13.3.1
+    # via twine
+secretstorage==3.3.3
     # via keyring
 six==1.16.0
     # via
     #   bleach
     #   py-backwards-astunparse
-    #   readme-renderer
-toml==0.10.2
+tomli==2.0.1
     # via autopep8
-tqdm==4.61.0
-    # via twine
-twine==3.4.1
+twine==4.0.2
     # via -r release.in
-typed-ast==1.4.3
+typed-ast==1.5.4
     # via
     #   py-backwards
     #   py-backwards-astunparse
-urllib3==1.26.5
-    # via requests
+urllib3==1.26.14
+    # via
+    #   requests
+    #   twine
 webencodings==0.5.1
     # via bleach
-wheel==0.36.2
+wheel==0.38.4
     # via py-backwards-astunparse
-zipp==3.4.1
+zipp==3.12.0
     # via importlib-metadata

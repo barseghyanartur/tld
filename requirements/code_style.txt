@@ -4,17 +4,13 @@
 #
 #    pip-compile code_style.in
 #
-appdirs==1.4.4
-    # via
-    #   black
-    #   virtualenv
-black==21.5b2
+black==22.12.0
     # via -r code_style.in
-cfgv==3.3.0
+cfgv==3.3.1
     # via pre-commit
-click==8.0.1
+click==8.1.3
     # via black
-distlib==0.3.2
+distlib==0.3.6
     # via virtualenv
 doc8==1.1.1
     # via -r code_style.in
@@ -22,49 +18,49 @@ docutils==0.19
     # via
     #   doc8
     #   restructuredtext-lint
-filelock==3.0.12
+filelock==3.9.0
     # via virtualenv
-identify==2.2.9
+identify==2.5.17
     # via pre-commit
-isort==5.8.0
+isort==5.12.0
     # via -r code_style.in
-mypy==0.812 ; python_version >= "2.7"
+mypy==0.991 ; python_version >= "2.7"
     # via -r code_style.in
 mypy-extensions==0.4.3
     # via
     #   black
     #   mypy
-nodeenv==1.6.0
+nodeenv==1.7.0
     # via pre-commit
-pathspec==0.8.1
+pathspec==0.11.0
     # via black
 pbr==5.11.1
     # via stevedore
-pre-commit==2.13.0
+platformdirs==2.6.2
+    # via
+    #   black
+    #   virtualenv
+pre-commit==3.0.2
     # via -r code_style.in
 pygments==2.14.0
     # via doc8
-pyyaml==5.4.1
+pyyaml==6.0
     # via pre-commit
-regex==2021.4.4
-    # via black
 restructuredtext-lint==1.4.0
     # via doc8
 ruff==0.0.238
     # via -r code_style.in
-six==1.16.0
-    # via virtualenv
 stevedore==4.1.1
     # via doc8
-toml==0.10.2
+tomli==2.0.1
     # via
     #   black
-    #   pre-commit
-tomli==2.0.1
-    # via doc8
-typed-ast==1.4.3
+    #   doc8
+    #   mypy
+typing-extensions==4.4.0
     # via mypy
-typing-extensions==3.10.0.0
-    # via mypy
-virtualenv==20.4.7
+virtualenv==20.17.1
     # via pre-commit
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
