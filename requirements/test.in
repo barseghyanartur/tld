@@ -10,6 +10,7 @@ iniconfig==1.1.1; python_version < '3.7'
 packaging==20.9; python_version < '3.7'
 filelock==3.0.12; python_version < '3.7'
 virtualenv==20.4.7; python_version < '3.7'
+twine==3.4.1; python_version < '3.7'
 
 # >=py3.7
 Faker; python_version >= '3.7'
