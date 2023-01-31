@@ -310,7 +310,13 @@ def process_url(
             url = f"https://{url}"
 
         # Get parsed URL as we might need it later
-        parsed_url = urlsplit(url)
+        try:
+            parsed_url = urlsplit(url)
+        except ValueError as e:
+            if fail_silently:
+                return None, None, url
+            else:
+                raise e
     else:
         parsed_url = url
 
