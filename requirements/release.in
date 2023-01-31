@@ -9,6 +9,7 @@ requests==2.25.1; python_version < '3.7'
 pygments==2.9.0; python_version < '3.7'
 bleach==3.3.0; python_version < '3.7'
 docutils==0.17.1; python_version < '3.7'
+zipp==3.4.1; python_version < '3.7'
 
 # >=py3.7
 twine
