@@ -1,13 +1,12 @@
 from __future__ import unicode_literals
+
 import argparse
 import sys
 from codecs import open as codecs_open
 from functools import lru_cache
 from os.path import isabs
 from typing import Dict, List, Optional, Tuple, Type, Union
-from urllib.parse import urlsplit, SplitResult
-
-# codecs_open = open
+from urllib.parse import SplitResult, urlsplit
 
 from .base import BaseTLDSourceParser, Registry
 from .exceptions import (
@@ -17,8 +16,11 @@ from .exceptions import (
     TldIOError,
 )
 from .helpers import project_dir
-from .trie import Trie
 from .result import Result
+from .trie import Trie
+
+# codecs_open = open
+
 
 __author__ = "Artur Barseghyan"
 __copyright__ = "2013-2023 Artur Barseghyan"

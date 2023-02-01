@@ -1,13 +1,9 @@
 import logging
-
 from codecs import open as codecs_open
-from urllib.request import urlopen
 from typing import Dict, ItemsView, Optional, Union
+from urllib.request import urlopen
 
-from .exceptions import (
-    TldIOError,
-    TldImproperlyConfigured,
-)
+from .exceptions import TldImproperlyConfigured, TldIOError
 from .helpers import project_dir
 
 __author__ = "Artur Barseghyan"

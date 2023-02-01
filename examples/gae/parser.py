@@ -1,11 +1,11 @@
 from typing import Dict, Optional
 
-from tld.utils import tld_names, update_tld_names_container
-from tld.base import BaseTLDSourceParser
-from tld.trie import Trie
-from tld.exceptions import TldIOError
-
 from data import RAW_TLD_NAMES_DATA
+
+from tld.base import BaseTLDSourceParser
+from tld.exceptions import TldIOError
+from tld.trie import Trie
+from tld.utils import tld_names, update_tld_names_container
 
 
 class GAEMozillaTLDSourceParser(BaseTLDSourceParser):

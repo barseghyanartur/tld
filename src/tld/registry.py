@@ -1,4 +1,5 @@
 import warnings
+
 from .base import Registry
 
 __author__ = "Artur Barseghyan"

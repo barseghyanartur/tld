@@ -1,10 +1,10 @@
 from .utils import (
+    Result,
     get_fld,
     get_tld,
     get_tld_names,
     is_tld,
     parse_tld,
-    Result,
     update_tld_names,
 )
 

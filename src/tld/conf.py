@@ -1,4 +1,5 @@
 from typing import Any
+
 from . import defaults
 
 __author__ = "Artur Barseghyan"

@@ -7,7 +7,7 @@ path = os.path.join(os.path.abspath(os.path.dirname(__name__)), "benchmarks")
 
 sys.path.insert(0, path)
 
-from constants import URLS, TEST_CYCLES
+from constants import TEST_CYCLES, URLS
 
 try:
     if callable(profile):

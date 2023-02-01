@@ -1,5 +1,6 @@
-from tld import get_tld
 from parser import GAEMozillaTLDSourceParser
+
+from tld import get_tld
 
 if __name__ == "__main__":
     print(

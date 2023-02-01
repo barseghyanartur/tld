@@ -3,11 +3,10 @@
 import copy
 import logging
 import unittest
-
 from os.path import abspath, join
 from tempfile import gettempdir
 from typing import Type
-from urllib.parse import urlsplit, SplitResult
+from urllib.parse import SplitResult, urlsplit
 
 from faker import Faker  # type: ignore
 
@@ -34,7 +33,6 @@ from ..utils import (
     update_tld_names,
     update_tld_names_cli,
 )
-
 from .base import internet_available_only, log_info
 
 __author__ = "Artur Barseghyan"
