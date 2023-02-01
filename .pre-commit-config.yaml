@@ -70,13 +70,13 @@ repos:
         files: .
         args: [ "--config", "pyproject.toml" ]
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        name: isort
-        files: .
-        args: [ "--settings-path", "pyproject.toml", "--profile=black" ]
+#  - repo: https://github.com/pycqa/isort
+#    rev: 5.10.1
+#    hooks:
+#      - id: isort
+#        name: isort
+#        files: .
+#        args: [ "--settings-path", "pyproject.toml", "--profile=black" ]
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.106
