@@ -7,6 +7,7 @@ Contributor guidelines
 .. _black: https://black.readthedocs.io/
 .. _isort: https://pycqa.github.io/isort/
 .. _doc8: https://doc8.readthedocs.io/
+.. _ruff: https://beta.ruff.rs/docs/
 .. _pip-tools: https://pip-tools.readthedocs.io/
 .. _issues: https://github.com/barseghyanartur/tld/issues
 .. _discussions: https://github.com/barseghyanartur/tld/discussions
@@ -35,7 +36,7 @@ standards.
 
 Code standards
 --------------
-`black`_, `isort`_ and `doc8`_ will be automatically triggered by
+`black`_, `isort`_, `ruff`_ and `doc8`_ will be automatically triggered by
 `pre-commit`_. Still, if you want to run checks manually:
 
 .. code-block:: sh
@@ -43,6 +44,7 @@ Code standards
     ./scripts/black.sh
     ./scripts/doc8.sh
     ./scripts/isort.sh
+    ./scripts/ruff.sh
 
 Requirements
 ------------
@@ -62,7 +64,7 @@ TL;DR:
 
     python -m venv env
     pip install -e .
-    pip install -r examples/requirements/django_3_2_and_flask.txt
+    pip install -r requirements/test.txt
 
 Documentation
 -------------
@@ -91,19 +93,13 @@ For example:
 - To fix documentation typos.
 - To improve documentation (for instance, to add new recipe or fix
   an existing recipe that doesn't seem to work).
-- To introduce a new feature (for instance, add support for a non-supported
-  file type).
-
-**Good to know:**
-
-- Test suite makes extensive use of parametrization. Make sure you have added
-  your changes in the right place.
+- To improve performance.
+- To introduce a new feature.
 
 **General list to go through:**
 
 - Does your change require documentation update?
 - Does your change require update to tests?
-- Did you test both Latin and Unicode characters?
 - Does your change rely on third-party cloud based service? If so, please
   make sure it's added to tests that should be retried a couple of times.
   Example: ``@pytest.mark.flaky(reruns=5)``.
