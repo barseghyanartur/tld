@@ -23,8 +23,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install detect-secrets
+      - name: Install detect-secrets and deps
         run: pip install detect-secrets doc8 ruff isort black poetry pip --upgrade
+      - name: Install pip-shims==0.3.4
+        run: pip install pip-shims==0.3.4
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
 
