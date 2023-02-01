@@ -43,7 +43,7 @@ skip = ["wsgi.py",]
 line-length = 80
 
 # Enable Pyflakes `E` and `F` codes by default.
-select = ["E"]
+select = ["E", "F"]
 ignore = ["U009"]
 
 # Exclude a variety of commonly ignored directories.
