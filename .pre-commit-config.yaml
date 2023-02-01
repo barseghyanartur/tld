@@ -13,41 +13,46 @@ repos:
         entry: detect-secrets-hook
         args: ['--baseline', '.secrets.baseline']
 
-      - id: doc8-root-rst
+      - id: doc8
         name: Doc8 linter
         language: python
         entry: doc8
-        args: ['*.rst']
-      - id: doc8-root-md
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: ['*.md']
-      - id: doc8-root-txt
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: ['*.txt']
-      - id: doc8-root-docs-dir
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: ['docs/']
-      - id: doc8-root-benchmarks-rst
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: ['benchmarks/*.rst']
-      - id: doc8-root-examples-rst
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: ['examples/*.rst']
-      - id: doc8-root-jupyter-rst
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: ['jupyter/*.rst']
+        args: []
+#      - id: doc8-root-rst
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: [ '*.rst' ]
+#      - id: doc8-root-md
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: [ '*.md' ]
+#      - id: doc8-root-txt
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: [ '*.txt' ]
+#      - id: doc8-root-docs-dir
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: ['docs/']
+#      - id: doc8-root-benchmarks-rst
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: ['benchmarks/*.rst']
+#      - id: doc8-root-examples-rst
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: ['examples/*.rst']
+#      - id: doc8-root-jupyter-rst
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: ['jupyter/*.rst']
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
