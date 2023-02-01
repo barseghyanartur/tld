@@ -14,9 +14,11 @@ Supported Versions
 The tree most recent ``tld`` release series receive security support.
 
 For example, during the development cycle leading to the release
-of ``tld`` 0.12.x, support will be provided for ``tld`` 0.11.x, 0.10.x and 0.9.x.
+of ``tld`` 0.12.x, support will be provided for ``tld`` 0.11.x, 0.10.x
+and 0.9.x.
 
-Upon the release of ``tld`` 0.13.x, security support for ``tld`` 0.9.x will end.
+Upon the release of ``tld`` 0.13.x, security support for ``tld`` 0.9.x
+will end.
 
 .. code-block:: text
 
