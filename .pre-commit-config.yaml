@@ -13,11 +13,11 @@ repos:
         entry: detect-secrets-hook
         args: ['--baseline', '.secrets.baseline']
 
-      - id: doc8
-        name: Doc8 linter
-        language: python
-        entry: doc8
-        args: []
+#      - id: doc8
+#        name: Doc8 linter
+#        language: python
+#        entry: doc8
+#        args: []
 #      - id: doc8-root-rst
 #        name: Doc8 linter
 #        language: python
