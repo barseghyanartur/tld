@@ -1,11 +1,11 @@
 from typing import Dict, Optional
 
-from tld.utils import tld_names, update_tld_names_container
-from tld.base import BaseTLDSourceParser
-from tld.trie import Trie
-from tld.exceptions import TldIOError
-
 from data import RAW_TLD_NAMES_DATA
+
+from tld.base import BaseTLDSourceParser
+from tld.exceptions import TldIOError
+from tld.trie import Trie
+from tld.utils import tld_names, update_tld_names_container
 
 
 class GAEMozillaTLDSourceParser(BaseTLDSourceParser):
@@ -60,7 +60,7 @@ class GAEMozillaTLDSourceParser(BaseTLDSourceParser):
                 trie_add(f"{line.strip()}", private=private_section)
 
             update_tld_names_container(cls.local_path, trie)
-        except IOError as err:
+        except IOError:
             # Grab the file
             cls.update_tld_names(fail_silently=fail_silently)
             # Increment ``retry_count`` in order to avoid infinite loops

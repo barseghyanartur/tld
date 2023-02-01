@@ -1,5 +1,5 @@
-from faker import Faker
 from constants import URLS_COUNT
+from faker import Faker
 
 __all__ = ("URLS",)
 

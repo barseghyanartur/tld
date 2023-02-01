@@ -15,6 +15,13 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.12.8
+------
+2023-02-01
+
+- Make sure to fail silently on bad URL patterns.
+- Tested against Python 3.11.
+
 0.12.7
 ------
 2021-11-19
@@ -114,13 +121,13 @@ are used for versioning (schema follows below):
 - Use Public Suffix list instead of deprecated Mozilla's MXR.
 
 0.11.11
-------
+-------
 2020-03-10
 
 - Minor speed-ups, reduce memory usage.
 
 0.11.10
-------
+-------
 2020-02-05
 
 - Python 2.7 and 3.5 fixes.
@@ -180,7 +187,7 @@ are used for versioning (schema follows below):
 - Bring back Python 3.5 support.
 
 0.11.1
-----
+------
 2019-12-11
 
 - Minor speed ups.
@@ -374,8 +381,8 @@ are used for versioning (schema follows below):
 
 - Move to a Trie to match TLDs. This brings a speed up of 15-20%.
 - It's now possible to search in public, private or all suffixes (old
-  behaviour). Use ``search_public`` and ``search_private`` arguments accordingly.
-  By default (to support old behavior), both are set to True.
+  behaviour). Use ``search_public`` and ``search_private`` arguments
+  accordingly. By default (to support old behavior), both are set to ``True``.
 - Correct TLD definitions.
 - Domains like `*****.xn--fiqs8s` are now recognized as well.
 - Due to usage of ``urlsplit`` instead of ``urlparse``, the initial list of TLDs

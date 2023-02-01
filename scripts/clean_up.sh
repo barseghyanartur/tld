@@ -8,7 +8,6 @@ find . -name "profile.py.lprof" -exec rm -rf {} \;
 find . -name "profiler.py.lprof" -exec rm -rf {} \;
 find . -name "pycallgraph*.*" -exec rm -rf {} \;
 
-
 rm -rf .mypy_cache/
 rm -rf .pytest_cache/
 rm -rf .cache/

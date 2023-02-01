@@ -1,13 +1,14 @@
 import os
 import sys
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), "README.rst")).read()
-except:
+except Exception:
     readme = ""
 
-version = "0.12.7"
+version = "0.12.8"
 
 py_where = "./src"
 py_package_dir = "src"
@@ -30,7 +31,7 @@ try:
         ):
             sys.argv.pop(-1)
             sys.argv.pop(-1)
-except Exception as err:
+except Exception:
     pass
 
 setup(
@@ -49,6 +50,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
@@ -73,9 +75,7 @@ setup(
     package_dir={"": py_package_dir},
     packages=find_packages(where=py_where),
     entry_points={
-        "console_scripts": [
-            "update-tld-names = tld.utils:update_tld_names_cli"
-        ]
+        "console_scripts": ["update-tld-names = tld.utils:update_tld_names_cli"]
     },
     include_package_data=True,
     license="MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later",

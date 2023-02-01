@@ -1,9 +1,10 @@
 # Style checkers
-pydocstyle
-pylint
-flake8
+#pydocstyle
+#pylint
+ruff
 isort
 pre-commit
 mypy<=0.256; python_version <= '2.7'
 mypy; python_version >= '2.7'
 black
+doc8

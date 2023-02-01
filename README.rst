@@ -33,7 +33,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
 
 Prerequisites
 =============
-- Python 3.6, 3.7, 3.8, 3.9 and 3.10.
+- Python 3.6, 3.7, 3.8, 3.9, 3.10 or 3.11.
 
 `Support for Python 2.7 and 3.5`_ is available as well.
 
@@ -393,7 +393,9 @@ MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later
 
 Support
 =======
-For any issues contact me at the e-mail given in the `Author`_ section.
+For security issues contact me at the e-mail given in the `Author`_ section.
+
+For overall issues, go to `GitHub <https://github.com/barseghyanartur/tld/issues>`_.
 
 Author
 ======
