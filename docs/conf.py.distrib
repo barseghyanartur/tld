@@ -24,7 +24,7 @@ try:
     import tld
 
     version = tld.__version__
-except Exception as e:
+except Exception:
     version = "0.1"
 
 # -- General configuration -----------------------------------------------------
@@ -197,7 +197,8 @@ latex_documents = [
         "index",
         "tld.tex",
         "tld Documentation",
-        "Artur Barseghyan \\textless{}artur.barseghyan@gmail.com\\textgreater{}",
+        "Artur Barseghyan \\textless{}"
+        "artur.barseghyan@gmail.com\\textgreater{}",
         "manual",
     ),
 ]

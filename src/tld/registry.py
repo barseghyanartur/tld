@@ -1,6 +1,6 @@
 import warnings
 
-from .base import Registry
+from .base import Registry  # noqa
 
 __author__ = "Artur Barseghyan"
 __copyright__ = "2013-2023 Artur Barseghyan"

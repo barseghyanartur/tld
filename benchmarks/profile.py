@@ -7,12 +7,12 @@ path = os.path.join(os.path.abspath(os.path.dirname(__name__)), "benchmarks")
 
 sys.path.insert(0, path)
 
-from constants import TEST_CYCLES, URLS
+from constants import TEST_CYCLES, URLS  # noqa
 
 try:
-    if callable(profile):
+    if callable(profile):  # noqa
         pass
-except:
+except Exception:
     from fallbacks import profile
 
 

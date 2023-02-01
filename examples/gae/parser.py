@@ -60,7 +60,7 @@ class GAEMozillaTLDSourceParser(BaseTLDSourceParser):
                 trie_add(f"{line.strip()}", private=private_section)
 
             update_tld_names_container(cls.local_path, trie)
-        except IOError as err:
+        except IOError:
             # Grab the file
             cls.update_tld_names(fail_silently=fail_silently)
             # Increment ``retry_count`` in order to avoid infinite loops

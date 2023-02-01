@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 try:
     readme = open(os.path.join(os.path.dirname(__file__), "README.rst")).read()
-except:
+except Exception:
     readme = ""
 
 version = "0.12.8"
@@ -31,7 +31,7 @@ try:
         ):
             sys.argv.pop(-1)
             sys.argv.pop(-1)
-except Exception as err:
+except Exception:
     pass
 
 setup(

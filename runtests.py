@@ -11,14 +11,14 @@ try:
         py_package_dir = "src_py35"
     elif os.environ.get("PYTHON_TAG") == "py27":
         py_package_dir = "src_py27"
-except Exception as err:
+except Exception:
     pass
 
 # sys.argv.append(py_package_dir)
 
 try:
-    profile
-except:
+    profile  # noqa
+except Exception:
     from functools import wraps
 
     def profile(func):
