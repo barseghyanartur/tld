@@ -10,6 +10,9 @@ Contents:
    :maxdepth: 20
 
    index
+   security
+   code_of_conduct
+   contributor_guidelines
    changelog
    tld
 
