@@ -847,10 +847,7 @@ class TestCore(unittest.TestCase):
     def test_27_tld_fail_silently_pass(self):
         """Test `get_tld` bad URL patterns that would raise exception if fail_silently isn't True."""
         res = []
-        bad_url = [
-            'https://user:password[@host.com',
-            'https://user[@host.com'
-        ]
+        bad_url = ["https://user:password[@host.com", "https://user[@host.com"]
         for url in bad_url:
             _res = get_tld(url, fail_silently=True)
             self.assertEqual(_res, None)
