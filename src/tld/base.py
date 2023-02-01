@@ -99,9 +99,7 @@ class BaseTLDSourceParser(metaclass=Registry):
         try:
             remote_file = urlopen(cls.source_url)
             local_file_abs_path = project_dir(cls.local_path)
-            local_file = codecs_open(
-                local_file_abs_path, "wb", encoding="utf8"
-            )
+            local_file = codecs_open(local_file_abs_path, "wb", encoding="utf8")
             local_file.write(remote_file.read().decode("utf8"))
             local_file.close()
             remote_file.close()

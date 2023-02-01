@@ -647,9 +647,7 @@ class TestCore(unittest.TestCase):
 
         Assert raise TldIOError on wrong `NAMES_SOURCE_URL` for `parse_tld`.
         """
-        parser_class = self.get_custom_parser_class(
-            source_url="i-do-not-exist"
-        )
+        parser_class = self.get_custom_parser_class(source_url="i-do-not-exist")
         parsed_tld = parse_tld(
             self.bad_url, fail_silently=False, parser_class=parser_class
         )
@@ -810,9 +808,7 @@ class TestCore(unittest.TestCase):
         """Test len of the trie nodes."""
         get_tld("http://delusionalinsanity.com")
         tld_names = get_tld_names_container()
-        self.assertGreater(
-            len(tld_names[MozillaTLDSourceParser.local_path]), 0
-        )
+        self.assertGreater(len(tld_names[MozillaTLDSourceParser.local_path]), 0)
 
     @log_info
     def test_25_get_tld_names_no_arguments(self):

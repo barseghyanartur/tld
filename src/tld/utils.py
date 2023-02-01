@@ -132,9 +132,7 @@ def update_tld_names_cli() -> int:
     parser_uid = args.parser_uid
     fail_silently = args.fail_silently
     return int(
-        not update_tld_names(
-            parser_uid=parser_uid, fail_silently=fail_silently
-        )
+        not update_tld_names(parser_uid=parser_uid, fail_silently=fail_silently)
     )
 
 

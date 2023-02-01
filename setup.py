@@ -74,9 +74,7 @@ setup(
     package_dir={"": py_package_dir},
     packages=find_packages(where=py_where),
     entry_points={
-        "console_scripts": [
-            "update-tld-names = tld.utils:update_tld_names_cli"
-        ]
+        "console_scripts": ["update-tld-names = tld.utils:update_tld_names_cli"]
     },
     include_package_data=True,
     license="MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later",
