@@ -1,0 +1,14 @@
+[run]
+omit =
+    src/tld/bench.py
+    src/tld/tests/*
+    src/tld/parsers/*
+    .tox/*
+    src_*/*
+    src_py27/*
+    src_py35/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
