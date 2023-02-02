@@ -24,8 +24,10 @@ are used for versioning (schema follows below):
 
 0.12.7
 ------
-2021-11-19
+2023-02-01
 
+- Make sure to fail silently on bad URL patterns.
+- Tested against Python 3.11.
 - Tested against Python 3.10.
 - Updated bundled tld names.
 

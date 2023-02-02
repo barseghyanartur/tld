@@ -51,8 +51,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pip-tools
           pip-compile requirements/testing.in
-          #pip-compile requirements/release.in
-          pip install -r requirements/testing.txt  # -r requirements/release.txt
+          pip install -r requirements/testing.txt
       - name: Run Tests
         run: tox -e ${{ matrix.tox_env }}
       - name: Coveralls
@@ -92,8 +91,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pip-tools
         pip-compile requirements/testing.in
-        #pip-compile requirements/release.in
-        pip install -r requirements/testing.txt  # -r requirements/release.txt
+        pip install -r requirements/testing.txt
     - name: Run Tests
       run: tox -e ${{ matrix.tox_env }}
     - name: Coveralls
