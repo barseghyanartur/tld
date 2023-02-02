@@ -29,6 +29,39 @@ jobs:
         uses: pre-commit/action@v3.0.0
 
   # *************************************
+  # ************* Python 3.5 ************
+  # *************************************
+  test-python-35:
+    runs-on: ubuntu-16.04
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        include:
+          - python-version: '3.5'
+            tox_env: py35
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-tools
+          pip-compile requirements/testing.in
+          #pip-compile requirements/release.in
+          pip install -r requirements/testing.txt  # -r requirements/release.txt
+      - name: Run Tests
+        run: tox -e ${{ matrix.tox_env }}
+      - name: Coveralls
+        uses: AndreMiras/coveralls-python-action@develop
+        with:
+          parallel: true
+          flag-name: Run Tests
+
+  # *************************************
   # ************* Python 3.6 ************
   # *************************************
   test-python-36:

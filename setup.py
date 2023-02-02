@@ -8,7 +8,7 @@ try:
 except Exception:
     readme = ""
 
-version = "0.12.8"
+version = "0.12.7"
 
 py_where = "./src"
 py_package_dir = "src"

@@ -15,17 +15,12 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
-0.12.8
+0.12.7
 ------
 2023-02-01
 
 - Make sure to fail silently on bad URL patterns.
 - Tested against Python 3.11.
-
-0.12.7
-------
-2021-11-19
-
 - Tested against Python 3.10.
 - Updated bundled tld names.
 
