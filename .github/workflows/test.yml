@@ -31,15 +31,15 @@ jobs:
   # *************************************
   # ************* Python 3.5 ************
   # *************************************
-  test-python-35:
+  test-python-27:
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       max-parallel: 5
       matrix:
         include:
-          - python-version: '3.5'
-            tox_env: py35
+          - python-version: '2.7'
+            tox_env: py27
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -48,9 +48,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install Dependencies
         run: |
-          sudo apt install software-properties-common -y
-          sudo add-apt-repository ppa:deadsnakes/ppa -y
-          sudo apt install python3.5 -y
           python -m pip install --upgrade pip
           pip install pip-tools
           pip-compile requirements/testing.in
