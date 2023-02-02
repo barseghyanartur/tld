@@ -29,7 +29,7 @@ jobs:
         uses: pre-commit/action@v3.0.0
 
   # *************************************
-  # ************* Python 3.5 ************
+  # ************* Python 2.7 ************
   # *************************************
   test-python-27:
     runs-on: ubuntu-18.04
@@ -49,10 +49,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pip-tools
-          pip-compile requirements/testing.in
-          #pip-compile requirements/release.in
-          pip install -r requirements/testing.txt  # -r requirements/release.txt
+          pip install tox
       - name: Run Tests
         run: tox -e ${{ matrix.tox_env }}
       - name: Coveralls
