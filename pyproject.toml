@@ -7,7 +7,7 @@
 
 [tool.black]
 line-length = 80
-target-version = ['py36', 'py37', 'py38', 'py39', 'py310', 'py311']
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -35,8 +35,8 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 80
-known_first_party = "faker_file"
-known_third_party = ["django", "factory"]
+known_first_party = "tld"
+known_third_party = ["faker"]
 skip = ["wsgi.py",]
 
 [tool.ruff]
@@ -67,7 +67,6 @@ exclude = [
     "dist",
     "node_modules",
     "venv",
-    "examples/django_example/project/wsgi.py",
     "examples/gae/data.py",
 ]
 per-file-ignores = {}

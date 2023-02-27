@@ -5,8 +5,6 @@ omit =
     src/tld/parsers/*
     .tox/*
     src_*/*
-    src_py27/*
-    src_py35/*
 
 relative_files = True
 

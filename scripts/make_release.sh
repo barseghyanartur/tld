@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-#./scripts/prepare_build.sh
-#python setup.py register
-twine upload dist/*
+python setup.py sdist bdist_wheel
+twine upload dist/* --verbose
