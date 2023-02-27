@@ -12,15 +12,17 @@ chardet==5.1.0
     # via tox
 colorama==0.4.6
     # via tox
-coverage[toml]==7.1.0 ; python_version >= "3.7"
+coverage[toml]==7.2.1
     # via
     #   -r test.in
     #   pytest-cov
 distlib==0.3.6
     # via virtualenv
-factory-boy==3.2.1 ; python_version >= "3.7"
+exceptiongroup==1.1.0
+    # via pytest
+factory-boy==3.2.1
     # via -r test.in
-faker==16.6.1 ; python_version >= "3.7"
+faker==17.3.0
     # via
     #   -r test.in
     #   factory-boy
@@ -35,7 +37,7 @@ packaging==23.0
     #   pyproject-api
     #   pytest
     #   tox
-platformdirs==2.6.2
+platformdirs==3.0.0
     # via
     #   tox
     #   virtualenv
@@ -43,36 +45,28 @@ pluggy==1.0.0
     # via
     #   pytest
     #   tox
-py==1.11.0
-    # via
-    #   -r test.in
-    #   pytest
 pyproject-api==1.5.0
     # via tox
-pytest==6.2.5 ; python_version >= "3.7"
+pytest==7.2.1
     # via
     #   -r test.in
     #   pytest-cov
     #   pytest-ordering
-    #   pytest-pythonpath
-pytest-cov==4.0.0 ; python_version >= "3.7"
+pytest-cov==4.0.0
     # via -r test.in
-pytest-ordering==0.6 ; python_version >= "3.7"
-    # via -r test.in
-pytest-pythonpath==0.7.4
+pytest-ordering==0.6
     # via -r test.in
 python-dateutil==2.8.2
     # via faker
 six==1.16.0
     # via python-dateutil
-toml==0.10.2
-    # via pytest
 tomli==2.0.1
     # via
     #   coverage
     #   pyproject-api
+    #   pytest
     #   tox
-tox==4.4.4 ; python_version >= "3.7"
+tox==4.4.6
     # via -r test.in
-virtualenv==20.17.1
+virtualenv==20.19.0
     # via tox
