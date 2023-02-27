@@ -4,7 +4,7 @@
 #
 #    pip-compile code_style.in
 #
-black==22.12.0
+black==23.1.0
     # via -r code_style.in
 cfgv==3.3.1
     # via pre-commit
@@ -20,27 +20,29 @@ docutils==0.19
     #   restructuredtext-lint
 filelock==3.9.0
     # via virtualenv
-identify==2.5.17
+identify==2.5.18
     # via pre-commit
 isort==5.12.0
     # via -r code_style.in
-mypy==0.991 ; python_version >= "2.7"
+mypy==1.0.1
     # via -r code_style.in
-mypy-extensions==0.4.3
+mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
 nodeenv==1.7.0
     # via pre-commit
+packaging==23.0
+    # via black
 pathspec==0.11.0
     # via black
 pbr==5.11.1
     # via stevedore
-platformdirs==2.6.2
+platformdirs==3.0.0
     # via
     #   black
     #   virtualenv
-pre-commit==3.0.2
+pre-commit==3.1.0
     # via -r code_style.in
 pygments==2.14.0
     # via doc8
@@ -48,18 +50,18 @@ pyyaml==6.0
     # via pre-commit
 restructuredtext-lint==1.4.0
     # via doc8
-ruff==0.0.238
+ruff==0.0.253
     # via -r code_style.in
-stevedore==4.1.1
+stevedore==5.0.0
     # via doc8
 tomli==2.0.1
     # via
     #   black
     #   doc8
     #   mypy
-typing-extensions==4.4.0
+typing-extensions==4.5.0
     # via mypy
-virtualenv==20.17.1
+virtualenv==20.19.0
     # via pre-commit
 
 # The following packages are considered to be unsafe in a requirements file:

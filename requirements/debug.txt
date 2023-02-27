@@ -16,7 +16,7 @@ executing==1.2.0
     # via stack-data
 ipdb==0.13.11
     # via -r debug.in
-ipython==8.9.0
+ipython==8.10.0
     # via
     #   -r debug.in
     #   ipdb
@@ -30,7 +30,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-prompt-toolkit==3.0.36
+prompt-toolkit==3.0.37
     # via ipython
 ptyprocess==0.7.0
     # via pexpect

@@ -33,9 +33,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
 
 Prerequisites
 =============
-- Python 3.6, 3.7, 3.8, 3.9, 3.10 or 3.11.
-
-`Support for Python 2.7 and 3.5`_ is available as well.
+- Python 3.7, 3.8, 3.9, 3.10 or 3.11.
 
 Documentation
 =============
@@ -267,61 +265,6 @@ To free up memory occupied by loading of custom TLD names, use
     # Free resources occupied by the custom TLD names list
     reset_tld_names("tests/res/effective_tld_names_custom.dat.txt")
 
-Support for Python 2.7 and 3.5
-==============================
-As you might have noticed, typing (Python 3.6+) is extensively used in the code.
-However, Python 3.5 will likely be supported until it's EOL. All modern recent
-versions (starting from `tld` 0.11.7) are fully compatible with
-Python 2.7 and 3.5 (just works with ``pip install tld``).
-
-**Install from pip**
-
-.. code-block:: sh
-
-    pip install tld
-
-Development tips follow:
-
-Python 2.7
-----------
-**Install locally in development mode**
-
-.. code-block:: sh
-
-    python setup.py develop --python-tag py27
-
-**Prepare dist**
-
-.. code-block:: sh
-
-    ./scripts/prepare_build_py27.sh
-
-**Run tests**
-
-.. code-block:: sh
-
-    tox -e py27
-
-Python 3.5
-----------
-**Install locally in development mode**
-
-.. code-block:: sh
-
-    python setup.py develop --python-tag py35
-
-**Prepare dist**
-
-.. code-block:: sh
-
-    ./scripts/prepare_build_py35.sh
-
-**Run tests**
-
-.. code-block:: sh
-
-    tox -e py35
-
 Troubleshooting
 ===============
 If somehow domain names listed `here <https://publicsuffix.org/list/public_suffix_list.dat>`_
@@ -344,7 +287,7 @@ Simply type:
 
 .. code-block:: sh
 
-    ./runtests.py
+    pytest
 
 Or use tox:
 

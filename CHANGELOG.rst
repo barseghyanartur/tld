@@ -15,6 +15,11 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.13
+----
+
+- Drop Python 2.7, 3.5 and 3.6 support. Minimum required version now is Python 3.7.
+
 0.12.7
 ------
 2023-02-01
