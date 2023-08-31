@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import argparse
+import re
 import sys
 from codecs import open as codecs_open
 from functools import lru_cache
@@ -46,6 +47,7 @@ __all__ = (
 )
 
 tld_names: Dict[str, Trie] = {}
+protocol_re = re.compile(r"^(?:[a-z0-9.+-:]*)//")
 
 
 def get_tld_names_container() -> Dict[str, Trie]:
@@ -306,7 +308,7 @@ def process_url(
     )
 
     if not isinstance(url, SplitResult):
-        if fix_protocol and not url.startswith(("//", "http://", "https://")):
+        if fix_protocol and not protocol_re.match(url):
             url = f"https://{url}"
 
         # Get parsed URL as we might need it later
