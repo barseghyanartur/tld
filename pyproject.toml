@@ -76,3 +76,81 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Assume Python 3.10.
 target-version = "py310"
+
+[tool.doc8]
+ignore-path = [
+    "docs/requirements.txt",
+    "src/tld.egg-info/SOURCES.txt",
+    "src/tld/res/",
+    "build/",
+    "docs/_build",
+    "requirements/*.in",
+    "requirements/*.txt",
+    "src/tld.egg-info",
+    "examples/custom_tld_names_source/res/*.txt",
+    "src/tld/tests/res/*.txt",
+]
+
+max-line-length = 80
+sphinx = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "-ra",
+    "-vvv",
+    "-q",
+    "--cov=tld",
+    "--ignore=.tox",
+    "--ignore=requirements",
+    "--ignore=release",
+    "--ignore=bugs",
+    "--ignore=tmp",
+    "--ignore=tests",
+    "--cov-report=html",
+    "--cov-report=term",
+    "--cov-report=annotate",
+    "--cov-append",
+    "--capture=no",
+]
+testpaths = [
+#    "**/test*.py",
+#    "**/*.rst",
+]
+python_files = [
+    "test_*.py",
+    "tests.py",
+]
+pythonpath = [
+    "src",
+    "examples/gae",
+]
+norecursedirs = [".git", "*.egg", ".tox", "build", "dist", ".tox"]
+
+markers = [
+    "slow: mark a test that takes a long time to run.",
+    "codeblock: pytest-codeblock markers",
+    "documentation: mark test as a documentation test",
+]
+
+[tool.mypy]
+check_untyped_defs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.coverage.run]
+relative_files = true
+omit = [
+    ".tox/*",
+    "src/tld/bench.py",
+    "src/tld/tests/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "@overload",
+    "raise NotImplementedError",
+]
