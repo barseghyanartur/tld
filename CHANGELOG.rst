@@ -26,6 +26,8 @@ are used for versioning (schema follows below):
 - Updated some tests to reflect changes in tld names.
 - Fixes in docs.
 - Merge `pytest`, `mypy` and `coverage` configs into `pyproject.toml`.
+- Drop Python 3.7 and 3.8 support. Minimum required version now is
+  Python 3.8.
 
 0.13
 ----
