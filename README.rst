@@ -37,7 +37,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
 
 Prerequisites
 =============
-- Python 3.7, 3.8, 3.9, 3.10, 3.11, 3.12 or 3.13.
+- Python 3.9 or greater.
 
 Documentation
 =============
