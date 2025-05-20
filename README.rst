@@ -23,6 +23,10 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
     :target: http://tld.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://img.shields.io/badge/docs-llms.txt-blue
+    :target: http://tld.readthedocs.io/en/latest/llms.txt
+    :alt: llms.txt - documentation for LLMs
+
 .. image:: https://img.shields.io/badge/license-MPL--1.1%20OR%20GPL--2.0--only%20OR%20LGPL--2.1--or--later-blue.svg
    :target: https://github.com/barseghyanartur/tld/#License
    :alt: MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later
@@ -33,7 +37,7 @@ Optionally raises exceptions on non-existing TLDs or silently fails (if
 
 Prerequisites
 =============
-- Python 3.7, 3.8, 3.9, 3.10 or 3.11.
+- Python 3.7, 3.8, 3.9, 3.10, 3.11, 3.12 or 3.13.
 
 Documentation
 =============
@@ -62,6 +66,7 @@ workbook file.
 Get the TLD name **as string** from the URL given
 -------------------------------------------------
 .. code-block:: python
+    :name: test_get_tld_name_as_string_from_url_given
 
     from tld import get_tld
 
@@ -74,6 +79,7 @@ Get the TLD name **as string** from the URL given
 Get the TLD as **an object**
 ----------------------------
 .. code-block:: python
+    :name: test_get_tld_name_as_an_object
 
     from tld import get_tld
 
@@ -106,6 +112,7 @@ Get the TLD as **an object**
 Get TLD name, **ignoring the missing protocol**
 -----------------------------------------------
 .. code-block:: python
+    :name: test_get_tld_name_ignoring_the_missing_protocol
 
     from tld import get_tld, get_fld
 
@@ -118,6 +125,7 @@ Get TLD name, **ignoring the missing protocol**
 Return TLD parts as tuple
 -------------------------
 .. code-block:: python
+    :name: test_get_tld_parts_as_tuple
 
     from tld import parse_tld
 
@@ -127,6 +135,7 @@ Return TLD parts as tuple
 Get the first level domain name **as string** from the URL given
 ----------------------------------------------------------------
 .. code-block:: python
+    :name: test_get_first_level_domain_name_as_string_from_url_given
 
     from tld import get_fld
 
@@ -140,10 +149,11 @@ Check if some tld is a valid tld
 --------------------------------
 
 .. code-block:: python
+    :name: test_check_if_some_tld_is_a_valid_tld
 
     from tld import is_tld
 
-    is_tld('co.uk)
+    is_tld('co.uk')
     # True
 
     is_tld('uk')
@@ -167,6 +177,7 @@ from your terminal:
 Or simply do:
 
 .. code-block:: python
+    :name: test_update_the_list_of_tld_names
 
     from tld.utils import update_tld_names
 
@@ -208,6 +219,7 @@ ones) and use them simultaneously with built in TLD names list.
 You would then store them locally and provide a path to it as shown below:
 
 .. code-block:: python
+    :name: test_get_tld_custom_list_of_tld_names
 
     from tld import get_tld
     from tld.utils import BaseMozillaTLDSourceParser
@@ -225,7 +237,9 @@ You would then store them locally and provide a path to it as shown below:
 
 Same goes for first level domain names:
 
+.. continue: test_get_tld_custom_list_of_tld_names
 .. code-block:: python
+    :name: test_get_fld_custom_list_of_tld_names
 
     from tld import get_fld
 
@@ -252,7 +266,9 @@ Free up resources
 To free up memory occupied by loading of custom TLD names, use
 ``reset_tld_names`` function with ``tld_names_local_path`` parameter.
 
+.. continue: test_get_tld_custom_list_of_tld_names
 .. code-block:: python
+    :name: test_free_up_resources
 
     from tld import get_tld, reset_tld_names
 

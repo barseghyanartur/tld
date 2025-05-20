@@ -1,7 +1,7 @@
-Faker
 coverage
-factory_boy
+fake.py
 pytest
+pytest-codeblock
 pytest-cov
 pytest-ordering
 tox
