@@ -1,11 +1,6 @@
 from constants import URLS_COUNT
-from faker import Faker
+from fake import FAKER
 
 __all__ = ("URLS",)
 
-
-fake = Faker()
-fake.seed(URLS_COUNT)
-
-
-URLS = [fake.url() for _ in range(URLS_COUNT)]
+URLS = [FAKER.url() for _ in range(URLS_COUNT)]

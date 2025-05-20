@@ -7,7 +7,7 @@ try:
 except Exception:
     readme = ""
 
-version = "0.13"
+version = "0.13.1"
 
 setup(
     name="tld",
@@ -17,11 +17,11 @@ setup(
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
@@ -38,7 +38,7 @@ setup(
         "Source Code": "https://github.com/barseghyanartur/tld/",
         "Changelog": "https://tld.readthedocs.io/en/latest/changelog.html",
     },
-    python_requires=">=3.7, <4",
+    python_requires=">=3.7",
     keywords="tld, top-level domain names, python",
     author="Artur Barseghyan",
     author_email="artur.barseghyan@gmail.com",
@@ -54,9 +54,9 @@ setup(
     test_suite="tld.tests",
     tests_require=[
         "coverage",
-        "factory_boy",
-        "Faker",
+        "fake.py",
         "pytest-cov",
+        "pytest-codeblock",
         "pytest",
         "tox",
     ],
