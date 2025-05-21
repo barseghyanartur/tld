@@ -30,7 +30,7 @@ setup(
         # "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
         # "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         # "License :: OSI Approved :: GNU Lesser General Public License v2 or "
-        "later (LGPLv2+)",
+        # "later (LGPLv2+)",
     ],
     project_urls={
         "Bug Tracker": "https://github.com/barseghyanartur/tld/issues",
