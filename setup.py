@@ -48,10 +48,6 @@ setup(
         find_packages(where="./src", include=["tld", "tld.*"])
         + ["tld.res", "tld.tests.res"]
     ),
-    package_data={
-        # Include .dat.txt files under src/tld/res and src/tld/tests/res
-        "tld": ["res/*.dat.txt", "tests/res/*.dat.txt"],
-    },
     entry_points={
         "console_scripts": ["update-tld-names = tld.utils:update_tld_names_cli"]
     },
