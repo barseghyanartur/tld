@@ -27,9 +27,9 @@ setup(
         "Operating System :: OS Independent",
         "Development Status :: 5 - Production/Stable",
         "Topic :: Internet",
-        "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
-        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-        "License :: OSI Approved :: GNU Lesser General Public License v2 or "
+        # "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
+        # "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        # "License :: OSI Approved :: GNU Lesser General Public License v2 or "
         "later (LGPLv2+)",
     ],
     project_urls={
@@ -44,7 +44,14 @@ setup(
     author_email="artur.barseghyan@gmail.com",
     url="https://github.com/barseghyanartur/tld",
     package_dir={"": "src"},
-    packages=find_packages(where="./src"),
+    packages=(
+        find_packages(where="./src", include=["tld", "tld.*"])
+        + ["tld.res", "tld.tests.res"]
+    ),
+    package_data={
+        # Include .dat.txt files under src/tld/res and src/tld/tests/res
+        "tld": ["res/*.dat.txt", "tests/res/*.dat.txt"],
+    },
     entry_points={
         "console_scripts": ["update-tld-names = tld.utils:update_tld_names_cli"]
     },
