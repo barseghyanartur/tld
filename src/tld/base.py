@@ -18,7 +18,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Registry(type):
-
     REGISTRY: Dict[str, "BaseTLDSourceParser"] = {}
 
     def __new__(mcs, name, bases, attrs):

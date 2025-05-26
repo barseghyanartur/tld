@@ -1,9 +1,3 @@
-import os
-
-import pytest
-
-from pytest_codeblock.constants import CODEBLOCK_MARK
-
 __author__ = "Artur Barseghyan <artur.barseghyan@gmail.com>"
 __copyright__ = "2025 Artur Barseghyan"
 __license__ = "MIT"
@@ -27,5 +21,4 @@ def pytest_runtest_setup(item):
 
 
 # Teardown after the test ends
-def pytest_runtest_teardown(item, nextitem):
-    ...
+def pytest_runtest_teardown(item, nextitem): ...
