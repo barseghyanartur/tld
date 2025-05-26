@@ -50,6 +50,9 @@ jobs:
         pip install uv
         uv pip compile pyproject.toml requirements/testing.in --all-extras -o requirements/testing.txt
         pip install -r requirements/testing.txt
+    - name: Install package
+      run: |
+        pip install -e .[all]
     - name: Run Tests
       run: pytest
     - name: Coveralls
