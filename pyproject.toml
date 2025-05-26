@@ -1,10 +1,101 @@
-# Example configuration for Black.
+# ----------------------------------------------------------------------------
+# Project metadata (PEP 621)
+# ----------------------------------------------------------------------------
+[project]
+name = "tld"
+version = "0.13.2"
+description = "Extract the top-level domain (TLD) from the URL given."
+readme = "README.rst"
+requires-python = ">=3.7"
+authors = [
+    {name = "Artur Barseghyan", email = "artur.barseghyan@gmail.com"},
+]
+maintainers = [
+    {name = "Artur Barseghyan", email = "artur.barseghyan@gmail.com"},
+]
+license = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
+keywords = ["tld", "top-level domain names", "python"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Internet",
+]
+dependencies = []
 
-# NOTE: you have to use single-quoted strings in TOML for regular expressions.
-# It's the equivalent of r-strings in Python.  Multiline strings are treated as
-# verbose regular expressions by Black.  Use [ ] to denote a significant space
-# character.
+[project.urls]
+"Bug Tracker" = "https://github.com/barseghyanartur/tld/issues"
+"Documentation" = "https://tld.readthedocs.io/"
+"Source Code" = "https://github.com/barseghyanartur/tld/"
+"Changelog" = "https://tld.readthedocs.io/en/latest/changelog.html"
 
+[project.scripts]
+"update-tld-names" = "tld.utils:update_tld_names_cli"
+
+[project.optional-dependencies]
+all = ["tld[build,lint,dev,test,docs]"]
+build = [
+    "build",
+    "pkginfo",
+    "twine",
+    "wheel",
+]
+lint = [
+    "doc8",
+    "mypy",
+    "pydoclint",
+    "ruff",
+]
+dev = [
+    "detect-secrets",
+    "ipython",
+    "uv",
+]
+test = [
+    "coverage",
+    "fake.py",
+    "pytest-cov",
+    "pytest-codeblock",
+    "pytest",
+]
+docs = [
+    "sphinx<6.0",
+    "sphinx-autobuild",
+    "sphinx-rtd-theme>=1.3.0",
+    "sphinx-no-pragma",
+]
+
+# ----------------------------------------------------------------------------
+# Build system
+# ----------------------------------------------------------------------------
+[build-system]
+requires = ["setuptools>=41.0", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ----------------------------------------------------------------------------
+# setuptools-specific packaging
+# ----------------------------------------------------------------------------
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["tld", "tld.*"]
+
+[tool.setuptools.package-data]
+"tld" = ["res/*", "tests/res/*"]
+
+# ----------------------------------------------------------------------------
+# Black configuration
+# ----------------------------------------------------------------------------
 [tool.black]
 line-length = 80
 target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
@@ -19,14 +110,9 @@ extend-exclude = '''
 )/
 '''
 
-
-# Build system information below.
-# NOTE: You don't need this in your own Black configuration.
-
-[build-system]
-requires = ["setuptools>=41.0", "setuptools-scm", "wheel"]
-build-backend = "setuptools.build_meta"
-
+# ----------------------------------------------------------------------------
+# isort configuration
+# ----------------------------------------------------------------------------
 [tool.isort]
 profile = "black"
 multi_line_output = 3
@@ -39,6 +125,9 @@ known_first_party = "tld"
 known_third_party = ["faker"]
 skip = ["wsgi.py",]
 
+# ----------------------------------------------------------------------------
+# Ruff configuration
+# ----------------------------------------------------------------------------
 [tool.ruff]
 line-length = 80
 
@@ -77,6 +166,9 @@ lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # Assume Python 3.10.
 target-version = "py310"
 
+# ----------------------------------------------------------------------------
+# doc8 configuration
+# ----------------------------------------------------------------------------
 [tool.doc8]
 ignore-path = [
     "docs/requirements.txt",
@@ -94,6 +186,9 @@ ignore-path = [
 max-line-length = 80
 sphinx = true
 
+# ----------------------------------------------------------------------------
+# pytest configuration
+# ----------------------------------------------------------------------------
 [tool.pytest.ini_options]
 addopts = [
     "-ra",
@@ -132,6 +227,9 @@ markers = [
     "documentation: mark test as a documentation test",
 ]
 
+# ----------------------------------------------------------------------------
+# mypy configuration
+# ----------------------------------------------------------------------------
 [tool.mypy]
 check_untyped_defs = true
 warn_unused_ignores = true
@@ -139,6 +237,9 @@ warn_redundant_casts = true
 warn_unused_configs = true
 ignore_missing_imports = true
 
+# ----------------------------------------------------------------------------
+# coverage configuration
+# ----------------------------------------------------------------------------
 [tool.coverage.run]
 relative_files = true
 omit = [
