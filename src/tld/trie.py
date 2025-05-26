@@ -37,7 +37,6 @@ class Trie(object):
         tld_split = tld.split(".")
         tld_split.reverse()
         for part in tld_split:
-
             if part.startswith("!"):
                 node.exception = part[1:]
                 break

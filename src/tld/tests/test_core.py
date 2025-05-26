@@ -789,7 +789,6 @@ class TestCore(unittest.TestCase):
             pass
 
         class AnotherCustomParser(BaseTLDSourceParser):
-
             uid = "another-custom-parser"
 
         # Assert raise TldImproperlyConfigured
