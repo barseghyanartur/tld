@@ -306,6 +306,15 @@ class TestCore(unittest.TestCase):
                 "kwargs": {"fail_silently": True},
             },
             {
+                "url": "sftp://sftp.test.com",
+                "fld": "test.com",
+                "subdomain": "sftp",
+                "domain": "test",
+                "suffix": "com",
+                "tld": "com",
+                "kwargs": {"fail_silently": True, "fix_protocol": True},
+            },
+            {
                 "url": "Http://www.google.co.uk",
                 "fld": "google.co.uk",
                 "subdomain": "www",
