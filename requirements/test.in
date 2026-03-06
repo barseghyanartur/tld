@@ -1,7 +1,0 @@
-coverage
-fake.py
-pytest
-pytest-codeblock
-pytest-cov
-pytest-ordering
-tox

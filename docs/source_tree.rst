@@ -1,31 +1,26 @@
 Project source-tree
 ===================
 
-Below is the layout of our project (to 10 levels), followed by
+Below is the layout of the project (to 10 levels), followed by
 the contents of each key file.
 
-.. code-block:: bash
+.. code-block:: text
    :caption: Project directory layout
 
    tld/
-
+   ├── benchmarks
+   │   ├── __init__.py
+   │   ├── constants.py
+   │   ├── factories.py
+   │   ├── fallbacks.py
+   │   ├── profile.py
+   │   └── README.rst
    ├── docs
-   │   ├── _build
-   │   ├── _static
-   │   ├── _templates
-   │   ├── changelog.rst
-   │   ├── code_of_conduct.rst
    │   ├── conf.py
-   │   ├── conf.py.distrib
    │   ├── contributor_guidelines.rst
    │   ├── documentation.rst
    │   ├── index.rst
-   │   ├── index.rst.distrib
    │   ├── llms.rst
-   │   ├── make.bat
-   │   ├── Makefile
-   │   ├── security.rst
-   │   ├── source_tree.rst
    │   └── tld.rst
    ├── examples
    │   ├── custom_tld_names_source
@@ -41,30 +36,14 @@ the contents of each key file.
    │   │   └── parser.py
    │   ├── __init__.py
    │   └── README.rst
+   ├── jupyter
+   │   ├── README.rst
+   │   └── tld.ipynb
+   ├── requirements
+   │   ├── bench.in
+   │   └── bench.txt
    ├── scripts
-   │   ├── benchmark.sh
-   │   ├── build_deb_package.sh
-   │   ├── clear_virtualenvs.sh
-   │   ├── compile_requirements.sh
-   │   ├── cprofile.sh
-   │   ├── detect-secrets-create-baseline.sh
-   │   ├── doc8.sh
-   │   ├── generate_project_source_tree.py
-   │   ├── install.sh
-   │   ├── isort.sh
-   │   ├── line_profiler.sh
-   │   ├── make_release.sh
-   │   ├── mypy.sh
-   │   ├── pycodestyle.sh
-   │   ├── pylint.sh
-   │   ├── reinstall.sh
-   │   ├── ruff.sh
-   │   ├── runtests.sh
-   │   ├── source_install.sh
-   │   ├── test.sh
-   │   ├── test_release.sh
-   │   ├── uninstall.sh
-   │   └── upgrade_requirements.sh
+   │   └── runtests.sh
    ├── src
    │   └── tld
    │       ├── res
@@ -89,20 +68,115 @@ the contents of each key file.
    │       ├── result.py
    │       ├── trie.py
    │       └── utils.py
+   ├── .coveralls.yml
+   ├── .pth
+   ├── CODE_OF_CONDUCT.md
+   ├── conftest.py
+   ├── CONTRIBUTING.rst
+   ├── CREDITS.rst
+   ├── Makefile
+   ├── MANIFEST.in
+   ├── pyproject.toml
+   ├── README.rst
+   ├── requirements.txt
+   ├── runtests.py
+   ├── SECURITY.md
+   ├── setup.cfg
+   ├── setup.py
+   ├── shell.py
+   ├── tox.ini
+   └── tox_multi.ini
 
-docs/changelog.rst
+README.rst
+----------
+
+.. literalinclude:: ../README.rst
+   :language: rst
+   :caption: README.rst
+
+CONTRIBUTING.rst
+----------------
+
+.. literalinclude:: ../CONTRIBUTING.rst
+   :language: rst
+   :caption: CONTRIBUTING.rst
+
+.coveralls.yml
+--------------
+
+.. literalinclude:: ../.coveralls.yml
+   :language: yaml
+   :caption: .coveralls.yml
+
+CODE_OF_CONDUCT.md
 ------------------
 
-.. literalinclude:: changelog.rst
-   :language: rst
-   :caption: docs/changelog.rst
+.. literalinclude:: ../CODE_OF_CONDUCT.md
+   :language: markdown
+   :caption: CODE_OF_CONDUCT.md
 
-docs/code_of_conduct.rst
-------------------------
+CREDITS.rst
+-----------
 
-.. literalinclude:: code_of_conduct.rst
+.. literalinclude:: ../CREDITS.rst
    :language: rst
-   :caption: docs/code_of_conduct.rst
+   :caption: CREDITS.rst
+
+SECURITY.md
+-----------
+
+.. literalinclude:: ../SECURITY.md
+   :language: markdown
+   :caption: SECURITY.md
+
+benchmarks/README.rst
+---------------------
+
+.. literalinclude:: ../benchmarks/README.rst
+   :language: rst
+   :caption: benchmarks/README.rst
+
+benchmarks/__init__.py
+----------------------
+
+.. literalinclude:: ../benchmarks/__init__.py
+   :language: python
+   :caption: benchmarks/__init__.py
+
+benchmarks/constants.py
+-----------------------
+
+.. literalinclude:: ../benchmarks/constants.py
+   :language: python
+   :caption: benchmarks/constants.py
+
+benchmarks/factories.py
+-----------------------
+
+.. literalinclude:: ../benchmarks/factories.py
+   :language: python
+   :caption: benchmarks/factories.py
+
+benchmarks/fallbacks.py
+-----------------------
+
+.. literalinclude:: ../benchmarks/fallbacks.py
+   :language: python
+   :caption: benchmarks/fallbacks.py
+
+benchmarks/profile.py
+---------------------
+
+.. literalinclude:: ../benchmarks/profile.py
+   :language: python
+   :caption: benchmarks/profile.py
+
+conftest.py
+-----------
+
+.. literalinclude:: ../conftest.py
+   :language: python
+   :caption: conftest.py
 
 docs/conf.py
 ------------
@@ -138,20 +212,6 @@ docs/llms.rst
 .. literalinclude:: llms.rst
    :language: rst
    :caption: docs/llms.rst
-
-docs/security.rst
------------------
-
-.. literalinclude:: security.rst
-   :language: rst
-   :caption: docs/security.rst
-
-docs/source_tree.rst
---------------------
-
-.. literalinclude:: source_tree.rst
-   :language: rst
-   :caption: docs/source_tree.rst
 
 docs/tld.rst
 ------------
@@ -223,12 +283,40 @@ examples/gae/parser.py
    :language: python
    :caption: examples/gae/parser.py
 
-scripts/generate_project_source_tree.py
----------------------------------------
+jupyter/README.rst
+------------------
 
-.. literalinclude:: ../scripts/generate_project_source_tree.py
+.. literalinclude:: ../jupyter/README.rst
+   :language: rst
+   :caption: jupyter/README.rst
+
+pyproject.toml
+--------------
+
+.. literalinclude:: ../pyproject.toml
+   :language: toml
+   :caption: pyproject.toml
+
+runtests.py
+-----------
+
+.. literalinclude:: ../runtests.py
    :language: python
-   :caption: scripts/generate_project_source_tree.py
+   :caption: runtests.py
+
+setup.py
+--------
+
+.. literalinclude:: ../setup.py
+   :language: python
+   :caption: setup.py
+
+shell.py
+--------
+
+.. literalinclude:: ../shell.py
+   :language: python
+   :caption: shell.py
 
 src/tld/__init__.py
 -------------------
