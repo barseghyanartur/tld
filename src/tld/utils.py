@@ -306,7 +306,9 @@ def process_url(
     )
 
     if not isinstance(url, SplitResult):
-        if fix_protocol and not url.startswith(("//", "http://", "https://")):
+        if fix_protocol and not url.lower().startswith(
+            ("//", "http://", "https://")
+        ):
             url = f"https://{url}"
 
         # Get parsed URL as we might need it later

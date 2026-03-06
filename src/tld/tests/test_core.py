@@ -305,6 +305,15 @@ class TestCore(unittest.TestCase):
                 "tld": "com",
                 "kwargs": {"fail_silently": True},
             },
+            {
+                "url": "Http://www.google.co.uk",
+                "fld": "google.co.uk",
+                "subdomain": "www",
+                "domain": "google",
+                "suffix": "co.uk",
+                "tld": "co.uk",
+                "kwargs": {"fail_silently": True, "fix_protocol": True},
+            },
         ]
 
         self.bad_patterns = {
