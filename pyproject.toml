@@ -23,6 +23,8 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
@@ -62,15 +64,19 @@ dev = [
 test = [
     "coverage",
     "fake.py",
-    "pytest-cov",
-    "pytest-codeblock",
     "pytest",
+    "pytest-codeblock",
+    "pytest-cov",
+    "pytest-ordering",
+    "tox",
 ]
 docs = [
-    "sphinx<6.0",
+    "sphinx",
     "sphinx-autobuild",
     "sphinx-rtd-theme>=1.3.0",
     "sphinx-no-pragma",
+    "sphinx-llms-txt-link",
+    "sphinx-source-tree; python_version > '3.9'",
 ]
 
 # ----------------------------------------------------------------------------
@@ -254,4 +260,67 @@ exclude_lines = [
     "pragma: no cover",
     "@overload",
     "raise NotImplementedError",
+]
+
+# ----------------------------------------------------------------------------
+# sphinx-source-tree configuration
+# ----------------------------------------------------------------------------
+
+[tool.sphinx-source-tree]
+ignore = [
+    "*.egg-info",
+    "*.py,cover",
+    "*.pyc",
+    "*.pyo",
+    ".DS_Store",
+    ".coverage",
+    ".coverage.*",
+    ".git",
+    ".hg",
+    ".hypothesis",
+    ".idea",
+    ".mypy_cache",
+    ".nox",
+    ".pre-commit-config.yaml",
+    ".pre-commit-hooks.yaml",
+    ".pytest_cache",
+    ".readthedocs.yaml",
+    ".ruff_cache",
+    ".secrets.baseline",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "CHANGELOG.rst",
+    "CODE_OF_CONDUCT.rst",
+    "LICENSE",
+    "SECURITY.rst",
+    "Thumbs.db",
+    "__pycache__",
+    "build",
+    "codebin",
+    "dist",
+    "docs/Makefile",
+    "docs/_build",
+    "docs/_static",
+    "docs/changelog.rst",
+    "docs/code_of_conduct.rst",
+    "docs/documentation.rst",
+    "docs/index.rst",
+    "docs/make.bat",
+    "docs/requirements.txt",
+    "docs/security.rst",
+    "docs/source_tree.rst",
+    "env",
+    "htmlcov",
+    "node_modules",
+    "venv",
+    ".coveralls.yml",
+    ".pth",
+    "CODE_OF_CONDUCT.md",
+    "CREDITS.rst",
+]
+order = [
+    "README.rst",
+    "CONTRIBUTING.rst",
 ]

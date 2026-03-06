@@ -1,9 +1,0 @@
-# Style checkers
-black
-doc8
-isort
-mypy
-pre-commit
-#pydocstyle
-#pylint
-ruff
