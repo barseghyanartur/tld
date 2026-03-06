@@ -24,22 +24,23 @@ from .trie import Trie
 
 
 __author__ = "Artur Barseghyan"
-__copyright__ = "2013-2025 Artur Barseghyan"
+__copyright__ = "2013-2026 Artur Barseghyan"
 __license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
 __all__ = (
     "BaseMozillaTLDSourceParser",
+    "MozillaPublicOnlyTLDSourceParser",
+    "MozillaTLDSourceParser",
+    "Result",
     "get_fld",
     "get_tld",
     "get_tld_names",
     "get_tld_names_container",
     "is_tld",
-    "MozillaTLDSourceParser",
-    "MozillaPublicOnlyTLDSourceParser",
     "parse_tld",
     "pop_tld_names_container",
     "process_url",
+    "protocol_re",
     "reset_tld_names",
-    "Result",
     "tld_names",
     "update_tld_names",
     "update_tld_names_cli",
@@ -47,7 +48,7 @@ __all__ = (
 )
 
 tld_names: Dict[str, Trie] = {}
-protocol_re = re.compile(r"^(?:[a-z0-9.+-:]*)//")
+protocol_re = re.compile(r"^[a-z0-9.+:-]*//")
 
 
 def get_tld_names_container() -> Dict[str, Trie]:
@@ -112,7 +113,7 @@ def update_tld_names(
     return all(results)
 
 
-def update_tld_names_cli() -> int:
+def update_tld_names_cli(argv=None) -> int:
     """CLI wrapper for update_tld_names.
 
     Since update_tld_names returns True on success, we need to negate the
@@ -132,7 +133,7 @@ def update_tld_names_cli() -> int:
         action="store_true",
         help="Fail silently",
     )
-    args = parser.parse_args(sys.argv[1:])
+    args = parser.parse_args(argv if argv is not None else sys.argv[1:])
     parser_uid = args.parser_uid
     fail_silently = args.fail_silently
     return int(

@@ -1,13 +1,17 @@
 # Update version ONLY here
-VERSION := 0.13.1
+VERSION := 0.13.2
 SHELL := /bin/bash
 # Makefile for project
-VENV := ~/.virtualenvs/tld/bin/activate
+VENV := .venv/bin/activate
 UNAME_S := $(shell uname -s)
+
+# ----------------------------------------------------------------------------
+# Documentation
+# ----------------------------------------------------------------------------
 
 # Build documentation using Sphinx and zip it
 build_docs:
-	source $(VENV) && python scripts/generate_project_source_tree.py
+	source $(VENV) && sphinx-source-tree
 	source $(VENV) && sphinx-build -n -b text docs builddocs
 	source $(VENV) && sphinx-build -n -a -b html docs builddocs
 	cd builddocs && zip -r ../builddocs.zip . -x ".*" && cd ..
@@ -26,11 +30,23 @@ build_docs_pdf:
 auto_build_docs:
 	source $(VENV) && sphinx-autobuild docs docs/_build/html
 
+# Serve the built docs on port 5001
+serve_docs:
+	source $(VENV) && cd builddocs && python -m http.server 5001
+
+# ----------------------------------------------------------------------------
+# Pre-commit
+# ----------------------------------------------------------------------------
+
 pre-commit-install:
 	pre-commit install
 
 pre-commit: pre-commit-install
 	pre-commit run --all-files
+
+# ----------------------------------------------------------------------------
+# Linting
+# ----------------------------------------------------------------------------
 
 pyupgrade:
 	pre-commit run --all-files pyupgrade
@@ -42,21 +58,27 @@ doc8:
 ruff:
 	source $(VENV) && ruff check .
 
-# Serve the built docs on port 5001
-serve_docs:
-	source $(VENV) && cd builddocs && python -m http.server 5001
+mypy:
+	source $(VENV) && mypy src/tld/
+
+# ----------------------------------------------------------------------------
+# Installation
+# ----------------------------------------------------------------------------
+
+create-venv:
+	uv venv
 
 # Install the project
-install:
-	source $(VENV) && pip install -e .[all]
+install: create-venv
+	source $(VENV) && uv pip install -e .[all]
 
 # Uninstall the project
 uninstall: clean
-	source $(VENV) && pip uninstall tld -y
+	source $(VENV) && uv pip uninstall tld -y
 
-clear-virtualenvs:
-	virtualenv --clear tld-py27
-	virtualenv --clear tld-py35
+# ----------------------------------------------------------------------------
+# Tests
+# ----------------------------------------------------------------------------
 
 benchmark:
 	source $(VENV) && pycallgraph \
@@ -78,17 +100,16 @@ cprofile:
 line-profiler:
 	source $(VENV) && kernprof -l -b -v benchmarks/profile.py
 
+# Run core tests
 test: clean
-	source $(VENV) && python -m pytest
+	source $(VENV) && pytest -vrx -s
+
+# ----------------------------------------------------------------------------
+# Development
+# ----------------------------------------------------------------------------
 
 shell:
 	source $(VENV) && ipython
-
-create-secrets:
-	source $(VENV) && detect-secrets scan > .secrets.baseline
-
-detect-secrets:
-	source $(VENV) && detect-secrets scan --baseline .secrets.baseline
 
 # Clean up generated files
 clean:
@@ -120,8 +141,8 @@ clean:
 	rm -rf dist_py27/
 	rm -rf dist_py35/
 	rm -rf deb_dist/
-	rm src/tld.egg-info -rf
-	rm builddocs.zip -rf
+	rm -rf src/tld.egg-info
+	rm -rf builddocs.zip
 
 compile-requirements:
 	source $(VENV) && uv pip compile pyproject.toml requirements/base.in --all-extras -o requirements/base.txt
@@ -147,6 +168,20 @@ compile-requirements-upgrade:
 	source $(VENV) && uv pip compile pyproject.toml requirements/test.in --all-extras -o requirements/test.txt --upgrade
 	source $(VENV) && uv pip compile pyproject.toml requirements/testing.in --all-extras -o requirements/testing.txt --upgrade
 
+# ----------------------------------------------------------------------------
+# Security
+# ----------------------------------------------------------------------------
+
+create-secrets:
+	source $(VENV) && detect-secrets scan > .secrets.baseline
+
+detect-secrets:
+	source $(VENV) && detect-secrets scan --baseline .secrets.baseline
+
+# ----------------------------------------------------------------------------
+# Release
+# ----------------------------------------------------------------------------
+
 update-version:
 	@echo "Updating version in pyproject.toml and __init__.py"
 	@if [ "$(UNAME_S)" = "Darwin" ]; then \
@@ -156,9 +191,6 @@ update-version:
 		sed -i 's/version = "[0-9.]\+"/version = "$(VERSION)"/' pyproject.toml; \
 		sed -i 's/__version__ = "[0-9.]\+"/__version__ = "$(VERSION)"/' src/pytest_codeblock/__init__.py; \
 	fi
-
-generate-project-source-tree: clean
-	source $(VENV) && python scripts/generate_project_source_tree.py
 
 build:
 	source $(VENV) && python -m build .
@@ -172,8 +204,9 @@ release:
 test-release:
 	source $(VENV) && twine upload --repository testpypi dist/* --verbose
 
-mypy:
-	source $(VENV) && mypy src/tld/
+# ----------------------------------------------------------------------------
+# Other
+# ----------------------------------------------------------------------------
 
 %:
 	@:

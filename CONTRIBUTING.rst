@@ -4,11 +4,9 @@ Contributor guidelines
 .. _documentation: https://tld.readthedocs.io/#writing-documentation
 .. _testing: https://tld.readthedocs.io/#testing
 .. _pre-commit: https://pre-commit.com/#installation
-.. _black: https://black.readthedocs.io/
-.. _isort: https://pycqa.github.io/isort/
 .. _doc8: https://doc8.readthedocs.io/
 .. _ruff: https://beta.ruff.rs/docs/
-.. _pip-tools: https://pip-tools.readthedocs.io/
+.. _uv: https://github.com/astral-sh/uv
 .. _issues: https://github.com/barseghyanartur/tld/issues
 .. _discussions: https://github.com/barseghyanartur/tld/discussions
 .. _pull request: https://github.com/barseghyanartur/tld/pulls
@@ -36,23 +34,22 @@ standards.
 
 Code standards
 --------------
-`black`_, `isort`_, `ruff`_ and `doc8`_ will be automatically triggered by
+`ruff`_ and `doc8`_ will be automatically triggered by
 `pre-commit`_. Still, if you want to run checks manually:
 
 .. code-block:: sh
 
-    ./scripts/black.sh
-    ./scripts/doc8.sh
-    ./scripts/isort.sh
-    ./scripts/ruff.sh
+    make doc8
+    make ruff
 
 Requirements
 ------------
-Requirements are compiled using `pip-tools`_.
+Requirements are compiled using `uv`_.
 
 .. code-block:: sh
 
-    ./scripts/compile_requirements.sh
+    make compile-requirements
+    make compile-requirements-upgrade
 
 Virtual environment
 -------------------
@@ -62,9 +59,8 @@ TL;DR:
 
 .. code-block:: sh
 
-    python -m venv env
-    pip install -e .
-    pip install -r requirements/test.txt
+    make create-venv
+    make install
 
 Documentation
 -------------
@@ -86,6 +82,10 @@ things up.
 
 Pull requests
 -------------
+.. note::
+
+    Always submit a pull request to `dev` branch. Never to `main` branch.
+
 You can contribute to the project by making a `pull request`_.
 
 For example:

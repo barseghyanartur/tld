@@ -15,6 +15,15 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.13.2
+------
+2026-03-06
+
+- Widen protol ranges.
+- Clean up.
+- Minor documentation fixes.
+- Tested against Python 3.14 and 3.15.
+
 0.13.1
 ------
 2025-05-20
