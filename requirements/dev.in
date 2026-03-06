@@ -1,4 +1,3 @@
-#-r base.in
 -r bench.in
 -r build.in
 -r code_style.in

@@ -9,7 +9,6 @@ from tld.utils import tld_names, update_tld_names_container
 
 
 class GAEMozillaTLDSourceParser(BaseTLDSourceParser):
-
     uid: str = "gae_mozilla"
     source_url: str = "https://publicsuffix.org/list/public_suffix_list.dat"
     local_path: str = "gae_mozilla"

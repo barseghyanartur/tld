@@ -24,7 +24,7 @@ from .trie import Trie
 
 
 __author__ = "Artur Barseghyan"
-__copyright__ = "2013-2023 Artur Barseghyan"
+__copyright__ = "2013-2025 Artur Barseghyan"
 __license__ = "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later"
 __all__ = (
     "BaseMozillaTLDSourceParser",
@@ -308,7 +308,7 @@ def process_url(
     )
 
     if not isinstance(url, SplitResult):
-        if fix_protocol and not protocol_re.match(url):
+        if fix_protocol and not protocol_re.match(url.lower()):
             url = f"https://{url}"
 
         # Get parsed URL as we might need it later

@@ -7,7 +7,7 @@ try:
 except Exception:
     readme = ""
 
-version = "0.13"
+version = "0.13.1"
 
 setup(
     name="tld",
@@ -17,20 +17,20 @@ setup(
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         "Development Status :: 5 - Production/Stable",
         "Topic :: Internet",
-        "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
-        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-        "License :: OSI Approved :: GNU Lesser General Public License v2 or "
-        "later (LGPLv2+)",
+        # "License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)",
+        # "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        # "License :: OSI Approved :: GNU Lesser General Public License v2 or "
+        # "later (LGPLv2+)",
     ],
     project_urls={
         "Bug Tracker": "https://github.com/barseghyanartur/tld/issues",
@@ -38,13 +38,16 @@ setup(
         "Source Code": "https://github.com/barseghyanartur/tld/",
         "Changelog": "https://tld.readthedocs.io/en/latest/changelog.html",
     },
-    python_requires=">=3.7, <4",
+    python_requires=">=3.7",
     keywords="tld, top-level domain names, python",
     author="Artur Barseghyan",
     author_email="artur.barseghyan@gmail.com",
     url="https://github.com/barseghyanartur/tld",
     package_dir={"": "src"},
-    packages=find_packages(where="./src"),
+    packages=(
+        find_packages(where="./src", include=["tld", "tld.*"])
+        + ["tld.res", "tld.tests.res"]
+    ),
     entry_points={
         "console_scripts": ["update-tld-names = tld.utils:update_tld_names_cli"]
     },
@@ -54,9 +57,9 @@ setup(
     test_suite="tld.tests",
     tests_require=[
         "coverage",
-        "factory_boy",
-        "Faker",
+        "fake.py",
         "pytest-cov",
+        "pytest-codeblock",
         "pytest",
         "tox",
     ],

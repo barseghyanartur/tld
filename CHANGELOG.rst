@@ -15,11 +15,26 @@ are used for versioning (schema follows below):
   0.3.4 to 0.4).
 - All backwards incompatible changes are mentioned in this document.
 
+0.13.1
+------
+2025-05-20
+
+- Tested against Python 3.13.
+- Tested against Python 3.12.
+- Add documentation tests.
+- Updated bundled tld names.
+- Updated some tests to reflect changes in tld names.
+- Fixes in docs.
+- Merge `pytest`, `mypy` and `coverage` configs into `pyproject.toml`.
+- Drop Python 3.7 and 3.8 support. Minimum required version now is
+  Python 3.8.
+
 0.13
 ----
 2023-02-28
 
-- Drop Python 2.7, 3.5 and 3.6 support. Minimum required version now is Python 3.7.
+- Drop Python 2.7, 3.5 and 3.6 support. Minimum required version now is
+  Python 3.7.
 
 0.12.7
 ------
