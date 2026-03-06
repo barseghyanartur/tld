@@ -186,10 +186,10 @@ update-version:
 	@echo "Updating version in pyproject.toml and __init__.py"
 	@if [ "$(UNAME_S)" = "Darwin" ]; then \
 		gsed -i 's/version = "[0-9.]\+"/version = "$(VERSION)"/' pyproject.toml; \
-		gsed -i 's/__version__ = "[0-9.]\+"/__version__ = "$(VERSION)"/' src/pytest_codeblock/__init__.py; \
+		gsed -i 's/__version__ = "[0-9.]\+"/__version__ = "$(VERSION)"/' src/tld/__init__.py; \
 	else \
 		sed -i 's/version = "[0-9.]\+"/version = "$(VERSION)"/' pyproject.toml; \
-		sed -i 's/__version__ = "[0-9.]\+"/__version__ = "$(VERSION)"/' src/pytest_codeblock/__init__.py; \
+		sed -i 's/__version__ = "[0-9.]\+"/__version__ = "$(VERSION)"/' src/tld/__init__.py; \
 	fi
 
 build:
