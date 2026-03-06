@@ -145,28 +145,14 @@ clean:
 	rm -rf builddocs.zip
 
 compile-requirements:
-	source $(VENV) && uv pip compile pyproject.toml requirements/base.in --all-extras -o requirements/base.txt
 	source $(VENV) && uv pip compile pyproject.toml requirements/bench.in --all-extras -o requirements/bench.txt
 	source $(VENV) && uv pip compile pyproject.toml requirements/build.in --all-extras -o requirements/build.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/code_style.in --all-extras -o requirements/code_style.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/debug.in --all-extras -o requirements/debug.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/dev.in --all-extras -o requirements/dev.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/docs.in --all-extras -o requirements/docs.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/release.in --all-extras -o requirements/release.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/test.in --all-extras -o requirements/test.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/testing.in --all-extras -o requirements/testing.txt
+	source $(VENV) && uv pip compile pyproject.toml --all-extras -o docs/requirements.txt
 
 compile-requirements-upgrade:
-	source $(VENV) && uv pip compile pyproject.toml requirements/base.in --all-extras -o requirements/base.txt --upgrade
 	source $(VENV) && uv pip compile pyproject.toml requirements/bench.in --all-extras -o requirements/bench.txt --upgrade
 	source $(VENV) && uv pip compile pyproject.toml requirements/build.in --all-extras -o requirements/build.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/code_style.in --all-extras -o requirements/code_style.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/debug.in --all-extras -o requirements/debug.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/dev.in --all-extras -o requirements/dev.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/docs.in --all-extras -o requirements/docs.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/release.in --all-extras -o requirements/release.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/test.in --all-extras -o requirements/test.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/testing.in --all-extras -o requirements/testing.txt --upgrade
+	source $(VENV) && uv pip compile pyproject.toml --all-extras -o docs/requirements.txt --upgrade
 
 # ----------------------------------------------------------------------------
 # Security

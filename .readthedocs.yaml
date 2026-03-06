@@ -23,7 +23,7 @@ sphinx:
 # See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
 python:
   install:
-  - requirements: requirements/docs.txt
+  - requirements: docs/requirements.txt
 
 # Set the OS, Python version and other tools you might need
 build:
