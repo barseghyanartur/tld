@@ -825,9 +825,9 @@ class TestCore(unittest.TestCase):
         for url in should_match_urls:
             matched = bool(protocol_re.match(url.lower()))
             self.assertTrue(matched)
-        
+
         # Should NOT match (no protocol -> fix_protocol would prepend https://)
-        test_should_not_match_urls = [    
+        test_should_not_match_urls = [
             "example.com",
             "example.com/path",
             "sub.example.com",
