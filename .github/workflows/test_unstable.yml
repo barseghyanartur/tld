@@ -15,6 +15,8 @@ jobs:
       matrix:
         python-version: ["3.15.0-alpha.5"]
     steps:
+    - name: Set up compatibility environment variable
+      run: echo "PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1" >> $GITHUB_ENV
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
