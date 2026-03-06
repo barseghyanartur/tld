@@ -52,12 +52,6 @@ Latest stable version on PyPI:
 
     pip install tld
 
-Or latest stable version from GitHub:
-
-.. code-block:: sh
-
-    pip install https://github.com/barseghyanartur/tld/archive/stable.tar.gz
-
 Usage examples
 ==============
 In addition to examples below, see the `jupyter notebook <jupyter/>`_
@@ -201,7 +195,9 @@ Take the ``tld.utils.MozillaTLDSourceParser`` as a good example of such
 implementation. You could then use ``get_tld`` (as well as other ``tld``
 module functions) as shown below:
 
+.. pytestfixture: custom_tld_source_parser
 .. code-block:: python
+    :name: test_custom_tld_source_parser
 
     from tld import get_tld
     from some.module import CustomTLDSourceParser
