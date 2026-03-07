@@ -19,7 +19,7 @@ are used for versioning (schema follows below):
 ------
 2026-03-06
 
-- Widen protol ranges.
+- Widen protol ranges and improve protocol matching in general.
 - Clean up.
 - Minor documentation fixes.
 - Tested against Python 3.14 and 3.15.
@@ -36,7 +36,7 @@ are used for versioning (schema follows below):
 - Fixes in docs.
 - Merge `pytest`, `mypy` and `coverage` configs into `pyproject.toml`.
 - Drop Python 3.7 and 3.8 support. Minimum required version now is
-  Python 3.8.
+  Python 3.9.
 
 0.13
 ----
