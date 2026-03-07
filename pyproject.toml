@@ -324,6 +324,9 @@ ignore = [
     "jupyter",
     "SECURITY.md",
     "CREDITS.rst",
+    "examples/custom_tld_names_source/res",
+    "src/tld/res/",
+    "src/tld/tests/res/",
 ]
 order = [
     "README.rst",

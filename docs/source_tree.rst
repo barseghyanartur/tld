@@ -20,8 +20,6 @@ the contents of each key file.
    │   └── tld.rst
    ├── examples
    │   ├── custom_tld_names_source
-   │   │   ├── res
-   │   │   │   └── effective_tld_names_custom.dat.txt
    │   │   ├── __init__.py
    │   │   ├── example.py
    │   │   └── parser.py
@@ -65,10 +63,8 @@ the contents of each key file.
    ├── MANIFEST.in
    ├── pyproject.toml
    ├── README.rst
-   ├── requirements.txt
    ├── runtests.py
    ├── setup.cfg
-   ├── shell.py
    ├── tox.ini
    └── tox_multi.ini
 
@@ -225,13 +221,6 @@ runtests.py
 .. literalinclude:: ../runtests.py
    :language: python
    :caption: runtests.py
-
-shell.py
---------
-
-.. literalinclude:: ../shell.py
-   :language: python
-   :caption: shell.py
 
 src/tld/__init__.py
 -------------------
