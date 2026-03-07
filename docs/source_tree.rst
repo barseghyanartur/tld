@@ -60,8 +60,7 @@ the contents of each key file.
    ├── README.rst
    ├── runtests.py
    ├── setup.cfg
-   ├── tox.ini
-   └── tox_multi.ini
+   └── tox.ini
 
 README.rst
 ----------
