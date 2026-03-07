@@ -322,6 +322,8 @@ ignore = [
     "CODE_OF_CONDUCT.md",
     "CREDITS.rst",
     "jupyter",
+    "SECURITY.md",
+    "CREDITS.rst",
 ]
 order = [
     "README.rst",

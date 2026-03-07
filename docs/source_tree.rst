@@ -17,7 +17,6 @@ the contents of each key file.
    │   └── README.rst
    ├── docs
    │   ├── conf.py
-   │   ├── llms.rst
    │   └── tld.rst
    ├── examples
    │   ├── custom_tld_names_source
@@ -33,14 +32,9 @@ the contents of each key file.
    │   │   └── parser.py
    │   ├── __init__.py
    │   └── README.rst
-   ├── jupyter
-   │   ├── README.rst
-   │   └── tld.ipynb
    ├── requirements
    │   ├── bench.in
    │   └── bench.txt
-   ├── scripts
-   │   └── runtests.sh
    ├── src
    │   └── tld
    │       ├── res
@@ -73,7 +67,6 @@ the contents of each key file.
    ├── README.rst
    ├── requirements.txt
    ├── runtests.py
-   ├── SECURITY.md
    ├── setup.cfg
    ├── shell.py
    ├── tox.ini
@@ -92,13 +85,6 @@ CONTRIBUTING.rst
 .. literalinclude:: ../CONTRIBUTING.rst
    :language: rst
    :caption: CONTRIBUTING.rst
-
-SECURITY.md
------------
-
-.. literalinclude:: ../SECURITY.md
-   :language: markdown
-   :caption: SECURITY.md
 
 benchmarks/README.rst
 ---------------------
@@ -155,13 +141,6 @@ docs/conf.py
 .. literalinclude:: conf.py
    :language: python
    :caption: docs/conf.py
-
-docs/llms.rst
--------------
-
-.. literalinclude:: llms.rst
-   :language: rst
-   :caption: docs/llms.rst
 
 docs/tld.rst
 ------------
@@ -232,13 +211,6 @@ examples/gae/parser.py
 .. literalinclude:: ../examples/gae/parser.py
    :language: python
    :caption: examples/gae/parser.py
-
-jupyter/README.rst
-------------------
-
-.. literalinclude:: ../jupyter/README.rst
-   :language: rst
-   :caption: jupyter/README.rst
 
 pyproject.toml
 --------------
