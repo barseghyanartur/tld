@@ -9,8 +9,7 @@ the contents of each key file.
 
    tld/
    ├── docs
-   │   ├── conf.py
-   │   └── tld.rst
+   │   └── conf.py
    ├── examples
    │   ├── custom_tld_names_source
    │   │   ├── __init__.py
@@ -81,13 +80,6 @@ docs/conf.py
 .. literalinclude:: conf.py
    :language: python
    :caption: docs/conf.py
-
-docs/tld.rst
-------------
-
-.. literalinclude:: tld.rst
-   :language: rst
-   :caption: docs/tld.rst
 
 examples/README.rst
 -------------------

@@ -313,6 +313,7 @@ ignore = [
     "docs/requirements.txt",
     "docs/security.rst",
     "docs/source_tree.rst",
+    "docs/tld.rst",
     "env",
     "htmlcov",
     "node_modules",
