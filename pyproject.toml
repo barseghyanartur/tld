@@ -327,6 +327,8 @@ ignore = [
     "examples/custom_tld_names_source/res",
     "src/tld/res",
     "src/tld/tests/res",
+    "runtests.py",
+    "benchmarks",
 ]
 order = [
     "README.rst",

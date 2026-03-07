@@ -8,13 +8,6 @@ the contents of each key file.
    :caption: Project directory layout
 
    tld/
-   ├── benchmarks
-   │   ├── __init__.py
-   │   ├── constants.py
-   │   ├── factories.py
-   │   ├── fallbacks.py
-   │   ├── profile.py
-   │   └── README.rst
    ├── docs
    │   ├── conf.py
    │   └── tld.rst
@@ -58,7 +51,6 @@ the contents of each key file.
    ├── MANIFEST.in
    ├── pyproject.toml
    ├── README.rst
-   ├── runtests.py
    ├── setup.cfg
    └── tox.ini
 
@@ -75,48 +67,6 @@ CONTRIBUTING.rst
 .. literalinclude:: ../CONTRIBUTING.rst
    :language: rst
    :caption: CONTRIBUTING.rst
-
-benchmarks/README.rst
----------------------
-
-.. literalinclude:: ../benchmarks/README.rst
-   :language: rst
-   :caption: benchmarks/README.rst
-
-benchmarks/__init__.py
-----------------------
-
-.. literalinclude:: ../benchmarks/__init__.py
-   :language: python
-   :caption: benchmarks/__init__.py
-
-benchmarks/constants.py
------------------------
-
-.. literalinclude:: ../benchmarks/constants.py
-   :language: python
-   :caption: benchmarks/constants.py
-
-benchmarks/factories.py
------------------------
-
-.. literalinclude:: ../benchmarks/factories.py
-   :language: python
-   :caption: benchmarks/factories.py
-
-benchmarks/fallbacks.py
------------------------
-
-.. literalinclude:: ../benchmarks/fallbacks.py
-   :language: python
-   :caption: benchmarks/fallbacks.py
-
-benchmarks/profile.py
----------------------
-
-.. literalinclude:: ../benchmarks/profile.py
-   :language: python
-   :caption: benchmarks/profile.py
 
 conftest.py
 -----------
@@ -208,13 +158,6 @@ pyproject.toml
 .. literalinclude:: ../pyproject.toml
    :language: toml
    :caption: pyproject.toml
-
-runtests.py
------------
-
-.. literalinclude:: ../runtests.py
-   :language: python
-   :caption: runtests.py
 
 src/tld/__init__.py
 -------------------
