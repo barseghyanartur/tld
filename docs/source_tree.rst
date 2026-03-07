@@ -35,12 +35,7 @@ the contents of each key file.
    │   └── bench.txt
    ├── src
    │   └── tld
-   │       ├── res
-   │       │   ├── effective_tld_names.dat.txt
-   │       │   └── effective_tld_names_public_only.dat.txt
    │       ├── tests
-   │       │   ├── res
-   │       │   │   └── effective_tld_names_custom.dat.txt
    │       │   ├── __init__.py
    │       │   ├── base.py
    │       │   ├── test_commands.py
