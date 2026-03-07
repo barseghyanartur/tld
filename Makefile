@@ -104,6 +104,9 @@ line-profiler:
 test: clean
 	source $(VENV) && pytest -vrx -s
 
+tox:
+	source $(VENV) && tox
+
 profile-test:
 	source $(VENV) && python -m cProfile -o runtests.cprof runtests.py
 	source $(VENV) && pyprof2calltree -k -i runtests.cprof
