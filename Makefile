@@ -104,6 +104,10 @@ line-profiler:
 test: clean
 	source $(VENV) && pytest -vrx -s
 
+profile-test:
+	source $(VENV) && python -m cProfile -o runtests.cprof runtests.py
+	source $(VENV) && pyprof2calltree -k -i runtests.cprof
+
 # ----------------------------------------------------------------------------
 # Development
 # ----------------------------------------------------------------------------
@@ -189,6 +193,15 @@ release:
 
 test-release:
 	source $(VENV) && twine upload --repository testpypi dist/* --verbose
+
+# make build-deb VERSION=0.13.2
+# make build-deb
+build-deb:
+	@if [ -z "$(VERSION)" ]; then \
+		echo "You should provide a VERSION variable."; \
+		exit 1; \
+	fi
+	py2dsc-deb "dist/tld-$(VERSION).tar.gz"
 
 # ----------------------------------------------------------------------------
 # Other

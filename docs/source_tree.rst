@@ -8,24 +8,10 @@ the contents of each key file.
    :caption: Project directory layout
 
    tld/
-   ├── benchmarks
-   │   ├── __init__.py
-   │   ├── constants.py
-   │   ├── factories.py
-   │   ├── fallbacks.py
-   │   ├── profile.py
-   │   └── README.rst
    ├── docs
-   │   ├── conf.py
-   │   ├── contributor_guidelines.rst
-   │   ├── documentation.rst
-   │   ├── index.rst
-   │   ├── llms.rst
-   │   └── tld.rst
+   │   └── conf.py
    ├── examples
    │   ├── custom_tld_names_source
-   │   │   ├── res
-   │   │   │   └── effective_tld_names_custom.dat.txt
    │   │   ├── __init__.py
    │   │   ├── example.py
    │   │   └── parser.py
@@ -36,22 +22,12 @@ the contents of each key file.
    │   │   └── parser.py
    │   ├── __init__.py
    │   └── README.rst
-   ├── jupyter
-   │   ├── README.rst
-   │   └── tld.ipynb
    ├── requirements
    │   ├── bench.in
    │   └── bench.txt
-   ├── scripts
-   │   └── runtests.sh
    ├── src
    │   └── tld
-   │       ├── res
-   │       │   ├── effective_tld_names.dat.txt
-   │       │   └── effective_tld_names_public_only.dat.txt
    │       ├── tests
-   │       │   ├── res
-   │       │   │   └── effective_tld_names_custom.dat.txt
    │       │   ├── __init__.py
    │       │   ├── base.py
    │       │   ├── test_commands.py
@@ -68,24 +44,14 @@ the contents of each key file.
    │       ├── result.py
    │       ├── trie.py
    │       └── utils.py
-   ├── .coveralls.yml
-   ├── .pth
-   ├── CODE_OF_CONDUCT.md
    ├── conftest.py
    ├── CONTRIBUTING.rst
-   ├── CREDITS.rst
    ├── Makefile
    ├── MANIFEST.in
    ├── pyproject.toml
    ├── README.rst
-   ├── requirements.txt
-   ├── runtests.py
-   ├── SECURITY.md
    ├── setup.cfg
-   ├── setup.py
-   ├── shell.py
-   ├── tox.ini
-   └── tox_multi.ini
+   └── tox.ini
 
 README.rst
 ----------
@@ -101,76 +67,6 @@ CONTRIBUTING.rst
    :language: rst
    :caption: CONTRIBUTING.rst
 
-.coveralls.yml
---------------
-
-.. literalinclude:: ../.coveralls.yml
-   :language: yaml
-   :caption: .coveralls.yml
-
-CODE_OF_CONDUCT.md
-------------------
-
-.. literalinclude:: ../CODE_OF_CONDUCT.md
-   :language: markdown
-   :caption: CODE_OF_CONDUCT.md
-
-CREDITS.rst
------------
-
-.. literalinclude:: ../CREDITS.rst
-   :language: rst
-   :caption: CREDITS.rst
-
-SECURITY.md
------------
-
-.. literalinclude:: ../SECURITY.md
-   :language: markdown
-   :caption: SECURITY.md
-
-benchmarks/README.rst
----------------------
-
-.. literalinclude:: ../benchmarks/README.rst
-   :language: rst
-   :caption: benchmarks/README.rst
-
-benchmarks/__init__.py
-----------------------
-
-.. literalinclude:: ../benchmarks/__init__.py
-   :language: python
-   :caption: benchmarks/__init__.py
-
-benchmarks/constants.py
------------------------
-
-.. literalinclude:: ../benchmarks/constants.py
-   :language: python
-   :caption: benchmarks/constants.py
-
-benchmarks/factories.py
------------------------
-
-.. literalinclude:: ../benchmarks/factories.py
-   :language: python
-   :caption: benchmarks/factories.py
-
-benchmarks/fallbacks.py
------------------------
-
-.. literalinclude:: ../benchmarks/fallbacks.py
-   :language: python
-   :caption: benchmarks/fallbacks.py
-
-benchmarks/profile.py
----------------------
-
-.. literalinclude:: ../benchmarks/profile.py
-   :language: python
-   :caption: benchmarks/profile.py
-
 conftest.py
 -----------
 
@@ -184,41 +80,6 @@ docs/conf.py
 .. literalinclude:: conf.py
    :language: python
    :caption: docs/conf.py
-
-docs/contributor_guidelines.rst
--------------------------------
-
-.. literalinclude:: contributor_guidelines.rst
-   :language: rst
-   :caption: docs/contributor_guidelines.rst
-
-docs/documentation.rst
-----------------------
-
-.. literalinclude:: documentation.rst
-   :language: rst
-   :caption: docs/documentation.rst
-
-docs/index.rst
---------------
-
-.. literalinclude:: index.rst
-   :language: rst
-   :caption: docs/index.rst
-
-docs/llms.rst
--------------
-
-.. literalinclude:: llms.rst
-   :language: rst
-   :caption: docs/llms.rst
-
-docs/tld.rst
-------------
-
-.. literalinclude:: tld.rst
-   :language: rst
-   :caption: docs/tld.rst
 
 examples/README.rst
 -------------------
@@ -283,40 +144,12 @@ examples/gae/parser.py
    :language: python
    :caption: examples/gae/parser.py
 
-jupyter/README.rst
-------------------
-
-.. literalinclude:: ../jupyter/README.rst
-   :language: rst
-   :caption: jupyter/README.rst
-
 pyproject.toml
 --------------
 
 .. literalinclude:: ../pyproject.toml
    :language: toml
    :caption: pyproject.toml
-
-runtests.py
------------
-
-.. literalinclude:: ../runtests.py
-   :language: python
-   :caption: runtests.py
-
-setup.py
---------
-
-.. literalinclude:: ../setup.py
-   :language: python
-   :caption: setup.py
-
-shell.py
---------
-
-.. literalinclude:: ../shell.py
-   :language: python
-   :caption: shell.py
 
 src/tld/__init__.py
 -------------------
