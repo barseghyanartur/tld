@@ -17,9 +17,6 @@ the contents of each key file.
    │   └── README.rst
    ├── docs
    │   ├── conf.py
-   │   ├── contributor_guidelines.rst
-   │   ├── documentation.rst
-   │   ├── index.rst
    │   ├── llms.rst
    │   └── tld.rst
    ├── examples
@@ -68,12 +65,8 @@ the contents of each key file.
    │       ├── result.py
    │       ├── trie.py
    │       └── utils.py
-   ├── .coveralls.yml
-   ├── .pth
-   ├── CODE_OF_CONDUCT.md
    ├── conftest.py
    ├── CONTRIBUTING.rst
-   ├── CREDITS.rst
    ├── Makefile
    ├── MANIFEST.in
    ├── pyproject.toml
@@ -82,7 +75,6 @@ the contents of each key file.
    ├── runtests.py
    ├── SECURITY.md
    ├── setup.cfg
-   ├── setup.py
    ├── shell.py
    ├── tox.ini
    └── tox_multi.ini
@@ -100,27 +92,6 @@ CONTRIBUTING.rst
 .. literalinclude:: ../CONTRIBUTING.rst
    :language: rst
    :caption: CONTRIBUTING.rst
-
-.coveralls.yml
---------------
-
-.. literalinclude:: ../.coveralls.yml
-   :language: yaml
-   :caption: .coveralls.yml
-
-CODE_OF_CONDUCT.md
-------------------
-
-.. literalinclude:: ../CODE_OF_CONDUCT.md
-   :language: markdown
-   :caption: CODE_OF_CONDUCT.md
-
-CREDITS.rst
------------
-
-.. literalinclude:: ../CREDITS.rst
-   :language: rst
-   :caption: CREDITS.rst
 
 SECURITY.md
 -----------
@@ -184,27 +155,6 @@ docs/conf.py
 .. literalinclude:: conf.py
    :language: python
    :caption: docs/conf.py
-
-docs/contributor_guidelines.rst
--------------------------------
-
-.. literalinclude:: contributor_guidelines.rst
-   :language: rst
-   :caption: docs/contributor_guidelines.rst
-
-docs/documentation.rst
-----------------------
-
-.. literalinclude:: documentation.rst
-   :language: rst
-   :caption: docs/documentation.rst
-
-docs/index.rst
---------------
-
-.. literalinclude:: index.rst
-   :language: rst
-   :caption: docs/index.rst
 
 docs/llms.rst
 -------------
@@ -303,13 +253,6 @@ runtests.py
 .. literalinclude:: ../runtests.py
    :language: python
    :caption: runtests.py
-
-setup.py
---------
-
-.. literalinclude:: ../setup.py
-   :language: python
-   :caption: setup.py
 
 shell.py
 --------

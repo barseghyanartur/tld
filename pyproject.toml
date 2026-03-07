@@ -305,7 +305,9 @@ ignore = [
     "docs/_static",
     "docs/changelog.rst",
     "docs/code_of_conduct.rst",
+    "docs/contributor_guidelines.rst",
     "docs/documentation.rst",
+    "docs/llms.rst",
     "docs/index.rst",
     "docs/make.bat",
     "docs/requirements.txt",
@@ -319,6 +321,7 @@ ignore = [
     ".pth",
     "CODE_OF_CONDUCT.md",
     "CREDITS.rst",
+    "jupyter",
 ]
 order = [
     "README.rst",
