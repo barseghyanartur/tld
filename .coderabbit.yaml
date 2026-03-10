@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en
+reviews:
+  profile: chill
+  auto_review:
+    base_branches:
+      - main
+      - dev
+  path_filters:
+    - "**/*"
+    - "!**/*.lock"
