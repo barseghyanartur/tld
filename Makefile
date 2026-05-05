@@ -2,7 +2,6 @@
 VERSION := 0.13.2
 SHELL := /bin/bash
 # Makefile for project
-VENV := .venv/bin/activate
 UNAME_S := $(shell uname -s)
 
 # ----------------------------------------------------------------------------
@@ -10,29 +9,29 @@ UNAME_S := $(shell uname -s)
 # ----------------------------------------------------------------------------
 
 # Build documentation using Sphinx and zip it
-build_docs:
-	source $(VENV) && sphinx-source-tree
-	source $(VENV) && sphinx-build -n -b text docs builddocs
-	source $(VENV) && sphinx-build -n -a -b html docs builddocs
+build-docs:
+	uv run sphinx-source-tree
+	uv run sphinx-build -n -b text docs builddocs
+	uv run sphinx-build -n -a -b html docs builddocs
 	cd builddocs && zip -r ../builddocs.zip . -x ".*" && cd ..
 
-rebuild_docs: clean
-	source $(VENV) && sphinx-apidoc . --full -o docs -H 'tld' -A 'Artur Barseghyan <artur.barseghyan@gmail.com>' -f -d 20
+rebuild-docs: clean
+	uv run sphinx-apidoc . --full -o docs -H 'tld' -A 'Artur Barseghyan <artur.barseghyan@gmail.com>' -f -d 20
 	cp docs/conf.py.distrib docs/conf.py
 	cp docs/index.rst.distrib docs/index.rst
 
-build_docs_epub:
+build-docs-epub:
 	$(MAKE) -C docs/ epub
 
-build_docs_pdf:
+build-docs-pdf:
 	$(MAKE) -C docs/ latexpdf
 
-auto_build_docs:
-	source $(VENV) && sphinx-autobuild docs docs/_build/html
+auto-build-docs:
+	uv run sphinx-autobuild docs docs/_build/html
 
 # Serve the built docs on port 5001
-serve_docs:
-	source $(VENV) && cd builddocs && python -m http.server 5001
+serve-docs:
+	cd builddocs && uv run python -m http.server 5001
 
 # ----------------------------------------------------------------------------
 # Pre-commit
@@ -52,14 +51,14 @@ pyupgrade:
 	pre-commit run --all-files pyupgrade
 
 doc8:
-	source $(VENV) && doc8
+	uv run doc8
 
 # Run ruff on the codebase
 ruff:
-	source $(VENV) && ruff check .
+	uv run ruff check .
 
 mypy:
-	source $(VENV) && mypy src/tld/
+	uv run mypy src/tld/
 
 # ----------------------------------------------------------------------------
 # Installation
@@ -70,18 +69,18 @@ create-venv:
 
 # Install the project
 install: create-venv
-	source $(VENV) && uv pip install -e .[all]
+	uv pip install -e .[all]
 
 # Uninstall the project
 uninstall: clean
-	source $(VENV) && uv pip uninstall tld -y
+	uv pip uninstall tld -y
 
 # ----------------------------------------------------------------------------
 # Tests
 # ----------------------------------------------------------------------------
 
 benchmark:
-	source $(VENV) && pycallgraph \
+	uv run pycallgraph \
 	  --stdlib \
 	  --include "tld.*" \
 	  --include "urllib.*" \
@@ -94,29 +93,29 @@ benchmark:
 	  -- benchmarks/profile.py
 
 cprofile:
-	source $(VENV) && python -m cProfile -o profile.cprof benchmarks/profile.py
-	source $(VENV) && pyprof2calltree -k -i profile.cprof
+	uv run python -m cProfile -o profile.cprof benchmarks/profile.py
+	uv run pyprof2calltree -k -i profile.cprof
 
 line-profiler:
-	source $(VENV) && kernprof -l -b -v benchmarks/profile.py
+	uv run kernprof -l -b -v benchmarks/profile.py
 
 # Run core tests
 test: clean
-	source $(VENV) && pytest -vrx -s
+	uv run pytest -vrx -s
 
 tox:
-	source $(VENV) && tox
+	uv run tox
 
 profile-test:
-	source $(VENV) && python -m cProfile -o runtests.cprof runtests.py
-	source $(VENV) && pyprof2calltree -k -i runtests.cprof
+	uv run python -m cProfile -o runtests.cprof runtests.py
+	uv run pyprof2calltree -k -i runtests.cprof
 
 # ----------------------------------------------------------------------------
 # Development
 # ----------------------------------------------------------------------------
 
 shell:
-	source $(VENV) && ipython
+	uv run ipython
 
 # Clean up generated files
 clean:
@@ -152,24 +151,24 @@ clean:
 	rm -rf builddocs.zip
 
 compile-requirements:
-	source $(VENV) && uv pip compile pyproject.toml requirements/bench.in --all-extras -o requirements/bench.txt
-	source $(VENV) && uv pip compile pyproject.toml requirements/build.in --all-extras -o requirements/build.txt
-	source $(VENV) && uv pip compile pyproject.toml --all-extras -o docs/requirements.txt
+	uv pip compile pyproject.toml requirements/bench.in --all-extras -o requirements/bench.txt
+	uv pip compile pyproject.toml requirements/build.in --all-extras -o requirements/build.txt
+	uv pip compile pyproject.toml --all-extras -o docs/requirements.txt
 
 compile-requirements-upgrade:
-	source $(VENV) && uv pip compile pyproject.toml requirements/bench.in --all-extras -o requirements/bench.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml requirements/build.in --all-extras -o requirements/build.txt --upgrade
-	source $(VENV) && uv pip compile pyproject.toml --all-extras -o docs/requirements.txt --upgrade
+	uv pip compile pyproject.toml requirements/bench.in --all-extras -o requirements/bench.txt --upgrade
+	uv pip compile pyproject.toml requirements/build.in --all-extras -o requirements/build.txt --upgrade
+	uv pip compile pyproject.toml --all-extras -o docs/requirements.txt --upgrade
 
 # ----------------------------------------------------------------------------
 # Security
 # ----------------------------------------------------------------------------
 
 create-secrets:
-	source $(VENV) && detect-secrets scan > .secrets.baseline
+	uv run detect-secrets scan > .secrets.baseline
 
 detect-secrets:
-	source $(VENV) && detect-secrets scan --baseline .secrets.baseline
+	uv run detect-secrets scan --baseline .secrets.baseline
 
 # ----------------------------------------------------------------------------
 # Release
@@ -186,16 +185,16 @@ update-version:
 	fi
 
 build:
-	source $(VENV) && python -m build .
+	uv run python -m build .
 
 check-build:
-	source $(VENV) && twine check dist/*
+	uv run twine check dist/*
 
 release:
-	source $(VENV) && twine upload dist/* --verbose
+	uv run twine upload dist/* --verbose
 
 test-release:
-	source $(VENV) && twine upload --repository testpypi dist/* --verbose
+	uv run twine upload --repository testpypi dist/* --verbose
 
 # make build-deb VERSION=0.13.2
 # make build-deb

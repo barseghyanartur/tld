@@ -299,19 +299,25 @@ Simply type:
 
 .. code-block:: sh
 
-    pytest
+    make test
 
-Or use tox:
-
-.. code-block:: sh
-
-    tox
-
-Or use tox to check specific env:
+Or use `pytest` directly:
 
 .. code-block:: sh
 
-    tox -e py39
+    uv run pytest
+
+Or use `tox``:
+
+.. code-block:: sh
+
+    uv run tox
+
+Or use `tox`` to check specific env:
+
+.. code-block:: sh
+
+    uv run tox -e py39
 
 Writing documentation
 =====================

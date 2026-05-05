@@ -6,7 +6,7 @@ name = "tld"
 version = "0.13.2"
 description = "Extract the top-level domain (TLD) from the URL given."
 readme = "README.rst"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 authors = [
     {name = "Artur Barseghyan", email = "artur.barseghyan@gmail.com"},
 ]
@@ -330,6 +330,10 @@ ignore = [
     "src/tld/tests/res",
     "runtests.py",
     "benchmarks",
+    ".claude/settings.local.json",
+    ".coderabbit.yaml",
+    ".claude",
+    "uv.lock",
 ]
 order = [
     "README.rst",
