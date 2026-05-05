@@ -16,7 +16,7 @@ class TldIOError(IOError):
     """
 
 
-class TldDomainNotFound(ValueError):
+class TldDomainNotFound(ValueError):  # noqa: N818
     """TldDomainNotFound.
 
     Supposed to be thrown when domain name is not found (didn't match) the
@@ -29,7 +29,7 @@ class TldDomainNotFound(ValueError):
         )
 
 
-class TldBadUrl(ValueError):
+class TldBadUrl(ValueError):  # noqa: N818
     """TldBadUrl.
 
     Supposed to be thrown when bad URL is given.
@@ -39,7 +39,7 @@ class TldBadUrl(ValueError):
         super(TldBadUrl, self).__init__("Is not a valid URL %s!" % url)
 
 
-class TldImproperlyConfigured(Exception):
+class TldImproperlyConfigured(Exception):  # noqa: N818
     """TldImproperlyConfigured.
 
     Supposed to be thrown when code is improperly configured. Typical use-case

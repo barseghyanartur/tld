@@ -1,6 +1,6 @@
 import logging
 from codecs import open as codecs_open
-from typing import Dict, ItemsView, Optional, Union
+from typing import Dict, ItemsView, Optional, Union, ValuesView
 from urllib.request import urlopen
 
 from .exceptions import TldImproperlyConfigured, TldIOError
@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 class Registry(type):
     REGISTRY: Dict[str, "BaseTLDSourceParser"] = {}
 
-    def __new__(mcs, name, bases, attrs):
+    def __new__(mcs, name, bases, attrs):  # noqa: N804
         new_cls = type.__new__(mcs, name, bases, attrs)
         # Here the name of the class is used as key but it could be any class
         # parameter.
@@ -33,18 +33,22 @@ class Registry(type):
         return getattr(cls, "uid", cls.__name__)
 
     @classmethod
-    def reset(mcs) -> None:
-        mcs.REGISTRY = {}
+    def reset(cls) -> None:
+        cls.REGISTRY = {}
 
     @classmethod
     def get(
-        mcs, key: str, default: "BaseTLDSourceParser" = None
+        cls, key: str, default: "BaseTLDSourceParser" = None
     ) -> Union["BaseTLDSourceParser", None]:
-        return mcs.REGISTRY.get(key, default)
+        return cls.REGISTRY.get(key, default)
 
     @classmethod
-    def items(mcs) -> ItemsView[str, "BaseTLDSourceParser"]:
-        return mcs.REGISTRY.items()
+    def items(cls) -> ItemsView[str, "BaseTLDSourceParser"]:
+        return cls.REGISTRY.items()
+
+    @classmethod
+    def values(cls) -> ValuesView["BaseTLDSourceParser"]:
+        return cls.REGISTRY.values()
 
     # @classmethod
     # def get_registry(mcs) -> Dict[str, Type]:
@@ -94,9 +98,10 @@ class BaseTLDSourceParser(metaclass=Registry):
         try:
             remote_file = urlopen(cls.source_url)
             local_file_abs_path = project_dir(cls.local_path)
-            local_file = codecs_open(local_file_abs_path, "wb", encoding="utf8")
-            local_file.write(remote_file.read().decode("utf8"))
-            local_file.close()
+            with codecs_open(
+                local_file_abs_path, "wb", encoding="utf8"
+            ) as local_file:
+                local_file.write(remote_file.read().decode("utf8"))
             remote_file.close()
             LOGGER.info(
                 f"Fetched '{cls.source_url}' as '{local_file_abs_path}'"
@@ -107,6 +112,6 @@ class BaseTLDSourceParser(metaclass=Registry):
             )
             if fail_silently:
                 return False
-            raise TldIOError(err)
+            raise TldIOError(err) from err
 
         return True
