@@ -10,4 +10,5 @@ __all__ = ("Registry",)
 warnings.warn(
     "The `Registry` class is moved from `tld.registry` to `tld.base`.",
     DeprecationWarning,
+    stacklevel=2,
 )

@@ -104,7 +104,7 @@ def update_tld_names(
                 parser_cls.update_tld_names(fail_silently=fail_silently)
             )
     else:
-        for parser_uid, parser_cls in Registry.items():
+        for parser_cls in Registry.values():
             if parser_cls and parser_cls.source_url:
                 results_append(
                     parser_cls.update_tld_names(fail_silently=fail_silently)
@@ -206,32 +206,30 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
                 local_path = cls.local_path
             else:
                 local_path = project_dir(cls.local_path)
-            local_file = codecs_open(local_path, "r", encoding="utf8")
-            trie = Trie()
-            trie_add = trie.add  # Performance opt
-            # Make a list of it all, strip all garbage
-            private_section = False
-            include_private = cls.include_private
+            with codecs_open(local_path, "r", encoding="utf8") as local_file:
+                trie = Trie()
+                trie_add = trie.add  # Performance opt
+                # Make a list of it all, strip all garbage
+                private_section = False
+                include_private = cls.include_private
 
-            for line in local_file:
-                if "===BEGIN PRIVATE DOMAINS===" in line:
-                    private_section = True
+                for line in local_file:
+                    if "===BEGIN PRIVATE DOMAINS===" in line:
+                        private_section = True
 
-                if private_section and not include_private:
-                    break
+                    if private_section and not include_private:
+                        break
 
-                # Puny code TLD names
-                if "// xn--" in line:
-                    line = line.split()[1]
+                    # Puny code TLD names
+                    if "// xn--" in line:
+                        line = line.split()[1]
 
-                if line[0] in ("/", "\n"):
-                    continue
+                    if line[0] in ("/", "\n"):
+                        continue
 
-                trie_add(f"{line.strip()}", private=private_section)
+                    trie_add(f"{line.strip()}", private=private_section)
 
             update_tld_names_container(cls.local_path, trie)
-
-            local_file.close()
         except IOError:
             # Grab the file
             cls.update_tld_names(fail_silently=fail_silently)
@@ -246,11 +244,6 @@ class BaseMozillaTLDSourceParser(BaseTLDSourceParser):
                 return None
             else:
                 raise err
-        finally:
-            try:
-                local_file.close()
-            except Exception:
-                pass
 
         return _tld_names
 
@@ -370,7 +363,7 @@ def process_url(
             break
 
         # Else we move deeper and increment our tld offset
-        current_length += 1
+        current_length += 1  # noqa: SIM113
         node = child
 
         if node.leaf:

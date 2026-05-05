@@ -6,7 +6,7 @@ name = "tld"
 version = "0.13.2"
 description = "Extract the top-level domain (TLD) from the URL given."
 readme = "README.rst"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 authors = [
     {name = "Artur Barseghyan", email = "artur.barseghyan@gmail.com"},
 ]
@@ -100,46 +100,37 @@ include = ["tld", "tld.*"]
 "tld" = ["res/*", "tests/res/*"]
 
 # ----------------------------------------------------------------------------
-# Black configuration
-# ----------------------------------------------------------------------------
-[tool.black]
-line-length = 80
-target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
-include = '\.pyi?$'
-extend-exclude = '''
-/(
-  # The following are specific to Black, you probably don't want those.
-  | blib2to3
-  | tests/data
-  | profiling
-  | migrations
-)/
-'''
-
-# ----------------------------------------------------------------------------
-# isort configuration
-# ----------------------------------------------------------------------------
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-ensure_newline_before_comments = true
-line_length = 80
-known_first_party = "tld"
-known_third_party = ["faker"]
-skip = ["wsgi.py",]
-
-# ----------------------------------------------------------------------------
 # Ruff configuration
 # ----------------------------------------------------------------------------
 [tool.ruff]
 line-length = 80
 
 # Enable Pyflakes `E` and `F` codes by default.
-lint.select = ["E", "F"]
-lint.ignore = []  # "UP009"
+lint.select = [
+#    "ANN",  # Annotations: missing (return) types
+    "B",  # Bugbear: common bug patterns or design problems
+    "C4",  # Complexity: McCabe complexity checker
+    "E",  # Pycodesyle: Style guide enforcement
+    "F",  # Pyflakes: Source files errors
+    "G",  # Logging format: Basic logging format errors
+    "I",  # Isort: import sorting
+    "ISC",  # Naming: Variable naming convention
+    "INP",  # Implicit namespace packages: Check if __init__.py is present
+    "N",  # Naming: Variable naming convention
+    "PERF",  # Perflint: Performance linting
+    "Q",
+    "SIM",  # Simplify: Helps simplify your code
+    "TD",  # TO DO: Format TO DO comments
+]
+lint.ignore = [
+    "G004",  # Allow use of f-string in logging
+    "ISC003",  # Allow explicitly concatenated strings
+#    "N805",  # Allow first argument of a method be named other than `self`
+    "TD002",  # Allow to do without author
+    "TD003",  # Allow to do without URL
+]
+# Enable autofix for formatting and import sorting
+fix = true
 
 # Exclude a variety of commonly ignored directories.
 lint.exclude = [
@@ -330,6 +321,10 @@ ignore = [
     "src/tld/tests/res",
     "runtests.py",
     "benchmarks",
+    ".claude/settings.local.json",
+    ".coderabbit.yaml",
+    ".claude",
+    "uv.lock",
 ]
 order = [
     "README.rst",
