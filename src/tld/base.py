@@ -1,6 +1,6 @@
 import logging
 from codecs import open as codecs_open
-from typing import Dict, ItemsView, Optional, Union
+from typing import Dict, ItemsView, Optional, Union, ValuesView
 from urllib.request import urlopen
 
 from .exceptions import TldImproperlyConfigured, TldIOError
@@ -45,6 +45,10 @@ class Registry(type):
     @classmethod
     def items(cls) -> ItemsView[str, "BaseTLDSourceParser"]:
         return cls.REGISTRY.items()
+
+    @classmethod
+    def values(cls) -> ValuesView["BaseTLDSourceParser"]:
+        return cls.REGISTRY.values()
 
     # @classmethod
     # def get_registry(mcs) -> Dict[str, Type]:
