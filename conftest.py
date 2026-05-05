@@ -1,5 +1,6 @@
 import sys
 import types
+
 import pytest
 
 from tld.base import BaseTLDSourceParser
