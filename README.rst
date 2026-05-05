@@ -301,19 +301,19 @@ Simply type:
 
     make test
 
-Or use `pytest` directly:
+Or use ``pytest`` directly:
 
 .. code-block:: sh
 
     uv run pytest
 
-Or use `tox``:
+Or use ``tox``:
 
 .. code-block:: sh
 
     uv run tox
 
-Or use `tox`` to check specific env:
+Or use ``tox`` to check specific env:
 
 .. code-block:: sh
 
