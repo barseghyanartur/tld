@@ -450,7 +450,7 @@ class TestCore(unittest.TestCase):
     def test_fld_bad_patterns_pass(self):
         """Test bad URL patterns."""
         res = []
-        for url, params in self.bad_patterns.items():
+        for url in self.bad_patterns:
             _res = get_fld(url, fail_silently=True)
             self.assertIsNone(_res)
             res.append(_res)
@@ -547,7 +547,7 @@ class TestCore(unittest.TestCase):
     def test_fld_bad_patterns_exceptions(self):
         """Test exceptions."""
         for url, params in self.bad_patterns.items():
-            kwargs = params["kwargs"] if "kwargs" in params else {}
+            kwargs = params.get("kwargs", {})
             kwargs["fail_silently"] = False
             with self.assertRaises(params["exception"]):
                 _res = get_fld(url, **kwargs)
@@ -560,7 +560,7 @@ class TestCore(unittest.TestCase):
 
     def test_tld_bad_patterns_pass(self):
         """Test `get_tld` bad URL patterns."""
-        for url, params in self.bad_patterns.items():
+        for url in self.bad_patterns:
             _res = get_tld(url, fail_silently=True)
             self.assertIsNone(_res)
 
@@ -637,11 +637,13 @@ class TestCore(unittest.TestCase):
         )
         reset_tld_names()
 
-        with self.subTest("Assert raise TldIOError"):
+        with (
+            self.subTest("Assert raise TldIOError"),
+            self.assertRaises(TldIOError),
+        ):
             # Assert raise TldIOError on wrong NAMES_SOURCE_URL for
             # `get_tld_names`
-            with self.assertRaises(TldIOError):
-                get_tld_names(fail_silently=False, parser_class=parser_class)
+            get_tld_names(fail_silently=False, parser_class=parser_class)
 
         tmp_filename = join(gettempdir(), f"{FAKER.uuid()}.dat.txt")
         parser_class_2 = self.get_custom_parser_class(
