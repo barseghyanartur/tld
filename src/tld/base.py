@@ -1,6 +1,5 @@
 import logging
-from codecs import open as codecs_open
-from typing import Dict, ItemsView, Optional, Union, ValuesView
+from typing import Dict, ItemsView, Optional, Type, ValuesView
 from urllib.request import urlopen
 
 from .exceptions import TldImproperlyConfigured, TldIOError
@@ -18,14 +17,14 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Registry(type):
-    REGISTRY: Dict[str, "BaseTLDSourceParser"] = {}
+    REGISTRY: Dict[str, Type["BaseTLDSourceParser"]] = {}
 
     def __new__(mcs, name, bases, attrs):  # noqa: N804
         new_cls = type.__new__(mcs, name, bases, attrs)
         # Here the name of the class is used as key but it could be any class
         # parameter.
         if getattr(new_cls, "_uid", None):
-            mcs.REGISTRY[new_cls._uid] = new_cls
+            mcs.REGISTRY[new_cls._uid] = new_cls  # type: ignore
         return new_cls
 
     @property
@@ -38,16 +37,16 @@ class Registry(type):
 
     @classmethod
     def get(
-        cls, key: str, default: "BaseTLDSourceParser" = None
-    ) -> Union["BaseTLDSourceParser", None]:
+        cls, key: str, default: Optional[Type["BaseTLDSourceParser"]] = None
+    ) -> Optional[Type["BaseTLDSourceParser"]]:
         return cls.REGISTRY.get(key, default)
 
     @classmethod
-    def items(cls) -> ItemsView[str, "BaseTLDSourceParser"]:
+    def items(cls) -> ItemsView[str, Type["BaseTLDSourceParser"]]:
         return cls.REGISTRY.items()
 
     @classmethod
-    def values(cls) -> ValuesView["BaseTLDSourceParser"]:
+    def values(cls) -> ValuesView[Type["BaseTLDSourceParser"]]:
         return cls.REGISTRY.values()
 
     # @classmethod
@@ -98,9 +97,7 @@ class BaseTLDSourceParser(metaclass=Registry):
         try:
             remote_file = urlopen(cls.source_url)
             local_file_abs_path = project_dir(cls.local_path)
-            with codecs_open(
-                local_file_abs_path, "wb", encoding="utf8"
-            ) as local_file:
+            with open(local_file_abs_path, "w", encoding="utf8") as local_file:
                 local_file.write(remote_file.read().decode("utf8"))
             remote_file.close()
             LOGGER.info(

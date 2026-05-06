@@ -5,7 +5,7 @@ import logging
 import unittest
 from os.path import abspath, join
 from tempfile import gettempdir
-from typing import Type
+from typing import Any, Dict, List, Optional, Type, TypedDict, Union
 from urllib.parse import SplitResult, urlsplit
 
 from fake import FAKER
@@ -20,6 +20,7 @@ from ..exceptions import (
     TldIOError,
 )
 from ..helpers import project_dir
+from ..result import Result
 from ..utils import (
     BaseMozillaTLDSourceParser,
     MozillaTLDSourceParser,
@@ -35,6 +36,22 @@ from ..utils import (
     update_tld_names_cli,
 )
 from .base import internet_available_only
+
+
+class GoodPattern(TypedDict):
+    url: Union[str, SplitResult]
+    fld: str
+    subdomain: str
+    domain: str
+    suffix: str
+    tld: str
+    kwargs: Dict[str, Any]
+
+
+class BadPatternParams(TypedDict, total=False):
+    exception: Type[BaseException]
+    kwargs: Dict[str, Any]
+
 
 __author__ = "Artur Barseghyan"
 __copyright__ = "2013-2026 Artur Barseghyan"
@@ -53,7 +70,7 @@ class TestCore(unittest.TestCase):
 
     def setUp(self):
         """Set up."""
-        self.good_patterns = [
+        self.good_patterns: List[GoodPattern] = [
             {
                 "url": "http://www.google.co.uk",
                 "fld": "google.co.uk",
@@ -326,7 +343,7 @@ class TestCore(unittest.TestCase):
             },
         ]
 
-        self.bad_patterns = {
+        self.bad_patterns: Dict[str, BadPatternParams] = {
             "v2.www.google.com": {
                 "exception": TldBadUrl,
             },
@@ -366,7 +383,7 @@ class TestCore(unittest.TestCase):
         self.tld_names_local_path_custom = project_dir(
             join("tests", "res", "effective_tld_names_custom.dat.txt")
         )
-        self.good_patterns_custom_parser = [
+        self.good_patterns_custom_parser: List[GoodPattern] = [
             {
                 "url": "http://www.foreverchild",
                 "fld": "www.foreverchild",
@@ -410,7 +427,7 @@ class TestCore(unittest.TestCase):
     def get_custom_parser_class(
         self,
         uid: str = "custom_mozilla",
-        source_url: str = None,
+        source_url: Optional[str] = None,
         local_path: str = "tests/res/effective_tld_names_custom.dat.txt",
     ) -> Type[BaseTLDSourceParser]:
         # Define a custom TLD source parser class
@@ -471,9 +488,10 @@ class TestCore(unittest.TestCase):
     def test_tld_good_patterns_pass_parsed_object(self):
         """Test good URL patterns."""
         for data in self.good_patterns:
-            kwargs = copy.copy(data["kwargs"])
+            kwargs: Dict[str, Any] = copy.copy(data["kwargs"])
             kwargs["as_object"] = True
             _res = get_tld(data["url"], **kwargs)
+            assert isinstance(_res, Result)
             self.assertEqual(_res.tld, data["tld"])
             self.assertEqual(_res.subdomain, data["subdomain"])
             self.assertEqual(_res.domain, data["domain"])
@@ -606,7 +624,7 @@ class TestCore(unittest.TestCase):
         reset_tld_names()
         # Assert raise TldIOError on wrong NAMES_SOURCE_URL
         for params in self.good_patterns:
-            kwargs = {"url": params["url"]}
+            kwargs: Dict[str, Any] = {"url": params["url"]}
             kwargs.update(params["kwargs"])
             kwargs["fail_silently"] = False
             kwargs["parser_class"] = parser_class
@@ -677,7 +695,7 @@ class TestCore(unittest.TestCase):
     def test_tld_custom_tld_names_good_patterns_pass_parsed_object(self):
         """Test `get_tld` good URL patterns for custom tld names."""
         for data in self.good_patterns_custom_parser:
-            kwargs = copy.copy(data["kwargs"])
+            kwargs: Dict[str, Any] = copy.copy(data["kwargs"])
             kwargs.update(
                 {
                     "as_object": True,
@@ -685,6 +703,7 @@ class TestCore(unittest.TestCase):
                 }
             )
             _res = get_tld(data["url"], **kwargs)
+            assert isinstance(_res, Result)
             self.assertEqual(_res.tld, data["tld"])
             self.assertEqual(_res.subdomain, data["subdomain"])
             self.assertEqual(_res.domain, data["domain"])
@@ -710,7 +729,7 @@ class TestCore(unittest.TestCase):
         """Test `reset_tld_names` for `tld_names_local_path`."""
         parser_class = self.get_custom_parser_class()
         for data in self.good_patterns_custom_parser:
-            kwargs = copy.copy(data["kwargs"])
+            kwargs: Dict[str, Any] = copy.copy(data["kwargs"])
             kwargs.update(
                 {
                     "as_object": True,
@@ -718,6 +737,7 @@ class TestCore(unittest.TestCase):
                 }
             )
             _res = get_tld(data["url"], **kwargs)
+            assert isinstance(_res, Result)
             self.assertEqual(_res.tld, data["tld"])
             self.assertEqual(_res.subdomain, data["subdomain"])
             self.assertEqual(_res.domain, data["domain"])
@@ -770,6 +790,7 @@ class TestCore(unittest.TestCase):
     def test_get_tld_names_no_arguments(self):
         """Test len of the trie nodes."""
         tld_names = get_tld_names()
+        assert tld_names is not None
         self.assertGreater(len(tld_names), 0)
 
     def test_case(self):
@@ -779,6 +800,7 @@ class TestCore(unittest.TestCase):
             search_private=False,
             as_object=True,
         )
+        assert isinstance(res, Result)
         self.assertEqual(res.tld, "com")
         self.assertEqual(res.domain, "mydomain")
         self.assertEqual(res.subdomain, "")
