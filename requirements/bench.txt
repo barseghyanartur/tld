@@ -96,8 +96,6 @@ keyring==25.7.0
     # via twine
 kiwisolver==1.4.9
     # via matplotlib
-librt==0.8.1
-    # via mypy
 line-profiler==5.0.2
     # via -r requirements/bench.in
 markdown-it-py==4.0.0
@@ -116,10 +114,6 @@ more-itertools==10.8.0
     # via
     #   jaraco-classes
     #   jaraco-functools
-mypy==1.19.1
-    # via tld (pyproject.toml)
-mypy-extensions==1.1.0
-    # via mypy
 nh3==0.3.3
     # via readme-renderer
 numpy==2.4.2
@@ -138,8 +132,6 @@ packaging==26.0
     #   wheel
 parso==0.8.6
     # via jedi
-pathspec==1.0.4
-    # via mypy
 pexpect==4.9.0
     # via ipython
 pillow==12.1.1
@@ -282,11 +274,12 @@ traitlets==5.14.3
     #   matplotlib-inline
 twine==6.2.0
     # via tld (pyproject.toml)
+ty==0.0.34
+    # via tld (pyproject.toml)
 typing-extensions==4.15.0
     # via
     #   anyio
     #   line-profiler
-    #   mypy
     #   starlette
 urllib3==2.6.3
     # via

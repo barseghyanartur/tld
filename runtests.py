@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+Used in `make profile-test`. Do NOT use this directly.
+"""
+
 import os
 import sys
 

@@ -50,7 +50,7 @@ class Result(object):
     __repr__ = __str__
 
     @property
-    def __dict__(self) -> Dict[str, Any]:  # type: ignore
+    def __dict__(self) -> Dict[str, Any]:
         """Mimic __dict__ functionality.
 
         :return:

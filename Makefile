@@ -57,8 +57,8 @@ doc8:
 ruff:
 	uv run ruff check .
 
-mypy:
-	uv run mypy src/tld/
+ty:
+	uv run ty check src/tld/
 
 # ----------------------------------------------------------------------------
 # Installation
@@ -110,6 +110,9 @@ profile-test:
 	uv run python -m cProfile -o runtests.cprof runtests.py
 	uv run pyprof2calltree -k -i runtests.cprof
 
+update-tld-names:
+	uv run update-tld-names
+
 # ----------------------------------------------------------------------------
 # Development
 # ----------------------------------------------------------------------------
@@ -141,7 +144,7 @@ clean:
 	rm -rf testdocs/
 	rm -rf .coverage
 	rm -rf .pytest_cache/
-	rm -rf .mypy_cache/
+	rm -rf .ty_cache/
 	rm -rf .ruff_cache/
 	rm -rf dist/
 	rm -rf dist_py27/

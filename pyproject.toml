@@ -52,9 +52,9 @@ build = [
 ]
 lint = [
     "doc8",
-    "mypy",
     "pydoclint",
     "ruff",
+    "ty",
 ]
 dev = [
     "detect-secrets",
@@ -139,7 +139,6 @@ lint.exclude = [
     ".eggs",
     ".git",
     ".hg",
-    ".mypy_cache",
     ".nox",
     ".pants.d",
     ".ruff_cache",
@@ -225,16 +224,6 @@ markers = [
 ]
 
 # ----------------------------------------------------------------------------
-# mypy configuration
-# ----------------------------------------------------------------------------
-[tool.mypy]
-check_untyped_defs = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_unused_configs = true
-ignore_missing_imports = true
-
-# ----------------------------------------------------------------------------
 # coverage configuration
 # ----------------------------------------------------------------------------
 [tool.coverage.run]
@@ -270,7 +259,6 @@ ignore = [
     ".hg",
     ".hypothesis",
     ".idea",
-    ".mypy_cache",
     ".nox",
     ".pre-commit-config.yaml",
     ".pre-commit-hooks.yaml",
