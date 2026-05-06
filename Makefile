@@ -110,6 +110,9 @@ profile-test:
 	uv run python -m cProfile -o runtests.cprof runtests.py
 	uv run pyprof2calltree -k -i runtests.cprof
 
+update-tld-names:
+	uv run update-tld-names
+
 # ----------------------------------------------------------------------------
 # Development
 # ----------------------------------------------------------------------------
