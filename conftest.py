@@ -57,8 +57,8 @@ def custom_tld_source_parser():
             return {cls.local_path: trie}
 
     # 3. Attach the class to the module and wire up the package
-    some_mod.CustomTLDSourceParser = CustomTLDSourceParser
-    some_pkg.module = some_mod
+    some_mod.CustomTLDSourceParser = CustomTLDSourceParser  # ty: ignore
+    some_pkg.module = some_mod  # ty: ignore
 
     # 4. Inject into sys.modules
     sys.modules["some"] = some_pkg

@@ -11,7 +11,7 @@ import pytest
 py_package_dir = "src"
 
 try:
-    profile  # noqa
+    profile  # ty: ignore[unresolved-reference]  # noqa
 except Exception:
     from functools import wraps
 

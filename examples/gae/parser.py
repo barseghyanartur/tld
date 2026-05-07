@@ -1,4 +1,3 @@
-import contextlib
 from typing import Dict, Optional
 
 from data import RAW_TLD_NAMES_DATA
@@ -74,8 +73,5 @@ class GAEMozillaTLDSourceParser(BaseTLDSourceParser):
                 return None
             else:
                 raise err
-        finally:
-            with contextlib.suppress(Exception):
-                local_file.close()
 
         return _tld_names
