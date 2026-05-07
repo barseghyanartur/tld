@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install detect-secrets and deps
-        run: pip install detect-secrets doc8 ruff black pip --upgrade
+        run: pip install detect-secrets doc8 ruff black pip uv ty --upgrade
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
 
