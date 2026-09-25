@@ -67,7 +67,7 @@ test = [
     "pytest",
     "pytest-codeblock",
     "pytest-cov",
-    "pytest-ordering",
+    "pytest-order",
     "tox",
 ]
 docs = [
