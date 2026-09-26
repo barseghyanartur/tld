@@ -10,7 +10,7 @@ sys.path.insert(0, path)
 from constants import TEST_CYCLES, URLS  # noqa
 
 try:
-    if callable(profile):  # noqa
+    if callable(profile):  # ty: ignore[unresolved-reference]  # noqa
         pass
 except Exception:
     from fallbacks import profile

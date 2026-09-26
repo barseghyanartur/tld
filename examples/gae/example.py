@@ -1,4 +1,4 @@
-from parser import GAEMozillaTLDSourceParser
+from parser import GAEMozillaTLDSourceParser  # ty: ignore[unresolved-import]
 
 from tld import get_tld
 
