@@ -13,7 +13,6 @@ jobs:
   # --------------------------------------------------------------------------
   test:
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       fail-fast: false
       max-parallel: 5
@@ -34,4 +33,5 @@ jobs:
       run: |
         pip install -e .[all]
     - name: Run Tests
+      continue-on-error: true
       run: pytest
