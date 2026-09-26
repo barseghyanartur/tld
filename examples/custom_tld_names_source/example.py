@@ -1,4 +1,4 @@
-from parser import CustomMozillaTLDSourceParser
+from parser import CustomMozillaTLDSourceParser  # ty: ignore[unresolved-import]
 
 from tld import get_tld
 

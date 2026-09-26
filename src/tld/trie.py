@@ -44,14 +44,16 @@ class Trie(object):
             # To save up some RAM, we initialize the children dict only
             # when strictly necessary
             if node.children is None:
-                node.children = {}
+                children = {}
                 child = TrieNode()
+                children[part] = child
+                node.children = children
             else:
-                child = node.children.get(part)
+                children = node.children
+                child = children.get(part)
                 if child is None:
                     child = TrieNode()
-
-            node.children[part] = child
+                children[part] = child
 
             node = child
 
